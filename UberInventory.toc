@@ -1,0 +1,45 @@
+## Interface: 110105
+## Title: UberInventory |cfffe7b2cReborn|r
+## Version: 11.1.5.1
+## X-ShowUpgradeMessage: true
+## X-Patcher: 2
+## Author: SilentsongEQ
+## MaintainedBy: SilentsongEQ
+## Category: Bags & Inventory
+## Notes: View your inventory on-demand across all characters and servers.
+## Notes-zhTW: 記錄你所有角色的物品（包括背包、銀行、鑰匙、信箱與公會銀行），並顯示物品賣價。
+## DefaultState: enabled
+## SavedVariables: UBI_Data, UBI_Minimap, UBI_Global_Options, UBI_Accountbank_Data
+## IconTexture: Interface\AddOns\UberInventory\Artwork\UberInventory.tga
+## AddonCompartmentFunc: UberInventory_OnAddonCompartmentClick
+## AddonCompartmentFuncOnEnter: UberInventory_OnAddonCompartmentEnter
+## AddonCompartmentFuncOnLeave: UberInventory_OnAddonCompartmentLeave
+
+libs\LibStub\LibStub.lua
+libs\CallbackHandler-1.0\CallbackHandler-1.0.lua
+libs\LibDataBroker-1.1\LibDataBroker-1.1.lua
+libs\LibDBIcon-1.0\LibDBIcon-1.0.lua
+libs\AceAddon-3.0\AceAddon-3.0.lua
+libs\AceDB-3.0\AceDB-3.0.lua
+libs\AceConsole-3.0\AceConsole-3.0.lua
+libs\AceGUI-3.0\AceGUI-3.0.lua
+
+TaskHandlerLib.lua
+
+UberInventory_globals.lua
+UberInventory_prices.lua
+UberInventory_recipes.lua
+
+UberInventory_en.lua
+UberInventory_es.lua
+UberInventory_fr.lua
+UberInventory_de.lua
+UberInventory_ru.lua
+UberInventory_kr.lua
+UberInventory_cn.lua
+UberInventory_tw.lua
+
+UberInventory.lua
+
+UberInventory_templates.xml
+UberInventory.xml
