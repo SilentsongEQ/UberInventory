@@ -1,3 +1,6 @@
+Version 11.1.7.1
+- Updated for latest patch.
+
 Version 11.1.5.1
 - Replace deprecated GetItemInfo with C_Item.GetItemInfo.
 - Fixed all item id and quality issues.
