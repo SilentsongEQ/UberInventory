@@ -3119,12 +3119,12 @@ end;
 		end;
 		
 		-- Auto repair using own coin
-		if ( event == "MERCHANT_SHOW" and UBI_Global_Options["Options"]["autorepair_self"] and CanMerchantRepair() ) then
-			repairAllCost, canRepair = GetRepairAllCost();
+		if ( event == "MERCHANT_SHOW" and UBI_Global_Options["Options"]["autorepair_self"] and C_MerchantFrame.CanMerchantRepair() ) then
+			repairAllCost, canRepair = C_MerchantFrame.GetRepairAllCost();
 			if ( canRepair and repairAllCost > 0 ) then
 			    -- Use own funds
 			    if ( repairAllCost <= GetMoney() ) then
-			    	RepairAllItems(false);
+			    	C_MerchantFrame.RepairAllItems(false);
 					UberInventory_Message( UBI_MONEY_MESSAGE_AUTOREPAIR_SELF:format( GetCoinTextureString( repairAllCost ) ), true );
 			    end;
 			end;
