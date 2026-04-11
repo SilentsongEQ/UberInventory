@@ -406,7 +406,7 @@
 
         if ( cashAttached > 0 ) then
             -- Report cash attached to message
-            UberInventory_Message( UBI_MAIL_CASH:format( GetCoinTextureString( cashAttached ), mailSender, mailSubject ), true );
+            UberInventory_Message( UBI_MAIL_CASH:format( C_CurrencyInfo.GetCoinTextureString( cashAttached ), mailSender, mailSubject ), true );
 
             -- Take the money
             TakeInboxMoney( mailid );
@@ -555,7 +555,7 @@
 -- Specialized SetTooltipMoney function (till internal Blizzard code for SetTooltipMoney is fixed)
     function UberInventory_SetTooltipMoney( tooltip, money, type, prefix, suffix )
         -- Initialize
-        local moneystring = GetCoinTextureString( money );
+        local moneystring = C_CurrencyInfo.GetCoinTextureString( money );
 
         -- Build the string
         if ( prefix ) then moneystring = prefix..moneystring; end;
@@ -1450,7 +1450,7 @@
                         -- Add section title (incl cash) to the tooltip
                         tooltip:AddLine( "|nUBI Recipe Vendor Info" );
                         if ( buyPrice ) then
-                            tooltip:AddLine( UBI_ITEM_RECIPE_SOLD_BY:format( GetCoinTextureString( buyPrice ) ), 1.0, 1.0, 1.0 );
+                            tooltip:AddLine( UBI_ITEM_RECIPE_SOLD_BY:format( C_CurrencyInfo.GetCoinTextureString( buyPrice ) ), 1.0, 1.0, 1.0 );
                         else
                             tooltip:AddLine( UBI_ITEM_RECIPE_SOLD_BY:format( "??" ), 1.0, 1.0, 1.0 );
                         end;
@@ -2871,7 +2871,7 @@ end;
 
             -- Show message
             if ( UBI_Options["show_money"] ) then
-                UberInventory_Message( UBI_MONEY_MESSAGE:format( GetCoinTextureString( GetMoney() ) ), true );
+                UberInventory_Message( UBI_MONEY_MESSAGE:format( C_CurrencyInfo.GetCoinTextureString( GetMoney() ) ), true );
             end;
             return;
         end;
@@ -3114,7 +3114,7 @@ end;
 				end;
 			end;
 			if ( sellValue > 0 ) then
-				UberInventory_Message( UBI_MONEY_MESSAGE_GREYSELL:format( GetCoinTextureString( sellValue ) ), true );
+				UberInventory_Message( UBI_MONEY_MESSAGE_GREYSELL:format( C_CurrencyInfo.GetCoinTextureString( sellValue ) ), true );
 			end;
 		end;
 		
@@ -3125,7 +3125,7 @@ end;
 			    -- Use own funds
 			    if ( repairAllCost <= GetMoney() ) then
 			    	C_MerchantFrame.RepairAllItems(false);
-					UberInventory_Message( UBI_MONEY_MESSAGE_AUTOREPAIR_SELF:format( GetCoinTextureString( repairAllCost ) ), true );
+					UberInventory_Message( UBI_MONEY_MESSAGE_AUTOREPAIR_SELF:format( C_CurrencyInfo.GetCoinTextureString( repairAllCost ) ), true );
 			    end;
 			end;
         end;
@@ -4243,8 +4243,8 @@ end;
 					currencyTotal = currencyTotal + currencyTmp;
 					
 					if ( DEBUG ) then 
-						currencyStr = GetCoinTextureString( currencyTmp );
-						currencyTotalStr = GetCoinTextureString( currencyTotal );
+						currencyStr = C_CurrencyInfo.GetCoinTextureString( currencyTmp );
+						currencyTotalStr = C_CurrencyInfo.GetCoinTextureString( currencyTotal );
 						DEFAULT_CHAT_FRAME:AddMessage( string.format("Player: %s | %s", player, currencyStr) );
 						DEFAULT_CHAT_FRAME:AddMessage( string.format("TOTAL: %s", currencyTotalStr) );
 					end;
