@@ -3097,12 +3097,12 @@ end;
 		
 		-- Auto sell grey items
 		if ( event == "MERCHANT_SHOW" and UBI_Global_Options["Options"]["sell_greys"] ) then
-			sellValue = 0	
+			local sellValue = 0
 			for iBag = 0,4 do
 				for containerSlots = 1, C_Container.GetContainerNumSlots( iBag ) do
 					CurrentItemLink = C_Container.GetContainerItemLink( iBag, containerSlots );
 					if CurrentItemLink then
-						_, _, itemRarity, _, _, _, _, _, _, _, itemSellPrice = C_Item.GetItemInfo( CurrentItemLink );
+						local _, _, itemRarity, _, _, _, _, _, _, _, itemSellPrice = C_Item.GetItemInfo( CurrentItemLink );
 						local containerinfo = C_Container.GetContainerItemInfo( iBag, containerSlots );
 						itemCount = containerinfo.stackCount;
 						if itemRarity == 0 and itemSellPrice ~= 0 then
@@ -3120,7 +3120,7 @@ end;
 		
 		-- Auto repair using own coin
 		if ( event == "MERCHANT_SHOW" and UBI_Global_Options["Options"]["autorepair_self"] and C_MerchantFrame.CanMerchantRepair() ) then
-			repairAllCost, canRepair = C_MerchantFrame.GetRepairAllCost();
+			local repairAllCost, canRepair = C_MerchantFrame.GetRepairAllCost();
 			if ( canRepair and repairAllCost > 0 ) then
 			    -- Use own funds
 			    if ( repairAllCost <= GetMoney() ) then
@@ -4239,12 +4239,12 @@ end;
 
 			for player, value in pairs( UBI_Data[realm] ) do
 				if ( player ~= "Guildbank" ) then
-					currencyTmp = UBI_Data[realm][player]["Money"]["Cash"];
+					local currencyTmp = UBI_Data[realm][player]["Money"]["Cash"];
 					currencyTotal = currencyTotal + currencyTmp;
 					
 					if ( DEBUG ) then 
-						currencyStr = C_CurrencyInfo.GetCoinTextureString( currencyTmp );
-						currencyTotalStr = C_CurrencyInfo.GetCoinTextureString( currencyTotal );
+						local currencyStr = C_CurrencyInfo.GetCoinTextureString( currencyTmp );
+						local currencyTotalStr = C_CurrencyInfo.GetCoinTextureString( currencyTotal );
 						DEFAULT_CHAT_FRAME:AddMessage( string.format("Player: %s | %s", player, currencyStr) );
 						DEFAULT_CHAT_FRAME:AddMessage( string.format("TOTAL: %s", currencyTotalStr) );
 					end;
