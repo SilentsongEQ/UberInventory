@@ -84,169 +84,169 @@
 -- Classes structure (used to be provided by GetAuctionItemClasses and GetAuctionItemSubClasses)
     UBI_CLASSES = { { id = 1, name = UBI_ALL_CLASSES, childs = {} }, 
                     -- Weapons
-                    { id = 2, name = GetItemClassInfo(2)
-                    , childs = { GetItemSubClassInfo(2, 0) --LE_ITEM_WEAPON_AXE1H)        -- One-Handed Axes
-							   , GetItemSubClassInfo(2, 1) --LE_ITEM_WEAPON_AXE2H)        -- Two-Handed Axes
-							   , GetItemSubClassInfo(2, 2) --LE_ITEM_WEAPON_BOWS)         -- Bows
-							   , GetItemSubClassInfo(2, 3) --LE_ITEM_WEAPON_GUNS)         -- Guns
-							   , GetItemSubClassInfo(2, 4) --LE_ITEM_WEAPON_MACE1H)       -- One-Handed Maces
-							   , GetItemSubClassInfo(2, 5) --LE_ITEM_WEAPON_MACE2H)       -- Two-Handed Maces
-							   , GetItemSubClassInfo(2, 6) --LE_ITEM_WEAPON_POLEARM)      -- Polearms
-							   , GetItemSubClassInfo(2, 7) --LE_ITEM_WEAPON_SWORD1H)      -- One-Handed Swords
-							   , GetItemSubClassInfo(2, 8) --LE_ITEM_WEAPON_SWORD2H)      -- Two-Handed Swords
-							   , GetItemSubClassInfo(2, 9) --LE_ITEM_WEAPON_WARGLAIVE)    -- Warglaives
-							   , GetItemSubClassInfo(2, 10) --LE_ITEM_WEAPON_STAFF)        -- Staves
-							   , GetItemSubClassInfo(2, 11) --LE_ITEM_WEAPON_BEARCLAW)     -- Bear Claws
-							   , GetItemSubClassInfo(2, 12) --LE_ITEM_WEAPON_CATCLAW)      -- CatClaws
-							   , GetItemSubClassInfo(2, 13) --LE_ITEM_WEAPON_UNARMED)      -- Fist Weapons
-							   , GetItemSubClassInfo(2, 14) --LE_ITEM_WEAPON_GENERIC)      -- Miscellaneous
-							   , GetItemSubClassInfo(2, 15) --LE_ITEM_WEAPON_DAGGER)       -- Daggers
-							   , GetItemSubClassInfo(2, 17) --LE_ITEM_WEAPON_DAGGER)       -- Spears
-							   , GetItemSubClassInfo(2, 18) --LE_ITEM_WEAPON_CROSSBOW)     -- Crossbows
-							   , GetItemSubClassInfo(2, 19) --LE_ITEM_WEAPON_WAND)         -- Wands
-							   , GetItemSubClassInfo(2, 20) --LE_ITEM_WEAPON_FISHINGPOLE)  -- Fishing Poles
+                    { id = 2, name = C_Item.GetItemClassInfo(2)
+                    , childs = { C_Item.GetItemSubClassInfo(2, 0) --LE_ITEM_WEAPON_AXE1H)        -- One-Handed Axes
+							   , C_Item.GetItemSubClassInfo(2, 1) --LE_ITEM_WEAPON_AXE2H)        -- Two-Handed Axes
+							   , C_Item.GetItemSubClassInfo(2, 2) --LE_ITEM_WEAPON_BOWS)         -- Bows
+							   , C_Item.GetItemSubClassInfo(2, 3) --LE_ITEM_WEAPON_GUNS)         -- Guns
+							   , C_Item.GetItemSubClassInfo(2, 4) --LE_ITEM_WEAPON_MACE1H)       -- One-Handed Maces
+							   , C_Item.GetItemSubClassInfo(2, 5) --LE_ITEM_WEAPON_MACE2H)       -- Two-Handed Maces
+							   , C_Item.GetItemSubClassInfo(2, 6) --LE_ITEM_WEAPON_POLEARM)      -- Polearms
+							   , C_Item.GetItemSubClassInfo(2, 7) --LE_ITEM_WEAPON_SWORD1H)      -- One-Handed Swords
+							   , C_Item.GetItemSubClassInfo(2, 8) --LE_ITEM_WEAPON_SWORD2H)      -- Two-Handed Swords
+							   , C_Item.GetItemSubClassInfo(2, 9) --LE_ITEM_WEAPON_WARGLAIVE)    -- Warglaives
+							   , C_Item.GetItemSubClassInfo(2, 10) --LE_ITEM_WEAPON_STAFF)        -- Staves
+							   , C_Item.GetItemSubClassInfo(2, 11) --LE_ITEM_WEAPON_BEARCLAW)     -- Bear Claws
+							   , C_Item.GetItemSubClassInfo(2, 12) --LE_ITEM_WEAPON_CATCLAW)      -- CatClaws
+							   , C_Item.GetItemSubClassInfo(2, 13) --LE_ITEM_WEAPON_UNARMED)      -- Fist Weapons
+							   , C_Item.GetItemSubClassInfo(2, 14) --LE_ITEM_WEAPON_GENERIC)      -- Miscellaneous
+							   , C_Item.GetItemSubClassInfo(2, 15) --LE_ITEM_WEAPON_DAGGER)       -- Daggers
+							   , C_Item.GetItemSubClassInfo(2, 17) --LE_ITEM_WEAPON_DAGGER)       -- Spears
+							   , C_Item.GetItemSubClassInfo(2, 18) --LE_ITEM_WEAPON_CROSSBOW)     -- Crossbows
+							   , C_Item.GetItemSubClassInfo(2, 19) --LE_ITEM_WEAPON_WAND)         -- Wands
+							   , C_Item.GetItemSubClassInfo(2, 20) --LE_ITEM_WEAPON_FISHINGPOLE)  -- Fishing Poles
                     } },
                     -- Armor
-                    { id = 3, name = GetItemClassInfo(4)
-                    , childs = { GetItemSubClassInfo(4, 4) --LE_ITEM_ARMOR_PLATE)
-                               , GetItemSubClassInfo(4, 3) --LE_ITEM_ARMOR_MAIL)
-                               , GetItemSubClassInfo(4, 2) --LE_ITEM_ARMOR_LEATHER)
-                               , GetItemSubClassInfo(4, 1) --LE_ITEM_ARMOR_CLOTH)
-                               , GetItemSubClassInfo(4, 0) --LE_ITEM_ARMOR_GENERIC)
-                               , GetItemSubClassInfo(4, 5) --LE_ITEM_ARMOR_COSMETIC)
-							   , GetItemSubClassInfo(4, 6) --LE_ITEM_ARMOR_SHIELD)
+                    { id = 3, name = C_Item.GetItemClassInfo(4)
+                    , childs = { C_Item.GetItemSubClassInfo(4, 4) --LE_ITEM_ARMOR_PLATE)
+                               , C_Item.GetItemSubClassInfo(4, 3) --LE_ITEM_ARMOR_MAIL)
+                               , C_Item.GetItemSubClassInfo(4, 2) --LE_ITEM_ARMOR_LEATHER)
+                               , C_Item.GetItemSubClassInfo(4, 1) --LE_ITEM_ARMOR_CLOTH)
+                               , C_Item.GetItemSubClassInfo(4, 0) --LE_ITEM_ARMOR_GENERIC)
+                               , C_Item.GetItemSubClassInfo(4, 5) --LE_ITEM_ARMOR_COSMETIC)
+							   , C_Item.GetItemSubClassInfo(4, 6) --LE_ITEM_ARMOR_SHIELD)
                     } },
                     -- Container
-                    { id = 4, name = GetItemClassInfo(1)
-                    , childs = { GetItemSubClassInfo(1,0)
-                               , GetItemSubClassInfo(1,1)
-                               , GetItemSubClassInfo(1,2)
-                               , GetItemSubClassInfo(1,3)
-                               , GetItemSubClassInfo(1,4)
-                               , GetItemSubClassInfo(1,5)
-                               , GetItemSubClassInfo(1,6)
-                               , GetItemSubClassInfo(1,7)
-                               , GetItemSubClassInfo(1,8)
-                               , GetItemSubClassInfo(1,9)
-                               , GetItemSubClassInfo(1,10)
+                    { id = 4, name = C_Item.GetItemClassInfo(1)
+                    , childs = { C_Item.GetItemSubClassInfo(1,0)
+                               , C_Item.GetItemSubClassInfo(1,1)
+                               , C_Item.GetItemSubClassInfo(1,2)
+                               , C_Item.GetItemSubClassInfo(1,3)
+                               , C_Item.GetItemSubClassInfo(1,4)
+                               , C_Item.GetItemSubClassInfo(1,5)
+                               , C_Item.GetItemSubClassInfo(1,6)
+                               , C_Item.GetItemSubClassInfo(1,7)
+                               , C_Item.GetItemSubClassInfo(1,8)
+                               , C_Item.GetItemSubClassInfo(1,9)
+                               , C_Item.GetItemSubClassInfo(1,10)
 															  
                     } },
                     -- Gem
-                    { id = 5, name = GetItemClassInfo(3)
-                    , childs = { GetItemSubClassInfo(3,0)
-                               , GetItemSubClassInfo(3,1)
-                               , GetItemSubClassInfo(3,2)
-                               , GetItemSubClassInfo(3,3)
-                               , GetItemSubClassInfo(3,4)
-                               , GetItemSubClassInfo(3,5)
-                               , GetItemSubClassInfo(3,6)
-                               , GetItemSubClassInfo(3,7)
-                               , GetItemSubClassInfo(3,8)
-                               , GetItemSubClassInfo(3,9)
-                               , GetItemSubClassInfo(3,10)
-                               , GetItemSubClassInfo(3,11)
+                    { id = 5, name = C_Item.GetItemClassInfo(3)
+                    , childs = { C_Item.GetItemSubClassInfo(3,0)
+                               , C_Item.GetItemSubClassInfo(3,1)
+                               , C_Item.GetItemSubClassInfo(3,2)
+                               , C_Item.GetItemSubClassInfo(3,3)
+                               , C_Item.GetItemSubClassInfo(3,4)
+                               , C_Item.GetItemSubClassInfo(3,5)
+                               , C_Item.GetItemSubClassInfo(3,6)
+                               , C_Item.GetItemSubClassInfo(3,7)
+                               , C_Item.GetItemSubClassInfo(3,8)
+                               , C_Item.GetItemSubClassInfo(3,9)
+                               , C_Item.GetItemSubClassInfo(3,10)
+                               , C_Item.GetItemSubClassInfo(3,11)
                     } },
                     -- Item Enhancement
-                    { id = 6, name = GetItemClassInfo(8)
-                    , childs = { GetItemSubClassInfo(8,0)
-                               , GetItemSubClassInfo(8,1)
-                               , GetItemSubClassInfo(8,2)
-                               , GetItemSubClassInfo(8,3)
-                               , GetItemSubClassInfo(8,4)
-                               , GetItemSubClassInfo(8,5)
-                               , GetItemSubClassInfo(8,6)
-                               , GetItemSubClassInfo(8,7)
-                               , GetItemSubClassInfo(8,8)
-                               , GetItemSubClassInfo(8,9)
-                               , GetItemSubClassInfo(8,10)
-                               , GetItemSubClassInfo(8,11)
-                               , GetItemSubClassInfo(8,12)
-                               , GetItemSubClassInfo(8,13)
-							   , GetItemSubClassInfo(8,14)
+                    { id = 6, name = C_Item.GetItemClassInfo(8)
+                    , childs = { C_Item.GetItemSubClassInfo(8,0)
+                               , C_Item.GetItemSubClassInfo(8,1)
+                               , C_Item.GetItemSubClassInfo(8,2)
+                               , C_Item.GetItemSubClassInfo(8,3)
+                               , C_Item.GetItemSubClassInfo(8,4)
+                               , C_Item.GetItemSubClassInfo(8,5)
+                               , C_Item.GetItemSubClassInfo(8,6)
+                               , C_Item.GetItemSubClassInfo(8,7)
+                               , C_Item.GetItemSubClassInfo(8,8)
+                               , C_Item.GetItemSubClassInfo(8,9)
+                               , C_Item.GetItemSubClassInfo(8,10)
+                               , C_Item.GetItemSubClassInfo(8,11)
+                               , C_Item.GetItemSubClassInfo(8,12)
+                               , C_Item.GetItemSubClassInfo(8,13)
+							   , C_Item.GetItemSubClassInfo(8,14)
                     } },
                     -- Consumable
-                    { id = 7, name = GetItemClassInfo(0)
-                    , childs = { GetItemSubClassInfo(0,0)
-                               , GetItemSubClassInfo(0,1)
-                               , GetItemSubClassInfo(0,2)
-                               , GetItemSubClassInfo(0,3)
-                               , GetItemSubClassInfo(0,5)
-                               , GetItemSubClassInfo(0,7)
-                               , GetItemSubClassInfo(0,9)
-                               , GetItemSubClassInfo(0,8)
+                    { id = 7, name = C_Item.GetItemClassInfo(0)
+                    , childs = { C_Item.GetItemSubClassInfo(0,0)
+                               , C_Item.GetItemSubClassInfo(0,1)
+                               , C_Item.GetItemSubClassInfo(0,2)
+                               , C_Item.GetItemSubClassInfo(0,3)
+                               , C_Item.GetItemSubClassInfo(0,5)
+                               , C_Item.GetItemSubClassInfo(0,7)
+                               , C_Item.GetItemSubClassInfo(0,9)
+                               , C_Item.GetItemSubClassInfo(0,8)
                     } },
                     -- Glyph
-                    { id = 8, name = GetItemClassInfo(16)
-                    , childs = { GetItemSubClassInfo(16,1)
-                               , GetItemSubClassInfo(16,2)
-                               , GetItemSubClassInfo(16,3)
-                               , GetItemSubClassInfo(16,4)
-                               , GetItemSubClassInfo(16,5)
-                               , GetItemSubClassInfo(16,6)
-                               , GetItemSubClassInfo(16,7)
-                               , GetItemSubClassInfo(16,8)
-                               , GetItemSubClassInfo(16,9)
-                               , GetItemSubClassInfo(16,10)
-                               , GetItemSubClassInfo(16,11)
-                               , GetItemSubClassInfo(16,12)
+                    { id = 8, name = C_Item.GetItemClassInfo(16)
+                    , childs = { C_Item.GetItemSubClassInfo(16,1)
+                               , C_Item.GetItemSubClassInfo(16,2)
+                               , C_Item.GetItemSubClassInfo(16,3)
+                               , C_Item.GetItemSubClassInfo(16,4)
+                               , C_Item.GetItemSubClassInfo(16,5)
+                               , C_Item.GetItemSubClassInfo(16,6)
+                               , C_Item.GetItemSubClassInfo(16,7)
+                               , C_Item.GetItemSubClassInfo(16,8)
+                               , C_Item.GetItemSubClassInfo(16,9)
+                               , C_Item.GetItemSubClassInfo(16,10)
+                               , C_Item.GetItemSubClassInfo(16,11)
+                               , C_Item.GetItemSubClassInfo(16,12)
                     } },
                     -- Trade Goods
-                    { id = 9, name = GetItemClassInfo(7)
-                    , childs = { GetItemSubClassInfo(7,5)
-                               , GetItemSubClassInfo(7,6)
-                               , GetItemSubClassInfo(7,7)
-                               , GetItemSubClassInfo(7,8)
-                               , GetItemSubClassInfo(7,9)
-                               , GetItemSubClassInfo(7,12)
-                               , GetItemSubClassInfo(7,16)
-                               , GetItemSubClassInfo(7,4)
-                               , GetItemSubClassInfo(7,1)
-                               , GetItemSubClassInfo(7,10)
-                               , GetItemSubClassInfo(7,11)
+                    { id = 9, name = C_Item.GetItemClassInfo(7)
+                    , childs = { C_Item.GetItemSubClassInfo(7,5)
+                               , C_Item.GetItemSubClassInfo(7,6)
+                               , C_Item.GetItemSubClassInfo(7,7)
+                               , C_Item.GetItemSubClassInfo(7,8)
+                               , C_Item.GetItemSubClassInfo(7,9)
+                               , C_Item.GetItemSubClassInfo(7,12)
+                               , C_Item.GetItemSubClassInfo(7,16)
+                               , C_Item.GetItemSubClassInfo(7,4)
+                               , C_Item.GetItemSubClassInfo(7,1)
+                               , C_Item.GetItemSubClassInfo(7,10)
+                               , C_Item.GetItemSubClassInfo(7,11)
                     } },
                     -- Recipe
-                    { id = 10, name = GetItemClassInfo(9)
-                    , childs = { GetItemSubClassInfo(9,1)
-                               , GetItemSubClassInfo(9,2)
-                               , GetItemSubClassInfo(9,3)
-                               , GetItemSubClassInfo(9,4)
-                               , GetItemSubClassInfo(9,6)
-                               , GetItemSubClassInfo(9,8)
-                               , GetItemSubClassInfo(9,10)
-                               , GetItemSubClassInfo(9,11)
-                               , GetItemSubClassInfo(9,5)
-                               , GetItemSubClassInfo(9,7)
-                               , GetItemSubClassInfo(9,9)
-                               , GetItemSubClassInfo(9,0)
+                    { id = 10, name = C_Item.GetItemClassInfo(9)
+                    , childs = { C_Item.GetItemSubClassInfo(9,1)
+                               , C_Item.GetItemSubClassInfo(9,2)
+                               , C_Item.GetItemSubClassInfo(9,3)
+                               , C_Item.GetItemSubClassInfo(9,4)
+                               , C_Item.GetItemSubClassInfo(9,6)
+                               , C_Item.GetItemSubClassInfo(9,8)
+                               , C_Item.GetItemSubClassInfo(9,10)
+                               , C_Item.GetItemSubClassInfo(9,11)
+                               , C_Item.GetItemSubClassInfo(9,5)
+                               , C_Item.GetItemSubClassInfo(9,7)
+                               , C_Item.GetItemSubClassInfo(9,9)
+                               , C_Item.GetItemSubClassInfo(9,0)
                     } },
                     -- Battle Pets
-                    { id = 11, name = GetItemClassInfo(17)
-                    , childs = { GetItemSubClassInfo(17,0)
-                               , GetItemSubClassInfo(17,1)
-                               , GetItemSubClassInfo(17,2)
-                               , GetItemSubClassInfo(17,3)
-                               , GetItemSubClassInfo(17,4)
-                               , GetItemSubClassInfo(17,5)
-                               , GetItemSubClassInfo(17,6)
-                               , GetItemSubClassInfo(17,7)
-                               , GetItemSubClassInfo(17,8)
-                               , GetItemSubClassInfo(17,9)
+                    { id = 11, name = C_Item.GetItemClassInfo(17)
+                    , childs = { C_Item.GetItemSubClassInfo(17,0)
+                               , C_Item.GetItemSubClassInfo(17,1)
+                               , C_Item.GetItemSubClassInfo(17,2)
+                               , C_Item.GetItemSubClassInfo(17,3)
+                               , C_Item.GetItemSubClassInfo(17,4)
+                               , C_Item.GetItemSubClassInfo(17,5)
+                               , C_Item.GetItemSubClassInfo(17,6)
+                               , C_Item.GetItemSubClassInfo(17,7)
+                               , C_Item.GetItemSubClassInfo(17,8)
+                               , C_Item.GetItemSubClassInfo(17,9)
                     } },
                     -- Miscellaneous
-                    { id = 13, name = GetItemClassInfo(15)
-                    , childs = { GetItemSubClassInfo(15,0)
-                               , GetItemSubClassInfo(15,1)
-                               , GetItemSubClassInfo(15,2)
-                               , GetItemSubClassInfo(15,3)
-                               , GetItemSubClassInfo(15,4)
-                               , GetItemSubClassInfo(15,5)
-							   , GetItemSubClassInfo(15,6)
+                    { id = 13, name = C_Item.GetItemClassInfo(15)
+                    , childs = { C_Item.GetItemSubClassInfo(15,0)
+                               , C_Item.GetItemSubClassInfo(15,1)
+                               , C_Item.GetItemSubClassInfo(15,2)
+                               , C_Item.GetItemSubClassInfo(15,3)
+                               , C_Item.GetItemSubClassInfo(15,4)
+                               , C_Item.GetItemSubClassInfo(15,5)
+							   , C_Item.GetItemSubClassInfo(15,6)
                     } },
                     -- Quest Items
-                    { id = 12, name = GetItemClassInfo(12)
+                    { id = 12, name = C_Item.GetItemClassInfo(12)
                     , childs = {} },
                     -- WoW Token
-                    { id = 14, name = GetItemClassInfo(18)
+                    { id = 14, name = C_Item.GetItemClassInfo(18)
                     , childs = {} },
                   };
 
