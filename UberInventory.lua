@@ -2122,10 +2122,10 @@
             wipe( UBI_Guildbank[UBI_GUILD]["Items"] );
 
             -- Traverse guild bank tabs/slots to store into UberInventory
-            for gbTab = 1, GetNumGuildBankTabs() do
+            for gbTab = 1, C_GuildBank.GetNumGuildBankTabs() do
                 -- Can we view the content of all guildbank tabs?
                 --   isViewable = true;
-                local name, icon, isViewable = GetGuildBankTabInfo( gbTab );
+                local name, icon, isViewable = C_GuildBank.GetGuildBankTabInfo( gbTab );
                 if ( not isViewable ) then
                     UBI_GUILDBANK_VIEWACCESS = false;
                 end;
@@ -2138,8 +2138,9 @@
                         itemCount = 0;
 
                         -- Get slot information
-                        _, count, _ = GetGuildBankItemInfo( gbTab, gbSlot );
-                        itemLink = GetGuildBankItemLink( gbTab, gbSlot );
+                        local slotInfo = C_GuildBank.GetGuildBankItemInfo( gbTab, gbSlot );
+                        count = slotInfo and slotInfo.count or 0;
+                        itemLink = C_GuildBank.GetGuildBankItemLink( gbTab, gbSlot );
 
                         if ( itemLink ) then
                             -- Fetch item information
@@ -2185,7 +2186,7 @@
         end;
 
         -- Store guildbank cash
-        UBI_Guildbank[UBI_GUILD]["Cash"] = GetGuildBankMoney();
+        UBI_Guildbank[UBI_GUILD]["Cash"] = C_GuildBank.GetGuildBankMoney();
 
         -- Rebuild list of guildbanks
         UberInventory_GetGuildbanks();
@@ -2921,7 +2922,7 @@ end;
         -- Guild cash changed
         if ( event == "GUILDBANK_UPDATE_MONEY" and IsInGuild() and UBI_Options["track_gb_data"] ) then
             if ( UBI_Guildbank and UBI_Guildbank[UBI_GUILD] and UBI_Guildbank[UBI_GUILD]["Cash"] ) then
-                UBI_Guildbank[UBI_GUILD]["Cash"] = GetGuildBankMoney();
+                UBI_Guildbank[UBI_GUILD]["Cash"] = C_GuildBank.GetGuildBankMoney();
             end;
 
             -- Update cash info on screen
@@ -2942,11 +2943,11 @@ end;
 				UBI:RegisterEvent( "GUILDBANK_UPDATE_TABS" );
 
 				-- Traverse guild bank tabs and force loading of data
-				for gbTab = 1, GetNumGuildBankTabs() do
+				for gbTab = 1, C_GuildBank.GetNumGuildBankTabs() do
 					-- Retrieve data from the server (only for visible tabs to prevent warnings)
-					local name, icon, isViewable = GetGuildBankTabInfo( gbTab );
+					local name, icon, isViewable = C_GuildBank.GetGuildBankTabInfo( gbTab );
 					if ( isViewable ) then
-						TaskHandlerLib:AddTask( "UberInventory", QueryGuildBankTab, gbTab );
+						TaskHandlerLib:AddTask( "UberInventory", C_GuildBank.QueryGuildBankTab, gbTab );
 					end;
 				end;
 
@@ -2961,7 +2962,7 @@ end;
 		if ( event == "PLAYER_INTERACTION_MANAGER_FRAME_HIDE" ) then
 			if ( arg1 == Enum.PlayerInteractionType.GuildBanker and UBI_Options["track_gb_data"]) then
 				-- Store guildbank cash
-				UBI_Guildbank[UBI_GUILD]["Cash"] = GetGuildBankMoney();
+				UBI_Guildbank[UBI_GUILD]["Cash"] = C_GuildBank.GetGuildBankMoney();
 
 				-- Start sending guildbank data
 				if ( UBI_Options["send_gb_data"] ) then
@@ -3906,9 +3907,9 @@ end;
             -- Travese all guild bank slots to locate item
             if ( UBI_GUILDBANK_OPENED ) then
                 local gbTab, gbSlot;
-                for gbTab = 1, GetNumGuildBankTabs() do
+                for gbTab = 1, C_GuildBank.GetNumGuildBankTabs() do
                     for gbSlot = 1, MAX_GUILDBANK_SLOTS_PER_TAB do
-                        itemlink = GetGuildBankItemLink( gbTab, gbSlot );
+                        itemlink = C_GuildBank.GetGuildBankItemLink( gbTab, gbSlot );
                         if ( itemlink ) then
                             _, _, itemid = strsplit( ":", itemlink );			-- 20250504 new 2nd attribute
                             if ( tonumber(itemid) == item ) then
