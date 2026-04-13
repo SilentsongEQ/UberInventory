@@ -94,7 +94,15 @@
         "ACCEPT",
         "FloatingBattlePetTooltip",
         "CreateFontStringPool",
-        "BattlePetToolTip_Show"
+        "BattlePetToolTip_Show",
+        "UberInventoryFrame",
+        "UberInventoryTokens",
+        "BANK_CONTAINER",
+        "UberInventoryBalanceFrame",
+        "UberInventoryFrameTexture",
+        "UberInventoryFrameBorderTexture",
+        "UberInventoryTokensTexture",
+        "UberInventoryTokensBorderTexture"
     ],
     "Lua.diagnostics.disable": [
         "assign-type-mismatch"

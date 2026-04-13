@@ -2769,7 +2769,7 @@
 -- Called when MAIL_CLOSED event is fired.
 -- Calling function: UberInventory_OnEvent
 -- This is now a hook on MailFrame:HookScript("OnHide", fn_MAIL_CLOSED);
-function fn_MAIL_CLOSED()
+function FN_MAIL_CLOSED()
 	if ( UBI_MAILBOX_OPEN ) then
 		UBI:RegisterEvent( "MAIL_INBOX_UPDATE" );  -- Re-register MAIL_INBOX_UPDATE event
 		UBI_Options["mail_visit"] = UberInventory_GetDateTime();
@@ -2986,7 +2986,7 @@ end;
         -- Mailbox opened
         if ( event == "MAIL_SHOW" ) then
             UBI_MAILBOX_OPEN = true;
-			MailFrame:HookScript("OnHide", fn_MAIL_CLOSED);			-- v10.0.2 client
+			MailFrame:HookScript("OnHide", FN_MAIL_CLOSED);			-- v10.0.2 client
             UBI:RegisterEvent( "MAIL_INBOX_UPDATE" );
             return;
         end;
@@ -3025,7 +3025,7 @@ end;
             if ( arg2:find( "UBI:VERINFO" ) ) then
                 -- Extract version number from the data string
                 local _, gbVersion = strsplit( " ", arg2 );
-				gbVersionNumber = gbVersion:gsub( '%W', '' );         -- leave only alphanumeric
+				local gbVersionNumber = gbVersion:gsub( '%W', '' );         -- leave only alphanumeric
 				UBI_VERSION_Number = UBI_VERSION:gsub( '%W', '' );
                 -- UberInventory_Message( 'DEBUG: '..gbVersion.. '   ' ..gbVersionNumber..'   '..UBI_VERSION_Number, true );
 				
@@ -3104,11 +3104,11 @@ end;
 					if CurrentItemLink then
 						local _, _, itemRarity, _, _, _, _, _, _, _, itemSellPrice = C_Item.GetItemInfo( CurrentItemLink );
 						local containerinfo = C_Container.GetContainerItemInfo( iBag, containerSlots );
-						itemCount = containerinfo.stackCount;
+						local itemCount = containerinfo.stackCount;
 						if itemRarity == 0 and itemSellPrice ~= 0 then
 							sellValue = sellValue + ( itemSellPrice * itemCount );
 							C_Container.UseContainerItem( iBag, containerSlots );
-							PickupMerchantItem();
+							--PickupMerchantItem();
 						end;
 					end;
 				end;
@@ -3281,7 +3281,7 @@ end;
 
         -- Set cancel function
         frame.cancel = function( self )
-            UberInventory_SetOptions( self );
+            UberInventory_SetOptions();
             UberInventory_UpdateUI();
         end;
 
