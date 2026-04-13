@@ -95,5 +95,8 @@
         "FloatingBattlePetTooltip",
         "CreateFontStringPool",
         "BattlePetToolTip_Show"
+    ],
+    "Lua.diagnostics.disable": [
+        "assign-type-mismatch"
     ]
 }

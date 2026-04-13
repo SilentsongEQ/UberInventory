@@ -448,7 +448,7 @@
 			--UberInventory_Message( "DEBUG: Patcher version: "..UBI_PATCHER.." | Addon version: "..UBI_VERSION, true);
             if ( tonumber(UBI_PATCHER) == 1 ) then
 				UBI_Global_Options["Options"]["ignore_realm"] = UBI_Defaults["ignore_realm"];
-				UberInventory_SetDefaults( frame );
+				UberInventory_SetDefaults();
 				
 				--UberInventory_UpdateUI();
 				UberInventory_Message( "Upgrading data store and settings to version "..UBI_VERSION.." (currently "..UBI_Global_Options["Options"]["patch_message_version"]..")", true);
@@ -3165,7 +3165,7 @@ end;
 
 
 -- Init frame options
-    function UberInventory_SetOptions( frame )
+    function UberInventory_SetOptions()
         -- Initiliaze
         local UBI_Options = UBI_Options;
 
@@ -3249,7 +3249,7 @@ end;
     end;
 
 -- Revert all options to default values
-    function UberInventory_SetDefaults( frame )
+    function UberInventory_SetDefaults()
         -- Initiliaze
         local UBI_Options = UBI_Options;
 
@@ -3265,7 +3265,7 @@ end;
         UberInventory_Change_Alpha( UBI_Options["alpha"] );
 
         -- Redraw Options frame
-        UberInventory_SetOptions( frame );
+        UberInventory_SetOptions();
     end;
 
 -- Make Settings frame known to the system
@@ -3286,8 +3286,8 @@ end;
         end;
 
         -- set defaults function
-        frame.default = function( self )
-            UberInventory_SetDefaults( self );
+        frame.default = function()
+            UberInventory_SetDefaults();
             UberInventory_UpdateUI();
         end;
 
