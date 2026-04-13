@@ -1,3 +1,12 @@
+Version 12.0.1.1
+- Updated for latest patch.
+- Github: https://github.com/SilentsongEQ/UberInventory
+- Updated guild bank calls to use C_GuildBank
+- Updated merchant calls to use C_MerchantFrame
+- Updated GetItemClass and GetItemSubClass calls to use C_Item
+- Updated current calls to use C_CurrencyInfo
+- Fixed call to the addon compartment.
+
 Version 12.0.0.1
 - Updated for latest patch.
 
