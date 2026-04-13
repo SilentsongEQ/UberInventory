@@ -102,7 +102,16 @@
         "UberInventoryFrameTexture",
         "UberInventoryFrameBorderTexture",
         "UberInventoryTokensTexture",
-        "UberInventoryTokensBorderTexture"
+        "UberInventoryTokensBorderTexture",
+        "UberInventoryFrameBagSlots",
+        "UberInventoryFrameBankSlots",
+        "UberInventoryFrameAccountBankSlots",
+        "GetAuctionBuyout",
+        "UberInventory_ItemTooltip",
+        "UberInventoryFrameLocationDropDown",
+        "UberInventoryFrameScroll",
+        "UberInventoryFrameScrollScrollBar",
+        "UberInventoryFrameQualityDropDown"
     ],
     "Lua.diagnostics.disable": [
         "assign-type-mismatch"

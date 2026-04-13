@@ -474,7 +474,7 @@
 			for player, value in pairs( UBI_Data[realm] ) do
 				if ( player ~= "Guildbank" ) then
 					-- update player realm and version info by character
-					playerRealm = player.."-"..realm;
+					local playerRealm = player.."-"..realm;
 					UBI_Data[realm][player]["Options"]["player_realm"] = playerRealm;
 					UBI_Data[realm][player]["Options"]["version"] = UBI_VERSION;
 					
@@ -586,7 +586,7 @@
           --     -- Auctioneer
           --     buyoutPrice = select( 6, AucAdvanced.Modules.Util.SimpleAuction.Private.GetItems( itemid ) ) or 0;
           end;
-
+          ---@type table<integer, integer>
 		  buyPrice = UBI_Prices_Buy[itemid];
           sellPrice = select( 11, C_Item.GetItemInfo( itemid ) );
 		end;
@@ -874,10 +874,11 @@
         -- Add alts to the list from the relevant realm and faction (Alliance or Horde)
         for key, value in pairs( UBI_Characters ) do
 		    -- break apart "player-realm"
-		    player = string.sub ( value, 1, string.find( value, "-", 1 ) - 1 );
-			realm = string.sub ( value, string.find( value, "-", 1 ) + 1, string.len( value) );
+		    local player = string.sub ( value, 1, string.find( value, "-", 1 ) - 1 );
+			local realm = string.sub ( value, string.find( value, "-", 1 ) + 1, string.len( value) );
 			-- UberInventory_Message( "DEBUG LIST BUILD: "..player..":::"..realm, true );
 			
+            local addToList;
             if ( not UBI_Global_Options["Options"]["ignore_realm"] and realm == UBI_REALM ) then
 			    addToList = true;
 			elseif ( UBI_Global_Options["Options"]["ignore_realm"] ) then
