@@ -61,7 +61,7 @@
 	end
  
 	function UberInventory_OnAddonCompartmentEnter(addonName, menuButtonFrame)
-        GameTooltip:SetOwner( AddonCompartmentFrame )
+        GameTooltip:SetOwner( AddonCompartmentFrame, "ANCHOR_NONE" )
         GameTooltip:AddLine( UBI_NAME_VERSION )
 		GameTooltip:AddLine(" ", 0.2, 1, 0.2);
         GameTooltip:AddLine("|cffeda55fClick|r to toggle UI.", 0.2, 1, 0.2);

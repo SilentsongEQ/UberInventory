@@ -110,6 +110,7 @@
     UBI_PLAYER = UnitName( "player" );
     UBI_PLAYER_CLASS = UnitClass( "player" );
     UBI_PLAYER_RACE = UnitRace( "player" );
+    ---@type string?
     UBI_GUILD = nil;
     UBI_FACTION = UnitFactionGroup( "player" );
     UBI_EMPTY_TEXT = "---";
@@ -126,7 +127,7 @@
     UBI_PROCESSING_GB = false;         -- Currently processing/saving GB data
     UBI_MINIMAP_ANGLE = nil;           -- Current angle for the minimap
     UBI_ACTIVE = true;
-    UBI_BATTLEPET_CLASS = GetItemClassInfo(17);
+    UBI_BATTLEPET_CLASS = C_Item.GetItemClassInfo(17);
 
 -- Alts and Guildbanks
     UBI_Characters = {};               -- Used for list of alt characters
