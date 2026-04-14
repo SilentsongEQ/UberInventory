@@ -23,9 +23,11 @@
 ╚══════════════════════════════════════════════════════════════╝
 
 Version 12.0.1.2
-- The great clean-up has been completed. Linter is completely free of warnings.
-- Updated ACE 3.0 and other libs to the most recent versions.
-- Mail check using the middle mouse button against the UBI icon will now popup a dialog, rather than write to the chat window.
+- Re-enabled pet tooltip display.
+- Added Species ID to the pet tooltip.
+- Resolved all linter warnings.
+- Updated ACE 3.0 and libs to latest versions.
+- Middle-clicking the UBI icon now shows a mail expiration dialog instead of printing to chat.
 
 Version 12.0.1.1
 - Updated for latest patch.

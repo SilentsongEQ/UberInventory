@@ -1695,12 +1695,76 @@
 
 -- Handle pet tooltip display
     function PetToolTip_Show( tooltip )
-        --print("PetToolTip_Show");
-        --print("Tooltip speciesID: "..tooltip.speciesID)
-        local LibBattlePetTooltipLine = LibStub("LibBattlePetTooltipLine-1-0");
+        -- Skip when user does not want information added to tooltip
+        if ( not UBI_Options["show_tooltip"] ) then return; end;
+        if ( not UBI_Options["show_item_count"] ) then return; end;
 
-        --BattlePetTooltip:AddLine(" ");
-        --BattlePetTooltip:AddLine("UBI Pet Info");
+        local LibBattlePetTooltipLine = LibStub("LibBattlePetTooltipLine-1-0");
+        if ( not LibBattlePetTooltipLine ) then return; end;
+        if ( not tooltip.speciesID ) then return; end;
+
+        local speciesID = tostring( tooltip.speciesID );
+        local totalCount = 0;
+        local spacerAdded = false;
+
+        -- Add counts for current character
+        if ( UBI_Items[speciesID] ) then
+            local item = UBI_Items[speciesID];
+            local count = ( item.bag_count or 0 ) + ( item.bank_count or 0 ) + ( item.mailbox_count or 0 ) + ( item.equip_count or 0 );
+            if ( count > 0 ) then
+                local idText = UBI_Global_Options["Options"]["show_item_id"] and C_CYAN.."Species ID: "..speciesID or "";
+                LibBattlePetTooltipLine:AddLine( tooltip, " " );
+                LibBattlePetTooltipLine:AddDoubleLine( tooltip, C_CYAN.."UBI Pet Info"..C_CLOSE, idText );
+                LibBattlePetTooltipLine:AddDoubleLine( tooltip, UBI_PLAYER, tostring( count ) );
+                totalCount = totalCount + count;
+                spacerAdded = true;
+            end;
+        end;
+
+        -- Add information for alt characters
+        local UBI_Characters = UBI_Characters;
+        local record;
+        for _, value in pairs( UBI_Characters ) do
+            local player = string.sub( value, 1, string.find( value, "-", 1 ) - 1 );
+            local realm  = string.sub( value, string.find( value, "-", 1 ) + 1, string.len( value ) );
+
+            if ( UBI_Data[realm] and UBI_Data[realm][player] and UBI_Data[realm][player]["Items"][speciesID] ) then
+                if ( not spacerAdded ) then
+                    local idText = UBI_Global_Options["Options"]["show_item_id"] and C_CYAN.."Species ID: "..speciesID or "";
+                    LibBattlePetTooltipLine:AddLine( tooltip, " " );
+                    LibBattlePetTooltipLine:AddDoubleLine( tooltip, C_CYAN.."UBI Pet Info"..C_CLOSE, idText );
+                    spacerAdded = true;
+                end;
+
+                record = UBI_Data[realm][player]["Items"][speciesID];
+                record.total = ( record.bag_count or 0 ) + ( record.bank_count or 0 ) + ( record.mailbox_count or 0 ) + ( record.equip_count or 0 );
+                totalCount = totalCount + ( record.total or 0 );
+
+                local classColor = C_WHITE;
+                local class = UBI_Data[realm][player]["Options"]["class"];
+                if     ( class == "PALADIN"    ) then classColor = C_PALADIN;
+                elseif ( class == "WARRIOR"    ) then classColor = C_WARRIOR;
+                elseif ( class == "PRIEST"     ) then classColor = C_PRIEST;
+                elseif ( class == "DEATHKNIGHT") then classColor = C_DEATHKNIGHT;
+                elseif ( class == "ROGUE"      ) then classColor = C_ROGUE;
+                elseif ( class == "HUNTER"     ) then classColor = C_HUNTER;
+                elseif ( class == "SHAMAN"     ) then classColor = C_SHAMAN;
+                elseif ( class == "MAGE"       ) then classColor = C_MAGE;
+                elseif ( class == "WARLOCK"    ) then classColor = C_WARLOCK;
+                elseif ( class == "MONK"       ) then classColor = C_MONK;
+                elseif ( class == "DRUID"      ) then classColor = C_DRUID;
+                elseif ( class == "DEMONHUNTER") then classColor = C_DEMONHUNTER;
+                elseif ( class == "EVOKER"     ) then classColor = C_EVOKER;
+                end;
+
+                LibBattlePetTooltipLine:AddDoubleLine( tooltip, classColor..value..C_CLOSE, tostring( record.total ) );
+            end;
+        end;
+
+        -- Add total count
+        if ( totalCount > 0 ) then
+            LibBattlePetTooltipLine:AddDoubleLine( tooltip, " ", C_YELLOW..UBI_SIGMA_ICON.." "..totalCount..C_CLOSE );
+        end;
     end;
 
 
@@ -1711,38 +1775,8 @@
 
         -- Store default script
         local tooltipName = tooltip:GetName();
-		
-		--UBI_Hooks["OnTooltipSetItem"][tooltipName] = tooltip:GetScript( "OnTooltipSetItem" );		-- Prior to client 100002
-        TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Item, Process_OnTooltipSetItem);	-- client 100002
+
         UBI_Hooks["OnTooltipCleared"][tooltipName] = tooltip:GetScript( "OnTooltipCleared" );
-
-        -- Pet tooltips
-        hooksecurefunc("BattlePetToolTip_Show", function()
-            PetToolTip_Show(BattlePetTooltip)
-        end);
-
---[[	-- Prior to client 100002
-        -- Set new script to handle OntooltipSetItem
-        tooltip:SetScript( "OnTooltipSetItem", function( self, ... )
-            -- From global to local
-            local UBI_Hooks = UBI_Hooks;
-
-            -- Get tooltip name
-            local tooltipName = self:GetName();
-
-            -- Call default script
-            if ( UBI_Hooks["OnTooltipSetItem"][tooltipName] ) then
-                UBI_Hooks["OnTooltipSetItem"][tooltipName]( self, ... );
-            end;
-
-            -- Call new script (adds the item information)
-            UberInventory_AddItemInfo( self );
-
-            -- Turn on UberInventory indicator
-            self.UBI_InfoAdded = true;
-        end );
-
---]]
 
         -- Set new script to handle OnTooltipCleared
         tooltip:SetScript( "OnTooltipCleared", function( self, ... )
@@ -1773,6 +1807,7 @@
         end );
      end;
 
+     
 -- Get item information and store it
     function UberInventory_Item( bagID, slotID, location )
         -- From global to local
@@ -2661,11 +2696,19 @@
 
 -- Install all of the hooks used by UberInventory
     function UberInventory_Install_Hooks()
-        -- Hook the Tooltips (OnTooltipSetItem, OnTooltipCleared)
+        -- Hook item tooltip post-processing (once only, not per-tooltip)
+        TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Item, Process_OnTooltipSetItem);
+
+        -- Hook OnTooltipCleared per tooltip object
         UberInventory_HookTooltip( GameTooltip );
         UberInventory_HookTooltip( ItemRefTooltip );
         UberInventory_HookTooltip( ShoppingTooltip1 );
         UberInventory_HookTooltip( ShoppingTooltip2 );
+
+        -- Hook pet tooltips (once only, not per-tooltip)
+        hooksecurefunc("BattlePetToolTip_Show", function()
+            PetToolTip_Show(BattlePetTooltip)
+        end);
 
         -- Hook mail stuff
         UBI_Hooks["ReturnInboxItem"] = ReturnInboxItem;
