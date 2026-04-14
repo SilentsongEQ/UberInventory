@@ -1,6 +1,34 @@
+╔══════════════════════════════════════════════════════════════╗
+║                                                              ║
+║   ██╗   ██╗██████╗ ███████╗██████╗                           ║
+║   ██║   ██║██╔══██╗██╔════╝██╔══██╗                          ║
+║   ██║   ██║██████╔╝█████╗  ██████╔╝                          ║
+║   ██║   ██║██╔══██╗██╔══╝  ██╔══██╗                          ║
+║   ╚██████╔╝██████╔╝███████╗██║  ██║                          ║
+║    ╚═════╝ ╚═════╝ ╚══════╝╚═╝  ╚═╝                          ║
+║                                                              ║
+║          I N V E N T O R Y   R E B O R N                     ║
+║                                                              ║
+╠══════════════════════════════════════════════════════════════╣
+║                                                              ║
+║  GitHub  »  https://github.com/SilentsongEQ/UberInventory    ║
+║  Author  »  SilentsongEQ                                     ║
+║                                                              ║
+╠══════════════════════════════════════════════════════════════╣
+║                                                              ║
+║  Description:                                                ║
+║    Type /ubi or /uberinventory to see what you currently     ║
+║    own, whether it is in the bank or in the bags you carry.  ║
+║                                                              ║
+╚══════════════════════════════════════════════════════════════╝
+
+Version 12.0.1.2
+- The great clean-up has been completed. Linter is completely free of warnings.
+- Updated ACE 3.0 and other libs to the most recent versions.
+- Mail check using the middle mouse button against the UBI icon will now popup a dialog, rather than write to the chat window.
+
 Version 12.0.1.1
 - Updated for latest patch.
-- Github: https://github.com/SilentsongEQ/UberInventory
 - Updated guild bank calls to use C_GuildBank
 - Updated merchant calls to use C_MerchantFrame
 - Updated GetItemClass and GetItemSubClass calls to use C_Item

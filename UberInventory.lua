@@ -1,19 +1,29 @@
---[[ =================================================================
-	UberInventory Reborn
-	
-	Maintained By: SilentsongEQ
+--[[
+╔══════════════════════════════════════════════════════════════╗
+║                                                              ║
+║   ██╗   ██╗██████╗ ███████╗██████╗                           ║
+║   ██║   ██║██╔══██╗██╔════╝██╔══██╗                          ║
+║   ██║   ██║██████╔╝█████╗  ██████╔╝                          ║
+║   ██║   ██║██╔══██╗██╔══╝  ██╔══██╗                          ║
+║   ╚██████╔╝██████╔╝███████╗██║  ██║                          ║
+║    ╚═════╝ ╚═════╝ ╚══════╝╚═╝  ╚═╝                          ║
+║                                                              ║
+║          I N V E N T O R Y   R E B O R N                     ║
+║                                                              ║
+╠══════════════════════════════════════════════════════════════╣
+║                                                              ║
+║  GitHub  »  https://github.com/SilentsongEQ/UberInventory    ║
+║  Author  »  SilentsongEQ                                     ║
+║                                                              ║
+╠══════════════════════════════════════════════════════════════╣
+║                                                              ║
+║  Description:                                                ║
+║    Type /ubi or /uberinventory to see what you currently     ║
+║    own, whether it is in the bank or in the bags you carry.  ║
+║                                                              ║
+╚══════════════════════════════════════════════════════════════╝
+--]]
 
-    Description:
-        Type /ubi or /uberinventory to see what you currently own,
-        whether it is in the bank or in the bags you carry.
-
-    Dependencies:
-        None
-
-    API Changes:
-        https://warcraft.wiki.gg/wiki/Patch_11.2.0/API_changes
-
-     ================================================================= --]]
 
 
 -- Local globals
