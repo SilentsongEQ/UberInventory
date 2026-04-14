@@ -167,6 +167,8 @@
                    date = nil }; -- Track current search settings
 
 -- Equip slots
+-- The ketho.wow-api type definitions define InventorySlotName as an alias for uppercase string literals ("HEADSLOT", "NECKSLOT", etc.),
+-- but UBI_EQUIP_SLOTS uses the mixed-case format ("HeadSlot", "NeckSlot"). The WoW API itself accepts both forms.
     UBI_EQUIP_SLOTS = { "HeadSlot",
                         "NeckSlot",
                         "ShoulderSlot",

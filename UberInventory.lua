@@ -1964,6 +1964,7 @@
                             end;
 							
 							-- Handle Battle Pets
+                            local extra;
                             if ( strfind( itemLink, "battlepet:" ) ) then
                                 local _, _, speciesID, level, breedQuality, maxHealth, power, speed, battlePetID = strsplit( ":", itemLink );           -- v11.2 extra element at start of itemLink
                                 local name, icon, petType, companionID, tooltipSource, tooltipDescription, isWild, canBattle, isTradeable, isUnique, obtainable, creatureDisplayID, _ = C_PetJournal.GetPetInfoBySpeciesID( tonumber( speciesID ) or 0 );
@@ -1973,7 +1974,7 @@
                                 itemType = UBI_BATTLEPET_CLASS;
                                 itemSubType = _G["BATTLE_PET_NAME_"..petType];
                                 itemLevel = tonumber( level ) or 0;
-                                local extra = { maxHealth, power, speed };
+                                extra = { maxHealth, power, speed };
                             end;
 
 							--UberInventory_Message ( "DEBUG Tab: "..AccountTabID.."  Slot: "..slotID.."  Name: "..itemName.."  ID: "..itemId.."  Qty: "..count );
@@ -2081,14 +2082,14 @@
         if ( not UBI_ACTIVE ) then return; end;
 
         -- Initialize
-        local slotID, _;
+        local slotID;
 
         -- Reset Equiped counts
         UberInventory_ResetCount( "equip" );
 
         -- Traverse equip slots
         for key, value in pairs( UBI_EQUIP_SLOTS ) do
-            slotID, _ = GetInventorySlotInfo( value );
+            slotID = ( GetInventorySlotInfo( value --[[@as InventorySlotName]] ) );
             UberInventory_Item( nil, slotID, "equip" );
         end;
     end;
@@ -2154,6 +2155,7 @@
                             end;
 
                             -- Handle Battle Pets
+                            local extra;
                             if ( strfind( itemLink, "battlepet:" ) ) then
                                 local _, _, speciesID, level, breedQuality, maxHealth, power, speed, battlePetID = strsplit( ":", itemLink );       -- v11.2 extra element at start of itemLink
                                 local name, icon, petType, companionID, tooltipSource, tooltipDescription, isWild, canBattle, isTradeable, isUnique, obtainable, creatureDisplayID, _ = C_PetJournal.GetPetInfoBySpeciesID( tonumber( speciesID ) or 0 );
