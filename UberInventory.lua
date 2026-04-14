@@ -36,7 +36,7 @@
 		--
         end
 		if (button == "MiddleButton") then
-            UberInventory_MailExpirationCheck();
+            UberInventory_MailExpirationCheck_Dialog();
 		end
 	end,
 	OnTooltipShow = function(tt)
@@ -2335,75 +2335,81 @@
 		end;
     end;
 
--- v9.0 Not called temporarily due to AceGUI not being updated for Shadowlands at time of writing	
 -- Check for expiring mails - dialog version
-    function UberInventory_MailExpirationCheck_Dialog()	
-			-- Main frame
-		local frame = AceGUI:Create( "Frame" );
-		frame:SetTitle( "Mail Expiration" );
-		frame:SetWidth( 400 );
-		frame:SetHeight( 300 );
-		frame:SetStatusText( "Mail Expiration Status" )
-		frame:SetCallback( "OnClose", function(widget) AceGUI:Release(widget) end )
-		frame:SetLayout( "Fill" )
-	    
-		-- Add scrolling
-		scrollcontainer = AceGUI:Create( "SimpleGroup" ) -- "InlineGroup" is also good  (org ScrollGroup)
-		scrollcontainer:SetFullWidth( true )
-		scrollcontainer:SetFullHeight( true )
-		scrollcontainer:SetLayout( "Fill" )
-		frame:AddChild( scrollcontainer )
-		
-		scroll = AceGUI:Create( "ScrollFrame" )
-		scroll:SetLayout( "Flow" )
-		scrollcontainer:AddChild( scroll )
+    function UberInventory_MailExpirationCheck_Dialog()
+            -- From global to local
+        local UBI_Data = UBI_Data;
+
+        -- Main frame
+        ---@type any
+        local frame = AceGUI:Create( "Frame" );
+        frame:SetTitle( "Mail Expiration" );
+        frame:SetWidth( 400 );
+        frame:SetHeight( 300 );
+        frame:SetStatusText( "Mail Expiration Status" )
+        frame:SetCallback( "OnClose", function(widget) AceGUI:Release(widget) end )
+        frame:SetLayout( "Fill" )
+
+        -- Add scrolling
+        ---@type any
+        local scrollcontainer = AceGUI:Create( "SimpleGroup" ) -- "InlineGroup" is also good
+        scrollcontainer:SetFullWidth( true )
+        scrollcontainer:SetFullHeight( true )
+        scrollcontainer:SetLayout( "Fill" )
+        frame:AddChild( scrollcontainer )
+
+        ---@type any
+        local scroll = AceGUI:Create( "ScrollFrame" )
+        scroll:SetLayout( "Flow" )
+        scrollcontainer:AddChild( scroll )
 
         local realm, daysLeft, mailExpireString, iCritical;
-		mailExpireString = "";
-		iCritical = 0;
+        mailExpireString = "";
+        iCritical = 0;
 
- 	    for key, record in pairs( UBI_Data ) do
-			realm = key;
+        for key, record in pairs( UBI_Data ) do
+            realm = key;
 
-			for player, value in pairs( UBI_Data[realm] ) do
-				if ( player ~= "Guildbank" and value["Options"]["mail_expires"] ) then
-					for key, record in pairs( value["Options"]["mail_expires"] ) do
-						-- Get number of days till expiration (negative number are good)
-						daysLeft = UberInventory_DaysSince( key );
+            for player, value in pairs( UBI_Data[realm] ) do
+                if ( player ~= "Guildbank" and value["Options"]["mail_expires"] ) then
+                    for key, record in pairs( value["Options"]["mail_expires"] ) do
+                        -- Get number of days till expiration (negative number are good)
+                        daysLeft = UberInventory_DaysSince( key );
 
-						-- If daysleft less then zero, mail expires into the future, positive numbers means the mail are already expired
-						if ( daysLeft < 0 ) then
-						    daysLeft = abs( daysLeft );
+                        -- If daysleft less than zero, mail expires in the future; positive means already expired
+                        if ( daysLeft < 0 ) then
+                            daysLeft = abs( daysLeft );
                             if ( daysLeft <= UBI_MAIL_EXPIRE_WARNING ) then
-								iCritical = iCritical + 1;
-							    mailExpireString = mailExpireString .. C_RED .. "!!! ";
-							end;
-						        mailExpireString = mailExpireString .. UBI_MAIL_EXPIRES_LISTBOX:format( player, realm, record, daysLeft ) .. C_CLOSE .. "\n";
-						else
-							if ( daysLeft <= UBI_MAIL_EXPIRE_CUTOFF ) then
-								mailExpireString = mailExpireString .. UBI_MAIL_LOST:format( player, realm, record, daysLeft ) .. C_CLOSE .. "\n";
-							end;
-						end;
-					end;
-				end;
-			end;
-		end;
-		
-		if ( mailExpireString == "" ) then
-		    mailExpireString = UBI_MAIL_EMPTY;
-		end;
+                                iCritical = iCritical + 1;
+                                mailExpireString = mailExpireString .. C_RED .. "!!! ";
+                            end;
+                            mailExpireString = mailExpireString .. UBI_MAIL_EXPIRES_LISTBOX:format( player, realm, record, daysLeft ) .. "\n";
+                        else
+                            if ( daysLeft <= UBI_MAIL_EXPIRE_CUTOFF ) then
+                                mailExpireString = mailExpireString .. UBI_MAIL_LOST:format( player, realm, record, daysLeft ) .. "\n";
+                            end;
+                        end;
+                    end;
+                end;
+            end;
+        end;
 
-		frame:SetStatusText( UBI_CRITICAL_MAIL_STATUS .. iCritical );
-		
-		-- List mail expirations
-		local label1 = AceGUI:Create( "Label" )
-		label1:SetFullWidth( true )
-		label1:SetText( mailExpireString )
-		scroll:AddChild( label1 )
-		
-		-- Perform chatbox critical expiration output
-		UberInventory_MailExpirationCheck();
-	end;
+        if ( mailExpireString == "" ) then
+            mailExpireString = UBI_MAIL_EMPTY;
+        end;
+
+        frame:SetStatusText( UBI_CRITICAL_MAIL_STATUS .. iCritical );
+
+        -- List mail expirations
+        ---@type any
+        local label1 = AceGUI:Create( "Label" )
+        label1:SetFullWidth( true )
+        label1:SetText( mailExpireString )
+        scroll:AddChild( label1 )
+
+        -- Perform chatbox critical expiration output
+        UberInventory_MailExpirationCheck();
+    end;
 		
 
 -- Cleanup inventory
