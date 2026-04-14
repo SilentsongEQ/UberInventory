@@ -135,7 +135,7 @@
     UBI_Guildbank = {};                -- Shortcut for guildbank data for current realm
     UBI_LocationList = {};             -- Used to track all locations combined
     UBI_LocationCounter = 0;           -- Used to track the number of items in location dropdownbox
-	g_deletionList = {};			   -- Used to store the list of guilds and playernames that can be deleted in the deletion dialog
+	GUILD_deletionList = {};		   -- Used to store the list of guilds and playernames that can be deleted in the deletion dialog
 
 -- Globals for receiving guildbank data
     UBI_GBData = {};                   -- Array for receiving guildbank data through the guild chat channel

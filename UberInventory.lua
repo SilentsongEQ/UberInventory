@@ -586,7 +586,7 @@
           --     -- Auctioneer
           --     buyoutPrice = select( 6, AucAdvanced.Modules.Util.SimpleAuction.Private.GetItems( itemid ) ) or 0;
           end;
-          ---@type table<integer, integer>
+          ---@type integer
 		  buyPrice = UBI_Prices_Buy[itemid];
           sellPrice = select( 11, C_Item.GetItemInfo( itemid ) );
 		end;
@@ -1103,7 +1103,7 @@
         local health, power, speed = 0, 0, 0;
 
         -- Get name of item
-        local name, icon, petType, companionID, tooltipSource, tooltipDescription, isWild, canBattle, isTradeable, isUnique, obtainable, creatureDisplayID = C_PetJournal.GetPetInfoBySpeciesID( record.itemid );
+        local name, icon, petType, companionID, tooltipSource, tooltipDescription, isWild, canBattle, isTradeable, isUnique, obtainable, creatureDisplayID, _ = C_PetJournal.GetPetInfoBySpeciesID( record.itemid );
 
         -- If the item has never been seen before, name will be nil
         if ( name == nil ) then
@@ -1247,8 +1247,8 @@
 			--UberInventory_Message( "DEBUG UberInventory_SortFilter raw: "..character, true );
 			
 	        -- break apart "player-realm"
-		    player = string.sub ( character, 1, string.find( character, "-", 1 ) - 1 );
-			realm = string.sub ( character, string.find( character, "-", 1 ) + 1, string.len( character) );
+		    local player = string.sub ( character, 1, string.find( character, "-", 1 ) - 1 );
+			local realm = string.sub ( character, string.find( character, "-", 1 ) + 1, string.len( character) );
 			--UberInventory_Message( "DEBUG UberInventory_SortFilter clean: "..player..":::"..realm..":::", true );
             
 			UBI_Items_Work = UBI_Data[realm][player]["Items"];
@@ -1257,8 +1257,8 @@
             -- Traverse characters
             for key, value in pairs( UBI_Characters ) do
 				-- break apart "player-realm"
-		        player = string.sub ( value, 1, string.find( value, "-", 1 ) - 1 );
-			    realm = string.sub ( value, string.find( value, "-", 1 ) + 1, string.len( value) );
+		        local player = string.sub ( value, 1, string.find( value, "-", 1 ) - 1 );
+			    local realm = string.sub ( value, string.find( value, "-", 1 ) + 1, string.len( value) );
                 
 				UBI_Items_Work = UBI_Data[realm][player]["Items"];
                 UberInventory_CopyItems( str, cmdline );
@@ -1291,8 +1291,8 @@
             -- Traverse characters
             for key, value in pairs( UBI_Characters ) do
 		        -- break apart "player-realm"
-		        player = string.sub ( value, 1, string.find( value, "-", 1 ) - 1 );
-			    realm = string.sub ( value, string.find( value, "-", 1 ) + 1, string.len( value) );
+		        local player = string.sub ( value, 1, string.find( value, "-", 1 ) - 1 );
+			    local realm = string.sub ( value, string.find( value, "-", 1 ) + 1, string.len( value) );
 			    -- UberInventory_Message( "DEBUG LIST BUILD: "..player..":::"..realm, true );
                 UBI_Items_Work = UBI_Data[realm][player]["Items"];
                 UberInventory_CopyItems( str, cmdline );
@@ -1555,8 +1555,8 @@
                     local record;
                     for key, value in pairs( UBI_Characters ) do
 		                -- break apart "player-realm"
-		                player = string.sub ( value, 1, string.find( value, "-", 1 ) - 1 );
-			            realm = string.sub ( value, string.find( value, "-", 1 ) + 1, string.len( value) );
+		                local player = string.sub ( value, 1, string.find( value, "-", 1 ) - 1 );
+			            local realm = string.sub ( value, string.find( value, "-", 1 ) + 1, string.len( value) );
 						-- UberInventory_Message( "DEBUG UberInventory_AddItemInfo: "..player.." :: "..realm.." :: "..UBI_Data[realm][player]["Options"]["class"], true );
 
 						-- color the text based on class
@@ -1707,8 +1707,8 @@
         UBI_Hooks["OnTooltipCleared"][tooltipName] = tooltip:GetScript( "OnTooltipCleared" );
 
         -- Pet tooltips
-        hooksecurefunc("BattlePetToolTip_Show", function(...)
-            PetToolTip_Show(BattlePetTooltip, ...)
+        hooksecurefunc("BattlePetToolTip_Show", function()
+            PetToolTip_Show(BattlePetTooltip)
         end);
 
 --[[	-- Prior to client 100002
@@ -1769,7 +1769,7 @@
         local UBI_Items = UBI_Items;
 
         -- Initialize
-        local bankCount, bagCount, mailCount, equipCount = 0, 0, 0, 0, 0;
+        local bankCount, bagCount, mailCount, equipCount = 0, 0, 0, 0;
         local itemLink = nil;
         local questItem, questID = nil, nil;
         local extra = {};
@@ -1788,7 +1788,7 @@
         -- Retrieve item information
         if ( itemLink ) then
             -- Initialize
-            local itemCount, _ = 0;
+            local itemCount = 0;
 
             -- Fetch item information (itemLink skipped from GetItemInfo, does not always work at this stage (Quest related items))
             local itemName, _, itemQuality, itemLevel, itemMinLevel, itemType, itemSubType, itemStackCount, itemEquipLoc, itemTexture = C_Item.GetItemInfo( itemLink );
@@ -1828,13 +1828,13 @@
                 local _, _, speciesID, level, breedQuality, maxHealth, power, speed, battlePetID = strsplit( ":", itemLink );           -- v11.2 itemLink added 1 more info element at the start
                 -- UberInventory_Message("DEBUG: speciesID: "..speciesID.."   level: "..level.."   battlePetID: "..battlePetID.."   hello: "..hello, true);
                 -- itemLink = "|cnIQ2: |Hbattlepet: 3116: 1: 2: 145: 11: 11: 0000000000000000: 101284 |h[Invasive Buzzer]|h|r"
-                local name, icon, petType, companionID, tooltipSource, tooltipDescription, isWild, canBattle, isTradeable, isUnique, obtainable, creatureDisplayID = C_PetJournal.GetPetInfoBySpeciesID( speciesID );
+                local name, icon, petType, companionID, tooltipSource, tooltipDescription, isWild, canBattle, isTradeable, isUnique, obtainable, creatureDisplayID, _ = C_PetJournal.GetPetInfoBySpeciesID( tonumber( speciesID ) or 0 );
 
                 itemName = name;
-                itemQuality = tonumber( breedQuality );
+                itemQuality = tonumber( breedQuality ) or 0;
                 itemType = UBI_BATTLEPET_CLASS;
                 itemSubType = _G["BATTLE_PET_NAME_"..petType];
-                itemLevel = level;
+                itemLevel = tonumber( level ) or 0;
                 extra = { maxHealth, power, speed };
             end;
 
@@ -1966,14 +1966,14 @@
 							-- Handle Battle Pets
                             if ( strfind( itemLink, "battlepet:" ) ) then
                                 local _, _, speciesID, level, breedQuality, maxHealth, power, speed, battlePetID = strsplit( ":", itemLink );           -- v11.2 extra element at start of itemLink
-                                local name, icon, petType, companionID, tooltipSource, tooltipDescription, isWild, canBattle, isTradeable, isUnique, obtainable, creatureDisplayID = C_PetJournal.GetPetInfoBySpeciesID( speciesID );
+                                local name, icon, petType, companionID, tooltipSource, tooltipDescription, isWild, canBattle, isTradeable, isUnique, obtainable, creatureDisplayID, _ = C_PetJournal.GetPetInfoBySpeciesID( tonumber( speciesID ) or 0 );
 
                                 itemName = name;
-                                itemQuality = tonumber( breedQuality );
+                                itemQuality = tonumber( breedQuality ) or 0;
                                 itemType = UBI_BATTLEPET_CLASS;
                                 itemSubType = _G["BATTLE_PET_NAME_"..petType];
-                                itemLevel = level;
-                                extra = { maxHealth, power, speed };
+                                itemLevel = tonumber( level ) or 0;
+                                local extra = { maxHealth, power, speed };
                             end;
 
 							--UberInventory_Message ( "DEBUG Tab: "..AccountTabID.."  Slot: "..slotID.."  Name: "..itemName.."  ID: "..itemId.."  Qty: "..count );
@@ -1999,7 +1999,7 @@
 		end;
 		
 		-- Store account bank cash
-		amount = C_Bank.FetchDepositedMoney(Enum.BankType.Account)
+		local amount = C_Bank.FetchDepositedMoney(Enum.BankType.Account)
 		UBI_Accountbank["Cash"] = amount;
 		--UberInventory_Message ( "DEBUG Cash: "..amount );
 		
@@ -2156,7 +2156,7 @@
                             -- Handle Battle Pets
                             if ( strfind( itemLink, "battlepet:" ) ) then
                                 local _, _, speciesID, level, breedQuality, maxHealth, power, speed, battlePetID = strsplit( ":", itemLink );       -- v11.2 extra element at start of itemLink
-                                local name, icon, petType, companionID, tooltipSource, tooltipDescription, isWild, canBattle, isTradeable, isUnique, obtainable, creatureDisplayID = C_PetJournal.GetPetInfoBySpeciesID( speciesID );
+                                local name, icon, petType, companionID, tooltipSource, tooltipDescription, isWild, canBattle, isTradeable, isUnique, obtainable, creatureDisplayID, _ = C_PetJournal.GetPetInfoBySpeciesID( tonumber( speciesID ) or 0 );
 
                                 itemName = name;
                                 itemQuality = tonumber( breedQuality );
@@ -3377,7 +3377,7 @@ end;
 
         -- Quest information
         local questID = ( record["qid"] or 0 );
-        local questItem = ( record["qitem"] or flase );
+        local questItem = ( record["qitem"] or false );
 
         -- Get correct totalCount for combined inventory searches
         if ( UBI_LocationList[UBI_FILTER_LOCATIONS].type == "complete" or UBI_LocationList[UBI_FILTER_LOCATIONS].type == "all_character" or UBI_LocationList[UBI_FILTER_LOCATIONS].type == "all_guildbank" ) then
@@ -3389,7 +3389,7 @@ end;
             local _, icon = C_PetJournal.GetPetInfoBySpeciesID( itemid );
             SetItemButtonTexture( buttonObj, icon );
         else
-            SetItemButtonTexture( buttonObj, GetItemIcon( itemid ) );
+            SetItemButtonTexture( buttonObj, C_Item.GetItemIconByID( itemid ) );
         end;
 
         -- Set item name
@@ -3455,7 +3455,7 @@ end;
             frame:SetVerticalScroll( math.min( maxOffset, newOffset ) * 17 );
             UberInventory_DisplayTokens();
 		elseif ( type == "DELETION" ) then
-            local maxOffset = #g_deletionList+1 - UBI_NUM_DELETIONBUTTONS;
+            local maxOffset = #GUILD_deletionList+1 - UBI_NUM_DELETIONBUTTONS;
             frame:SetVerticalScroll( math.min( maxOffset, newOffset ) * 17 );
             UberInventory_DisplayDeletionList();
         end;
@@ -3522,8 +3522,8 @@ end;
 				-- UberInventory_Message( "DEBUG UberInventory_DisplayItems raw: "..character, true );
 
 	            -- break apart "player-realm"
-		        player = string.sub ( character, 1, string.find( character, "-", 1 ) - 1 );
-			    realm = string.sub ( character, string.find( character, "-", 1 ) + 1, string.len( character) );
+		        local player = string.sub ( character, 1, string.find( character, "-", 1 ) - 1 );
+			    local realm = string.sub ( character, string.find( character, "-", 1 ) + 1, string.len( character) );
 			    -- UberInventory_Message( "DEBUG UberInventory_DisplayItems: "..player.."   "..realm, true );
 				
                 otherCash = UBI_Data[realm][player]["Money"]["Cash"] + UBI_Data[realm][player]["Money"]["mail"];
@@ -3535,8 +3535,8 @@ end;
                 -- Traverse characters
                 for key, value in pairs( UBI_Characters ) do
 				    -- break apart "player-realm"
-		            player = string.sub ( value, 1, string.find( value, "-", 1 ) - 1 );
-			        realm = string.sub ( value, string.find( value, "-", 1 ) + 1, string.len( value) );
+		            local player = string.sub ( value, 1, string.find( value, "-", 1 ) - 1 );
+			        local realm = string.sub ( value, string.find( value, "-", 1 ) + 1, string.len( value) );
                     otherCash = otherCash + UBI_Data[realm][player]["Money"]["Cash"] + UBI_Data[realm][player]["Money"]["mail"];
                 end;
             elseif ( UBI_LocationList[UBI_FILTER_LOCATIONS].type == "all_guildbank" ) then
@@ -3551,8 +3551,8 @@ end;
                 -- Traverse characters
                 for key, value in pairs( UBI_Characters ) do
 					-- break apart "player-realm"
-		            player = string.sub ( value, 1, string.find( value, "-", 1 ) - 1 );
-			        realm = string.sub ( value, string.find( value, "-", 1 ) + 1, string.len( value) );
+		            local player = string.sub ( value, 1, string.find( value, "-", 1 ) - 1 );
+			        local realm = string.sub ( value, string.find( value, "-", 1 ) + 1, string.len( value) );
                     otherCash = otherCash + UBI_Data[realm][player]["Money"]["Cash"] + UBI_Data[realm][player]["Money"]["mail"];
                 end;
 
@@ -3584,8 +3584,8 @@ end;
 			local character = string.sub ( character_dirty, 1, string.find( character_dirty, "%[", 1 ) - 2);
 			
 		    -- Break apart "player-realm"
-		    player = string.sub ( character, 1, string.find( character, "-", 1 ) - 1 );
-			realm = string.sub ( character, string.find( character, "-", 1 ) + 1, string.len( character) );
+		    local player = string.sub ( character, 1, string.find( character, "-", 1 ) - 1 );
+			local realm = string.sub ( character, string.find( character, "-", 1 ) + 1, string.len( character) );
 			
             tokenData = UBI_Data[realm][player]["Money"]["Currencies"];
             toon = UBI_LocationList[UBI_FILTER_LOCATIONS].value;
@@ -3648,7 +3648,7 @@ end;
 	
 	-- Display list of characters to delete
     function UberInventory_DisplayDeletionList()
-        g_deletionList = {};					-- this is a global so that it can be used in other functions
+        GUILD_deletionList = {};					-- this is a global so that it can be used in other functions
         local line, index, button, level;
         local offset = FauxScrollFrame_GetOffset( UberInventoryDeletionListScroll );
 		local UBI_DELETION_INFO = {};
@@ -3663,7 +3663,7 @@ end;
 							  entryType = "HEADER",
 							  title = true };
 							   
-		tinsert( g_deletionList, UBI_DELETION_INFO );
+		tinsert( GUILD_deletionList, UBI_DELETION_INFO );
 		
 		-- Populate list of guilds
 		
@@ -3675,7 +3675,7 @@ end;
 								  entryType = "GUILD",
 								  title = false };
 
-			tinsert( g_deletionList, UBI_DELETION_INFO);
+			tinsert( GUILD_deletionList, UBI_DELETION_INFO);
 			
 		end;
 		
@@ -3689,13 +3689,13 @@ end;
 							  entryType = "HEADER",
 							  title = true };
 							   
-		tinsert( g_deletionList, UBI_DELETION_INFO );
+		tinsert( GUILD_deletionList, UBI_DELETION_INFO );
 		
 		-- Populate list of characters
         for key, value in pairs( UBI_Characters ) do
 		    -- break apart "player-realm"
-		    player = string.sub ( value, 1, string.find( value, "-", 1 ) - 1 );
-			realm = string.sub ( value, string.find( value, "-", 1 ) + 1, string.len( value) );
+		    local player = string.sub ( value, 1, string.find( value, "-", 1 ) - 1 );
+			local realm = string.sub ( value, string.find( value, "-", 1 ) + 1, string.len( value) );
 			
 			-- add the level in yellow
             if ( UBI_Data[realm][player]["Options"]["level"] ) then
@@ -3710,13 +3710,13 @@ end;
 								  entryType = "CHAR",
 								  title = false };
 
-			tinsert( g_deletionList, UBI_DELETION_INFO);
+			tinsert( GUILD_deletionList, UBI_DELETION_INFO);
 			--DEFAULT_CHAT_FRAME:AddMessage( string.format("tinsert: %s, %s", key, value) );
 		end;
 		
 		-- _______________________________________________________________________________
 
-        local length = #g_deletionList;			-- Number of items in the list
+        local length = #GUILD_deletionList;			-- Number of items in the list
 
         -- Update scrollbars
         FauxScrollFrame_Update( UberInventoryDeletionListScroll, length+1, UBI_NUM_DELETIONBUTTONS, 17 );
@@ -3729,8 +3729,8 @@ end;
             index = offset + line;
             button = _G[ "DELETION"..line ];
             if index <= length then
-				local buttonName = g_deletionList[index].formatted_text;
-				if ( g_deletionList[index].title ) then
+				local buttonName = GUILD_deletionList[index].formatted_text;
+				if ( GUILD_deletionList[index].title ) then
 					button:Disable();
 				else
 					button:Enable();
@@ -3758,19 +3758,19 @@ end;
 			  title = false };
 --]]							  
     function UberInventory_DisplayDeletionList_Click( self )
-		local line, index;
+		local line, index, object_name;
 		local offset = FauxScrollFrame_GetOffset( UberInventoryDeletionListScroll );
 		-- DEFAULT_CHAT_FRAME:AddMessage( string.format( "Debug UberInventory_DisplayDeletionList_Click: %d, %s, %s", self:GetID(), self:GetName(), _G[ self:GetName().."Name" ]:GetText() ) );
 		
 		line = tonumber(self:GetName():match "%d+");	-- Get button number. This looks for first number sequence (eg, DELETION12 returns 12)
 		index = line + offset;							-- Need to add scroll offset to the line clicked to get the actual array index
-		object_name = g_deletionList[index].raw_text;	-- Get the unformatted text of the object to delete. (eg, Ascent for guild, or Secretly-Medivh for player)
+		object_name = GUILD_deletionList[index].raw_text;	-- Get the unformatted text of the object to delete. (eg, Ascent for guild, or Secretly-Medivh for player)
 		
-		if ( g_deletionList[index].entryType == "CHAR" ) then
+		if ( GUILD_deletionList[index].entryType == "CHAR" ) then
 			UberInventory_RemoveData ( "remchar "..object_name );
 		end;
 		
-		if ( g_deletionList[index].entryType == "GUILD" ) then
+		if ( GUILD_deletionList[index].entryType == "GUILD" ) then
 			UberInventory_RemoveData ( "remguild "..object_name );
 		end;
 		
@@ -3964,7 +3964,7 @@ end;
                 if ( value.type == UBI_BATTLEPET_CLASS and value.itemid ~= 82800 ) then
                     _, icon = C_PetJournal.GetPetInfoBySpeciesID( value.itemid );
                 else
-                    icon = GetItemIcon( value.itemid );
+                    icon = C_Item.GetItemIconByID( value.itemid );
                 end;
 
 				-- Build search result for account bank
@@ -4010,7 +4010,7 @@ end;
 						if ( record.type == UBI_BATTLEPET_CLASS and record.itemid ~= 82800 ) then
 							_, icon = C_PetJournal.GetPetInfoBySpeciesID( record.itemid );
 						else
-							icon = GetItemIcon( record.itemid );
+							icon = C_Item.GetItemIconByID( record.itemid );
 						end;
 						
 						-- Build search result

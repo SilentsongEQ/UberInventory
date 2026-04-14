@@ -111,7 +111,24 @@
         "UberInventoryFrameLocationDropDown",
         "UberInventoryFrameScroll",
         "UberInventoryFrameScrollScrollBar",
-        "UberInventoryFrameQualityDropDown"
+        "UberInventoryFrameQualityDropDown",
+        "UberInventoryFrameClassDropDown",
+        "UIDROPDOWNMENU_MENU_VALUE",
+        "UberInventoryFrameUsableItems",
+        "UberInventoryFrameItemSearch",
+        "UBI_Prices_Buy",
+        "MAX_GUILDBANK_SLOTS_PER_TAB",
+        "UberInventoryOptionsFrame",
+        "UberInventoryDeletionList",
+        "UberInventoryFrameMoneyWalletCash",
+        "UberInventoryFrameMoneyMailCash",
+        "UberInventoryFrameMoneyAccountCash",
+        "UberInventoryDeletionListScroll",
+        "UberInventoryTokensHeading",
+        "UberInventoryTokensScroll",
+        "UberInventoryFrameMoneyOthersCash",
+        "UberInventoryFrameTokensButton",
+        "UberInventoryFrameInventoryCount"
     ],
     "Lua.diagnostics.disable": [
         "assign-type-mismatch"
