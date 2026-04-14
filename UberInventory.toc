@@ -16,14 +16,14 @@
 ## AddonCompartmentFuncOnLeave: UberInventory_OnAddonCompartmentLeave
 
 libs\LibStub\LibStub.lua
-libs\CallbackHandler-1.0\CallbackHandler-1.0.lua
+libs\CallbackHandler-1.0\CallbackHandler-1.0.xml
 libs\LibDataBroker-1.1\LibDataBroker-1.1.lua
-libs\LibDBIcon-1.0\LibDBIcon-1.0.lua
-libs\AceAddon-3.0\AceAddon-3.0.lua
-libs\AceDB-3.0\AceDB-3.0.lua
-libs\AceConsole-3.0\AceConsole-3.0.lua
-libs\AceGUI-3.0\AceGUI-3.0.lua
-libs\LibBattlePetTooltipLine\LibBattlePetTooltipLine.lua
+libs\LibDBIcon-1.0\LibDBIcon-1.0.xml
+libs\AceAddon-3.0\AceAddon-3.0.xml
+libs\AceDB-3.0\AceDB-3.0.xml
+libs\AceConsole-3.0\AceConsole-3.0.xml
+libs\AceGUI-3.0\AceGUI-3.0.xml
+libs\LibBattlePetTooltipLine\LibBattlePetTooltipLine.xml
 
 TaskHandlerLib.lua
 
