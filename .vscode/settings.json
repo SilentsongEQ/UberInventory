@@ -128,7 +128,9 @@
         "UberInventoryTokensScroll",
         "UberInventoryFrameMoneyOthersCash",
         "UberInventoryFrameTokensButton",
-        "UberInventoryFrameInventoryCount"
+        "UberInventoryFrameInventoryCount",
+        "ChatEdit_InsertLink",
+        "ChatFrameUtil"
     ],
     "Lua.diagnostics.disable": [
         "assign-type-mismatch"
