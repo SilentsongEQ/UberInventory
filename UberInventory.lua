@@ -3489,10 +3489,6 @@ end;
         local guildCount = record["count"] or 0;
         local totalCount = record["total"] or 0;
 
-        -- Quest information
-        local questID = ( record["qid"] or 0 );
-        local questItem = ( record["qitem"] or false );
-
         -- Get correct totalCount for combined inventory searches
         if ( UBI_LocationList[UBI_FILTER_LOCATIONS].type == "complete" or UBI_LocationList[UBI_FILTER_LOCATIONS].type == "all_character" or UBI_LocationList[UBI_FILTER_LOCATIONS].type == "all_guildbank" ) then
             totalCount = UBI_Track[record.itemid] or 0;
@@ -3544,15 +3540,9 @@ end;
             UberInventory_MarkButton( buttonObj, itemid );
         end;
 
-        -- Mark quest item
+        -- Hide quest texture (gold border) unconditionally
         local questTexture = _G[ button.."IconQuestTexture" ];
-        if ( questID > 0 ) then
-            questTexture:SetTexture( TEXTURE_ITEM_QUEST_BANG );
-            questTexture:Show();
-        elseif ( questItem ) then
-            questTexture:SetTexture( TEXTURE_ITEM_QUEST_BORDER) ;
-            questTexture:Show();
-        else
+        if ( questTexture ) then
             questTexture:Hide();
         end;
 
