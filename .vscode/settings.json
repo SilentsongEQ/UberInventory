@@ -130,7 +130,10 @@
         "UberInventoryFrameTokensButton",
         "UberInventoryFrameInventoryCount",
         "ChatEdit_InsertLink",
-        "ChatFrameUtil"
+        "ChatFrameUtil",
+        "EXPANSION_NAME9",
+        "EXPANSION_NAME10",
+        "EXPANSION_NAME11"
     ],
     "Lua.diagnostics.disable": [
         "assign-type-mismatch"

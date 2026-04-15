@@ -243,7 +243,7 @@
                                , C_Item.GetItemSubClassInfo(17,9)
                     } },
                     -- Miscellaneous
-                    { id = 13, name = C_Item.GetItemClassInfo(15)
+                    { id = 12, name = C_Item.GetItemClassInfo(15)
                     , childs = { C_Item.GetItemSubClassInfo(15,0)
                                , C_Item.GetItemSubClassInfo(15,1)
                                , C_Item.GetItemSubClassInfo(15,2)
@@ -253,7 +253,7 @@
 							   , C_Item.GetItemSubClassInfo(15,6)
                     } },
                     -- Quest Items
-                    { id = 12, name = C_Item.GetItemClassInfo(12)
+                    { id = 13, name = C_Item.GetItemClassInfo(12)
                     , childs = {} },
                     -- WoW Token
                     { id = 14, name = C_Item.GetItemClassInfo(18)
@@ -262,6 +262,55 @@
 
 -- Information on tokens
     local UBI_Currencies = {
+        -- Midnight
+        { id=-13, name = EXPANSION_NAME11, force = false },
+        { id=3378, force = true }, -- Dawnflight Manaflux
+
+        -- The War Within
+        { id=-12, name = EXPANSION_NAME10, force = false },
+        -- Core Currencies (Static)
+        { id=3008, force = true }, -- Valorstones
+        { id=2815, force = true }, -- Resonance Crystals
+        { id=3056, force = true }, -- Kej
+        -- Season 1 (Nerub-ar Palace & Harbinger)
+        { id=2803, force = true }, -- Undercoin (S1)
+        { id=3028, force = true }, -- Restored Coffer Key (S1)
+        { id=2914, force = true }, -- Weathered Harbinger Crest
+        { id=2915, force = true }, -- Carved Harbinger Crest
+        { id=2916, force = true }, -- Runed Harbinger Crest
+        { id=2917, force = true }, -- Gilded Harbinger Crest
+        -- Season 2 (Undermine & Siren Isle)
+        { id=3107, force = true }, -- Undercoin (S2)
+        { id=3108, force = true }, -- Restored Coffer Key (S2)
+        { id=3109, force = true }, -- Weathered Undermine Crest
+        { id=3110, force = true }, -- Carved Undermine Crest
+        { id=3111, force = true }, -- Runed Undermine Crest
+        { id=3112, force = true }, -- Gilded Undermine Crest
+        { id=3044, force = true }, -- Flame-Blessed Iron (Siren Isle)
+        { id=3089, force = true }, -- Empty Kaja'Cola Can
+        { id=3090, force = true }, -- Vintage Kaja'Cola Can
+        -- Anniversary & Special Events
+        { id=3100, force = true }, -- Bronze Celebration Token (20th Anniversary)
+
+        -- Dragonflight
+        { id=-11, name = EXPANSION_NAME9, force = false },
+        { id=2003, force = true }, -- Dragon Isles Supplies
+        { id=2245, force = true }, -- Flightstones
+        { id=2123, force = true }, -- Bloody Tokens
+        { id=2118, force = true }, -- Elemental Overflow
+        { id=2122, force = true }, -- Storm Sigil
+        { id=2594, force = true }, -- Paracausal Flakes
+        { id=2650, force = true }, -- Emerald Dewdrops
+        { id=2777, force = true }, -- Seedbloom 
+        { id=2706, force = true }, -- Whelpling's Dreaming Crest
+        { id=2707, force = true }, -- Drake's Dreaming Crest
+        { id=2708, force = true }, -- Wyrm's Dreaming Crest
+        { id=2709, force = true }, -- Aspect's Dreaming Crest
+        { id=2806, force = true }, -- Whelpling's Awakening Crest
+        { id=2807, force = true }, -- Drake's Awakening Crest
+        { id=2808, force = true }, -- Wyrm's Awakening Crest
+        { id=2809, force = true }, -- Aspect's Awakening Crest
+
         -- Shadowlands
         { id=-1, name = EXPANSION_NAME8, force = false },
 		{ id=1728, force = true }, -- Phantasma
@@ -2394,6 +2443,10 @@
         frame:SetStatusText( "Mail Expiration Status" )
         frame:SetCallback( "OnClose", function(widget) AceGUI:Release(widget) end )
         frame:SetLayout( "Fill" )
+        frame.frame:SetBackdropColor( 0, 0, 0, 1 );
+        local bg = frame.frame:CreateTexture( nil, "BACKGROUND" );
+        bg:SetAllPoints( frame.frame );
+        bg:SetColorTexture( 0.05, 0.05, 0.05, 1 );
 
         -- Add scrolling
         ---@type any
@@ -3392,7 +3445,7 @@ end;
 
             -- Re-mark the button and reset elapsed
             if ( total_elapsed > 0.5 ) then
-                UberInventory_MarkButton( self, self:GetID() );
+                UberInventory_MarkButton( self, self:GetAttribute( "itemid" ) );
                 self:SetAttribute( "elapsed", 0 );
             end;
         end;
@@ -3467,8 +3520,11 @@ end;
         --end;
         SetItemButtonCount( buttonObj, totalCount );
 
-        -- Set item id (for tooltip)
-        buttonObj:SetID( itemid );
+        -- Store item id in a custom attribute instead of SetID().
+        -- Using SetID() on an ItemButton causes the WoW widget to interpret the value
+        -- as a container slot ID, which can trigger automatic quest-item highlighting
+        -- whenever the slot in the player's current bag happens to hold a quest item.
+        buttonObj:SetAttribute( "itemid", itemid );
         buttonObj:SetAttribute( "inventoryitem", record );
         buttonObj:SetAttribute( "location", UBI_FILTER_LOCATIONS );
         buttonObj:SetAttribute( "usable", nil );
@@ -3498,6 +3554,24 @@ end;
             questTexture:Show();
         else
             questTexture:Hide();
+        end;
+
+        -- Suppress the ItemButton's default golden slot-frame border (NormalTexture)
+        -- and the retail quality-glow border (IconBorder).  Both render as a yellow/gold
+        -- ring around the icon regardless of LockHighlight state.
+        local normalTex = buttonObj:GetNormalTexture();
+        if ( normalTex ) then
+            normalTex:SetAlpha( 0 );
+        end;
+        if ( buttonObj.IconBorder ) then
+            buttonObj.IconBorder:SetAlpha( 0 );
+        end;
+
+        -- Highlight button only when a search filter is active.
+        if ( UBI_FILTER_TEXT and UBI_FILTER_TEXT ~= "" ) then
+            buttonObj:LockHighlight();
+        else
+            buttonObj:UnlockHighlight();
         end;
     end;
 

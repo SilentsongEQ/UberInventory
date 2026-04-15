@@ -452,6 +452,7 @@
                             <Offset><AbsDimension x="0" y="-15"/></Offset>
                         </Anchor>
                     </Anchors>
+
                 </FontString>
 
 <!-- Inventory count -->
@@ -779,7 +780,7 @@
             </Button>
 
 <!-- Item List Box -->
-            <Frame name="$parentBorder" enableMouse="true" hidden="false">
+            <Frame name="$parentBorder" enableMouse="true" hidden="false" inherits="BackdropTemplate">
                 <Layers>
                     <Layer level="BACKGROUND">
                         <Texture name="$parentTexture">
@@ -800,29 +801,23 @@
                 </Size>
                 <Anchors>
                     <Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT">
-                        <Offset><AbsDimension x="15" y="-80"/></Offset>
+                        <Offset><AbsDimension x="15" y="-85"/></Offset>
                     </Anchor>
                 </Anchors>
                 <Scripts>
                     <OnLoad>
                         self:EnableMouseWheel( true );
+                        self:SetBackdrop({
+                            edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+                            edgeSize = 16,
+                            insets = { left = 5, right = 5, top = 5, bottom = 5 }
+                        });
                     </OnLoad>
                     <OnMouseWheel>
                         UberInventory_OnMouseWheel( UberInventoryFrameScroll, delta, "ITEMS" );
                         -- ScrollFrameTemplate_OnMouseWheel( self, delta );
                     </OnMouseWheel>
                 </Scripts>
-                <!-- <Backdrop  edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="false">
-                    <BackgroundInsets>
-                        <AbsInset left="5" right="5" top="5" bottom="5"/>
-                    </BackgroundInsets>
-                    <TileSize>
-                        <AbsValue val="16"/>
-                    </TileSize>
-                    <EdgeSize>
-                        <AbsValue val="16"/>
-                    </EdgeSize>
-                </Backdrop> -->
             </Frame>
 
 <!-- First column -->
@@ -1040,7 +1035,7 @@
                 </Anchors>
                 <Scripts>
                     <OnClick>
-                        UberInventory_MailExpirationCheck();
+                        UberInventory_MailExpirationCheck_Dialog();
                     </OnClick>
                 </Scripts>
             </Button>
@@ -1051,7 +1046,7 @@
                 </Size>
 				<Layers>
                     <Layer level="OVERLAY">
-                        <Texture name="$parentIcon" file="Interface\Icons\misc_rnrredxbutton">
+                        <Texture name="$parentIcon" file="Interface\Icons\inv_misc_2h_magicbroom_a_01">
                             <Size>
                                 <AbsDimension x="12" y="12"/>
                             </Size>
@@ -1085,7 +1080,7 @@
 <!-- Scroll buttons -->
             <ScrollFrame name="$parentScroll" inherits="FauxScrollFrameTemplate" enableMouse="true">
                 <Size>
-                    <AbsDimension x="16" y="356"/>
+                    <AbsDimension x="16" y="346"/>
                 </Size>
                 <Anchors>
                     <Anchor point="TOPLEFT" relativeTo="$parentItem2" relativePoint="TOPRIGHT">
@@ -1135,6 +1130,18 @@
         <Scripts>
             <OnLoad>
                 tinsert( UISpecialFrames, self:GetName() );
+                self:SetBackdrop({
+                    bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
+                    edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
+                    tile = true,
+                    tileSize = 32,
+                    edgeSize = 32,
+                    insets = { left = 11, right = 12, top = 12, bottom = 11 }
+                });
+                self:SetBackdropBorderColor(1, 1, 1, 1);
+                local titleText = _G[ self:GetName() .. "Text" ];
+                local fontFile, fontSize, fontFlags = titleText:GetFont();
+                titleText:SetFont( fontFile, fontSize + 4, fontFlags );
             </OnLoad>
         </Scripts>
     </Frame>
@@ -1176,7 +1183,7 @@
 
         <Frames>
 <!-- Border -->
-            <Frame name="$parentBorder" enableMouse="true" hidden="false">
+            <Frame name="$parentBorder" enableMouse="true" hidden="false" inherits="BackdropTemplate">
                 <Layers>
                     <Layer level="BACKGROUND">
                         <Texture name="$parentTexture">
@@ -1200,17 +1207,15 @@
                         <Offset><AbsDimension x="0" y="0"/></Offset>
                     </Anchor>
                 </Anchors>
-                <!-- <Backdrop  tile="false">
-                    <BackgroundInsets>
-                        <AbsInset left="5" right="5" top="5" bottom="5"/>
-                    </BackgroundInsets>
-                    <TileSize>
-                        <AbsValue val="16"/>
-                    </TileSize>
-                    <EdgeSize>
-                        <AbsValue val="16"/>
-                    </EdgeSize>
-                </Backdrop> -->
+                <Scripts>
+                    <OnLoad>
+                        self:SetBackdrop({
+                            edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+                            edgeSize = 16,
+                            insets = { left = 5, right = 5, top = 5, bottom = 5 }
+                        });
+                    </OnLoad>
+                </Scripts>
             </Frame>
 
 <!-- Token buttons -->
@@ -1359,6 +1364,15 @@
             </OnShow>
             <OnLoad>
                 self:EnableMouseWheel( true );
+                self:SetBackdrop({
+                    bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
+                    edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
+                    tile = true,
+                    tileSize = 32,
+                    edgeSize = 32,
+                    insets = { left = 11, right = 12, top = 12, bottom = 11 }
+                });
+                self:SetBackdropBorderColor(1, 1, 1, 1);
             </OnLoad>
             <OnMouseWheel>
                 UberInventory_OnMouseWheel( UberInventoryTokensScroll, delta, "TOKENS" );
@@ -1408,7 +1422,7 @@
 
         <Frames>
 <!-- Border -->
-            <Frame name="$parentBorder" enableMouse="true" hidden="false">
+            <Frame name="$parentBorder" enableMouse="true" hidden="false" inherits="BackdropTemplate">
                 <Layers>
                     <Layer level="BACKGROUND">
                         <Texture name="$parentTexture">
@@ -1432,17 +1446,15 @@
                         <Offset><AbsDimension x="0" y="0"/></Offset>
                     </Anchor>
                 </Anchors>
-                <!-- <Backdrop  tile="false">
-                    <BackgroundInsets>
-                        <AbsInset left="5" right="5" top="5" bottom="5"/>
-                    </BackgroundInsets>
-                    <TileSize>
-                        <AbsValue val="16"/>
-                    </TileSize>
-                    <EdgeSize>
-                        <AbsValue val="16"/>
-                    </EdgeSize>
-                </Backdrop> -->
+                <Scripts>
+                    <OnLoad>
+                        self:SetBackdrop({
+                            edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+                            edgeSize = 16,
+                            insets = { left = 5, right = 5, top = 5, bottom = 5 }
+                        });
+                    </OnLoad>
+                </Scripts>
             </Frame>
 
 <!-- Character Deletion List -->
@@ -1591,6 +1603,15 @@
             </OnShow>
             <OnLoad>
                 self:EnableMouseWheel( true );
+                self:SetBackdrop({
+                    bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
+                    edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
+                    tile = true,
+                    tileSize = 32,
+                    edgeSize = 32,
+                    insets = { left = 11, right = 12, top = 12, bottom = 11 }
+                });
+                self:SetBackdropBorderColor(1, 1, 1, 1);
             </OnLoad>
             <OnMouseWheel>
                 UberInventory_OnMouseWheel( UberInventoryDeletionListScroll, delta, "DELETION" );

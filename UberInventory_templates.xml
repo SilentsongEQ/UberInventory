@@ -103,7 +103,7 @@
                                 BattlePetToolTip_Show(UBI_TooltipItem.itemid, UBI_TooltipItem.level, UBI_TooltipItem.quality, 0, 0, 0, UBI_TooltipItem.name);
                             end;
                         else
-                            GameTooltip:SetHyperlink( UberInventory_GetLink( self:GetID() ) );
+                            GameTooltip:SetHyperlink( UberInventory_GetLink( UBI_TooltipItem.itemid ) );
                         end;
                         GameTooltip:Show();
                         UberInventory_Highlighter( UBI_TooltipItem.itemid, "on" );
@@ -113,7 +113,11 @@
                         UBI_TooltipItem = nil;
                         UBI_TooltipLocation = nil;
                         GameTooltip:Hide();
-                        BattlePetTooltip:Hide()
+                        BattlePetTooltip:Hide();
+                        -- Remove any hover-induced highlight unless a search is active
+                        if ( not UBI_FILTER_TEXT or UBI_FILTER_TEXT == "" ) then
+                            self:UnlockHighlight();
+                        end;
                     </OnLeave>
                     <OnClick>
                         local _, itemLink = GameTooltip:GetItem();
@@ -269,19 +273,25 @@
     </Frame>
 
 <!-- Dialog template -->
-    <Frame name="UberInventory_Dialog" hidden="true" virtual="true" frameStrata="DIALOG" parent="UIParent">
+    <Frame name="UberInventory_Dialog" hidden="true" virtual="true" frameStrata="DIALOG" parent="UIParent" inherits="BackdropTemplate">
         <Size>
             <AbsDimension x="640" y="600"/>         <!-- <AbsDimension x="640" y="522"/> -->
         </Size>
-        <!-- <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" tile="true">
-            <BackgroundInsets>
-                <AbsInset left="11" right="12" top="12" bottom="11"/>
-            </BackgroundInsets>
-        </Backdrop> -->
         <Anchors>
             <Anchor point="CENTER"/>
         </Anchors>
         <Scripts>
+            <OnLoad>
+                self:SetBackdrop({
+                    bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
+                    edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
+                    tile = true,
+                    tileSize = 32,
+                    edgeSize = 32,
+                    insets = { left = 11, right = 12, top = 12, bottom = 11 }
+                });
+                self:SetBackdropBorderColor(1, 1, 1, 1);
+            </OnLoad>
 		    <!-- 20191224 Strings no longer accepted since 7.3. Replaced by a SoundKitID. -->
             <OnShow> PlaySound(SOUNDKIT.IG_CHARACTER_INFO_OPEN); </OnShow>
             <OnHide> PlaySound(SOUNDKIT.IG_CHARACTER_INFO_CLOSE); </OnHide>
