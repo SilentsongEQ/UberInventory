@@ -3965,16 +3965,20 @@ end;
     function UberInventory_Highlighter( item, state )
         -- Set hightlight from container/item
         function HighlightOn( frame )
+            if ( not frame ) then return; end;
             SetItemButtonTextureVertexColor( frame, .6, .6, .6, 1 );
-            frame:GetNormalTexture():SetVertexColor( .6, .6, .6, 1 );
+            local tex = frame:GetNormalTexture();
+            if ( tex ) then tex:SetVertexColor( .6, .6, .6, 1 ); end;
             frame:LockHighlight();
             tinsert( UBI_Highlights, frame );
         end;
 
         -- Remove hightlight from container/item
         function HighlightOff( frame )
+            if ( not frame ) then return; end;
             SetItemButtonTextureVertexColor( frame, 1, 1, 1 );
-            frame:GetNormalTexture():SetVertexColor( 1, 1, 1 );
+            local tex = frame:GetNormalTexture();
+            if ( tex ) then tex:SetVertexColor( 1, 1, 1 ); end;
             frame:UnlockHighlight();
         end;
 
@@ -3983,12 +3987,7 @@ end;
             return;
         end;
 
-		-- DISABLE HIGHLIGHTING UNTIL OFFSETS CAN BE FIXED
-		if ( 1 == 1 ) then
-			return;
-		end;
 
-    --[[ =================================================================
         -- Set or remove highlights
         if ( state == "off" ) then
             -- Remove all previous highlights
@@ -4002,28 +4001,38 @@ end;
 
             -- Travese all containers and slots (bag, bank) to locate items
             --for bagid = -2, 11, 1 do
-			for bagid = REAGENTBANK_CONTAINER, NUM_TOTAL_EQUIPPED_BAG_SLOTS + NUM_BANKBAGSLOTS, 1 do
+			for bagid = BANK_CONTAINER, NUM_TOTAL_EQUIPPED_BAG_SLOTS + NUM_BANKBAGSLOTS, 1 do
                 index = IsBagOpen( bagid );
                 for slotid = 1, C_Container.GetContainerNumSlots( bagid ) do
                     itemlink = C_Container.GetContainerItemLink( bagid, slotid );
                     if ( itemlink ) then
                         _, _, itemid = strsplit( ":", itemlink );		-- 20250504 new 2nd attribute
-                        if ( tonumber(itemid) == item and UI_CONTAINER_OBJECTS[bagid]:IsShown() ) then
-                            -- Highlight container
-                            if ( bagid ~= BANK_CONTAINER ) then
+                        if ( tonumber(itemid) == item ) then
+                            -- Highlight bag container button (only if visible in the bag bar / character panel)
+                            if ( bagid ~= BANK_CONTAINER and UI_CONTAINER_OBJECTS[bagid] and UI_CONTAINER_OBJECTS[bagid]:IsShown() ) then
                                 HighlightOn( UI_CONTAINER_OBJECTS[bagid] );
                             end;
 
-                            -- Highlight item
-                            if ( index or bagid == BANK_CONTAINER ) then
-                                if ( bagid == BANK_CONTAINER ) then
-                                    container = "BankFrameItem"..slotid;
-                                else
-                                    slotid = C_Container.GetContainerNumSlots( bagid ) - slotid + 1;
-                                    --container = "ContainerFrame"..index.."Item"..slotid;
-									container = "ContainerFrame"..bagid.."Item"..slotid;
+                            -- Highlight the item slot in the open bag or bank
+                            if ( bagid == BANK_CONTAINER ) then
+                                -- Bank: highlight only when the bank frame is open
+                                if ( UI_CONTAINER_OBJECTS[BANK_CONTAINER] and UI_CONTAINER_OBJECTS[BANK_CONTAINER]:IsShown() ) then
+                                    HighlightOn( _G[ "BankFrameItem"..slotid ] );
                                 end;
-                                HighlightOn(  _G[ container ] );
+                            elseif ( index ) then
+                                -- Individual bag frames (combined bags OFF)
+                                HighlightOn( _G[ "ContainerFrame"..index.."Item"..slotid ] );
+                            else
+                                -- Combined bags mode (TWW default) — iterate buttons to find the matching bag/slot
+                                local combinedFrame = _G["ContainerFrameCombinedBags"];
+                                if ( combinedFrame and combinedFrame:IsShown() and combinedFrame.Items ) then
+                                    for _, btn in ipairs( combinedFrame.Items ) do
+                                        if ( btn and btn.bagID == bagid and btn:GetID() == slotid ) then
+                                            HighlightOn( btn );
+                                            break;
+                                        end;
+                                    end;
+                                end;
                             end;
                         end;
                     end;
@@ -4049,7 +4058,7 @@ end;
                                     if ( index == 0 ) then
                                         index = NUM_SLOTS_PER_GUILDBANK_GROUP;
                                     end
-                                    column = ceil( ( gbSlot - 0.5 ) / NUM_SLOTS_PER_GUILDBANK_GROUP );
+                                    local column = ceil( ( gbSlot - 0.5 ) / NUM_SLOTS_PER_GUILDBANK_GROUP );
                                     container = "GuildBankColumn"..column.."Button"..index;
                                     HighlightOn(  _G[ container ] );
                                 end;
@@ -4059,7 +4068,7 @@ end;
                 end;
             end;
         end;
-    ================================================================= --]]
+
     end;
 
 -- Perform item search
@@ -4429,7 +4438,7 @@ end;
 			hideOnEscape = true,
 			preferredIndex = 3,  -- avoid some UI taint, see http://www.wowace.com/announcements/how-to-avoid-some-ui-taint/
 		}
-		StaticPopup_Show("UberInventory_ReloadUI");
+		StaticPopup_Show("UberInventory_ReloadUI")
 	end;
 	
 	-- Current Upgrade Message

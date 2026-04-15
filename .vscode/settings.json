@@ -133,7 +133,12 @@
         "ChatFrameUtil",
         "EXPANSION_NAME9",
         "EXPANSION_NAME10",
-        "EXPANSION_NAME11"
+        "EXPANSION_NAME11",
+        "NUM_TOTAL_EQUIPPED_BAG_SLOTS",
+        "IsBagOpen",
+        "NUM_BANKBAGSLOTS",
+        "NUM_SLOTS_PER_GUILDBANK_GROUP",
+        "ContainerFrameCombinedBags"
     ],
     "Lua.diagnostics.disable": [
         "assign-type-mismatch"
