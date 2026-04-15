@@ -60,6 +60,9 @@
 		tt:AddLine( UBI_ACCOUNT_SUMMARY_MESSAGE, 0.2, 1, 0.2);
 		tt:AddLine( UBI_MONEY_PLAYER_MESSAGE_MINIMAP:format( GetMoneyString( GetMoney(), true ) ), 0.2, 1, 0.2 );
 		tt:AddLine( UBI_MONEY_ACCOUNT_MESSAGE_MINIMAP:format( GetMoneyString( GetAccountWideGoldValue(), true ) ), 0.2, 1, 0.2 );
+		--tt:AddLine( " " );
+		--tt:AddLine( C_GOLD.."Character Summary", 1, 1, 1 );
+		--UberInventory_PlayerGoldReport( function(line) tt:AddLine( line, 1, 1, 1 ) end );
 		end,
     });
 
@@ -79,7 +82,10 @@
 		GameTooltip:AddLine( UBI_ACCOUNT_SUMMARY_MESSAGE, 0.2, 1, 0.2);
 		GameTooltip:AddLine( UBI_MONEY_PLAYER_MESSAGE_MINIMAP:format( GetMoneyString( GetMoney(), true ) ), 0.2, 1, 0.2 );
 		GameTooltip:AddLine( UBI_MONEY_ACCOUNT_MESSAGE_MINIMAP:format( GetMoneyString( GetAccountWideGoldValue(), true ) ), 0.2, 1, 0.2 );
-        GameTooltip:Show()
+		GameTooltip:AddLine( " " );
+		--GameTooltip:AddLine( C_GOLD.."Character Summary", 1, 1, 1 );
+		--UberInventory_PlayerGoldReport( function(line) GameTooltip:AddLine( line, 1, 1, 1 ) end );
+        --GameTooltip:Show()
 	end
 
 	function UberInventory_OnAddonCompartmentLeave(addonName, menuButtonFrame)
@@ -4306,6 +4312,8 @@ end;
 			UberInventory_TestHarness();
 	    elseif ( msg == "rested" ) then
 			UberInventory_Rested();
+	    elseif ( msg == "playergold" ) then
+			UberInventory_PlayerGold();
         else
             -- Perform item search
             UberInventory_Search( msg or "" );
@@ -4425,6 +4433,67 @@ end;
 	end;
 	
 	
+-- Gold report by realm-server
+-- Shared gold-by-realm report. outputFn(text) is called for each line.
+	local classColorMap = {
+		PALADIN = C_PALADIN, WARRIOR = C_WARRIOR, PRIEST = C_PRIEST,
+		DEATHKNIGHT = C_DEATHKNIGHT, ROGUE = C_ROGUE, HUNTER = C_HUNTER,
+		SHAMAN = C_SHAMAN, MAGE = C_MAGE, WARLOCK = C_WARLOCK,
+		MONK = C_MONK, DRUID = C_DRUID, DEMONHUNTER = C_DEMONHUNTER,
+		EVOKER = C_EVOKER,
+	};
+
+	function UberInventory_PlayerGoldReport( outputFn )
+		local UBI_Data = UBI_Data;
+		local realmTotals = {};
+		local realmOrder = {};
+
+		for realm, players in pairs( UBI_Data ) do
+			local realmTotal = 0;
+			for player, value in pairs( players ) do
+				if ( player ~= "Guildbank" ) then
+					local cash = value["Money"] and value["Money"]["Cash"] or 0;
+					realmTotal = realmTotal + cash;
+				end
+			end
+			realmTotals[realm] = realmTotal;
+			table.insert( realmOrder, realm );
+		end
+
+		table.sort( realmOrder );
+
+		for _, realm in ipairs( realmOrder ) do
+			local players = UBI_Data[realm];
+			outputFn( string.format( "%s--- %s ---%s", C_GREEN, realm, C_CLOSE ) );
+			for player, value in pairs( players ) do
+				if ( player ~= "Guildbank" ) then
+					local cash = value["Money"] and value["Money"]["Cash"] or 0;
+					local class = value["Options"] and value["Options"]["class"] or nil;
+					local classIcon = "";
+					local classColor = C_WHITE;
+					if ( class ) then
+						classColor = classColorMap[class] or C_WHITE;
+						if ( CLASS_ICON_TCOORDS and CLASS_ICON_TCOORDS[class] ) then
+							local t = CLASS_ICON_TCOORDS[class];
+							classIcon = string.format( "|TInterface\\WorldStateFrame\\Icons-Classes:14:14:0:0:256:256:%d:%d:%d:%d|t ",
+								t[1]*256, t[2]*256, t[3]*256, t[4]*256 );
+						end
+					end
+					outputFn( string.format( "  %s%s%s%s: %dg", classIcon, classColor, player, C_CLOSE, math.floor( cash / 10000 ) ) );
+				end
+			end
+			-- outputFn( string.format( "  Total: %dg", math.floor( realmTotals[realm] / 10000 ) ) );
+		end
+	end;
+
+-- Gold report by realm-server printed to chat
+	function UberInventory_PlayerGold()
+		UberInventory_Message( "--- Gold by Realm ---", true );
+		UberInventory_PlayerGoldReport( function(line) UberInventory_Message( line, false ) end );
+		UberInventory_Message( "---------------------", true );
+	end;
+
+
 -- Ask for a reload of the UI
 	function UberInventory_ReloadUI()
 		StaticPopupDialogs["UberInventory_ReloadUI"] = {

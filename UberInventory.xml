@@ -445,6 +445,18 @@
 
             <Layer level="ARTWORK">
 
+<!-- Top-left bag icon -->
+                <Texture name="$parentBagIcon" file="Interface\Addons\UberInventory\artwork\UberInventory.tga">
+                    <Size>
+                        <AbsDimension x="36" y="36"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT">
+                            <Offset><AbsDimension x="15" y="-13"/></Offset>
+                        </Anchor>
+                    </Anchors>
+                </Texture>
+
 <!-- Frame title -->
                 <FontString name="$parentText" inherits="GameFontNormalLarge" text="UBI_NAME_VERSION">
                     <Anchors>

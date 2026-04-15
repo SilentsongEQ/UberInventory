@@ -30,6 +30,7 @@ Version 12.0.1.2
 - Middle-clicking the UBI icon now shows a mail expiration dialog instead of printing to chat.
 - Tweaks to the main UBI dialog regarding borders and scrollbar placement.
 - Types dropdown: Miscellaneous and Quest entries had their internal IDs reversed.
+- Added new command /UBI PlayerGold to show a list of gold by realm & character.
 
 Version 12.0.1.1
 - Updated for latest patch.
