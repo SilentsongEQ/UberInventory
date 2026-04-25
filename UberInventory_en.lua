@@ -14,7 +14,8 @@
                  "    /ubi resetpos: Reset position of the main UberInventory frame",
                  "    /ubi sendgb: Force sending of guildbank data to other online guildmembers",
                  "    /ubi requestgb: Request guildbank data from other online guildmembers",
-                 "    /ubi popup: Show current patch level message dialog" };
+                 "    /ubi popup: Show current patch level message dialog",
+                 "    /ubi playergold: Show a report of player guild by realm and character" };
 
     -- Chatframe strings
 	UBI_UPGRADE_MESSAGE = C_GREEN.."Tracking inventories since 2008"..C_CLOSE;

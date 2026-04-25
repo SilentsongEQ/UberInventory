@@ -22,6 +22,9 @@
 ║                                                              ║
 ╚══════════════════════════════════════════════════════════════╝
 
+Version 12.0.5.1
+- Updated for latest patch.
+
 Version 12.0.1.2
 - Re-enabled pet tooltip display.
 - Added Species ID to the pet tooltip.
