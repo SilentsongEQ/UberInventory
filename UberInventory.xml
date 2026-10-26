@@ -417,7 +417,10 @@
             </OnShow>
 			<!-- Added 11.0.0.2 to fix options not saving -->
             <OnHide>
-                UberInventory_SaveOptions( self );
+                if ( self.optionsLoaded ) then
+                    UberInventory_SaveOptions( self );
+                    UberInventory_UpdateUI();
+                end;
             </OnHide>
         </Scripts>
     </Frame>
