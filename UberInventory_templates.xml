@@ -223,8 +223,7 @@
 
 
 <!-- Template for checkboxes -->
-    <CheckButton name="Checkbox_Template" inherits="UICheckButtonTemplate" virtual="true">
-        <Size x="26" y="26"/>
+    <CheckButton name="Checkbox_Template" inherits="InterfaceOptionsCheckButtonTemplate" virtual="true">
         <HitRectInsets>
             <AbsInset left="0" right="-100" top="0" bottom="0"/>
         </HitRectInsets>
