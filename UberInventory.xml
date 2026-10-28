@@ -192,7 +192,7 @@
                             </CheckButton>
 
     <!-- Alpha slider -->
-                            <Slider name="SettingAlpha" inherits="OptionsSliderTemplate">
+                            <Slider name="SettingAlpha" inherits="UISliderTemplateWithLabels">
                                 <Size>
                                     <AbsDimension x="280" y="16"/>
                                 </Size>
@@ -417,7 +417,10 @@
             </OnShow>
 			<!-- Added 11.0.0.2 to fix options not saving -->
             <OnHide>
-                UberInventory_SaveOptions( self );
+                if ( self.optionsLoaded ) then
+                    UberInventory_SaveOptions( self );
+                    UberInventory_UpdateUI();
+                end;
             </OnHide>
         </Scripts>
     </Frame>
@@ -756,7 +759,7 @@
             </EditBox>
 
 <!-- Clear button -->
-            <Button name="$parentClear" inherits="UIPanelButtonTemplate" text="x" virtual="true">
+            <Button name="$parentClear" inherits="UIPanelButtonTemplate" text="x">
                 <Size>
                     <AbsDimension x="21" y="21"/>
                 </Size>
@@ -771,7 +774,7 @@
             </Button>
 
 <!-- Reset button -->
-            <Button name="$parentResetButton" inherits="UIPanelButtonTemplate" text="UBI_RESET_BUTTON" virtual="true">
+            <Button name="$parentResetButton" inherits="UIPanelButtonTemplate" text="UBI_RESET_BUTTON">
                 <Size>
                     <AbsDimension x="60" y="21"/>
                 </Size>
@@ -962,7 +965,7 @@
                 </Anchors>
             </Button>
 
-            <Button name="$parentCloseButton" inherits="UIPanelButtonTemplate" text="x" virtual="true">
+            <Button name="$parentCloseButton" inherits="UIPanelButtonTemplate" text="x">
                 <Size>
                     <AbsDimension x="20" y="21"/>
                 </Size>
@@ -978,7 +981,7 @@
                 </Scripts>
             </Button>
 
-            <Button name="$parentTokensButton" inherits="UIPanelButtonTemplate" virtual="true">
+            <Button name="$parentTokensButton" inherits="UIPanelButtonTemplate">
                 <Size>
                     <AbsDimension x="80" y="21"/>
                 </Size>
@@ -1015,7 +1018,7 @@
                 </Scripts>
             </Button>
 			
-			<Button name="$parentMailButton" inherits="UIPanelButtonTemplate" virtual="true">
+			<Button name="$parentMailButton" inherits="UIPanelButtonTemplate">
                 <Size>
                     <AbsDimension x="100" y="21"/>
                 </Size>
@@ -1052,7 +1055,7 @@
                 </Scripts>
             </Button>
 			
-			<Button name="$parentCharDelButton" inherits="UIPanelButtonTemplate" virtual="true">
+			<Button name="$parentCharDelButton" inherits="UIPanelButtonTemplate">
                 <Size>
                     <AbsDimension x="100" y="21"/>
                 </Size>
@@ -1231,122 +1234,122 @@
             </Frame>
 
 <!-- Token buttons -->
-            <Button name="Token1" inherits="TokenButton_Template" virtual="true">
+            <Button name="Token1" inherits="TokenButton_Template">
                 <Anchors>
                     <Anchor point="TOPLEFT" relativeTo="$parentBorder" relativePoint="TOPLEFT">
                         <Offset><AbsDimension x="1" y="-5"/></Offset>
                     </Anchor>
                 </Anchors>
             </Button>
-            <Button name="Token2" inherits="TokenButton_Template" virtual="true">
+            <Button name="Token2" inherits="TokenButton_Template">
                 <Anchors>
                     <Anchor point="TOPLEFT" relativeTo="Token1" relativePoint="BOTTOMLEFT">
                     </Anchor>
                 </Anchors>
             </Button>
-            <Button name="Token3" inherits="TokenButton_Template" virtual="true">
+            <Button name="Token3" inherits="TokenButton_Template">
                 <Anchors>
                     <Anchor point="TOPLEFT" relativeTo="Token2" relativePoint="BOTTOMLEFT">
                     </Anchor>
                 </Anchors>
             </Button>
-            <Button name="Token4" inherits="TokenButton_Template" virtual="true">
+            <Button name="Token4" inherits="TokenButton_Template">
                 <Anchors>
                     <Anchor point="TOPLEFT" relativeTo="Token3" relativePoint="BOTTOMLEFT">
                     </Anchor>
                 </Anchors>
             </Button>
-            <Button name="Token5" inherits="TokenButton_Template" virtual="true">
+            <Button name="Token5" inherits="TokenButton_Template">
                 <Anchors>
                     <Anchor point="TOPLEFT" relativeTo="Token4" relativePoint="BOTTOMLEFT">
                     </Anchor>
                 </Anchors>
             </Button>
-            <Button name="Token6" inherits="TokenButton_Template" virtual="true">
+            <Button name="Token6" inherits="TokenButton_Template">
                 <Anchors>
                     <Anchor point="TOPLEFT" relativeTo="Token5" relativePoint="BOTTOMLEFT">
                     </Anchor>
                 </Anchors>
             </Button>
-            <Button name="Token7" inherits="TokenButton_Template" virtual="true">
+            <Button name="Token7" inherits="TokenButton_Template">
                 <Anchors>
                     <Anchor point="TOPLEFT" relativeTo="Token6" relativePoint="BOTTOMLEFT">
                     </Anchor>
                 </Anchors>
             </Button>
-            <Button name="Token8" inherits="TokenButton_Template" virtual="true">
+            <Button name="Token8" inherits="TokenButton_Template">
                 <Anchors>
                     <Anchor point="TOPLEFT" relativeTo="Token7" relativePoint="BOTTOMLEFT">
                     </Anchor>
                 </Anchors>
             </Button>
-            <Button name="Token9" inherits="TokenButton_Template" virtual="true">
+            <Button name="Token9" inherits="TokenButton_Template">
                 <Anchors>
                     <Anchor point="TOPLEFT" relativeTo="Token8" relativePoint="BOTTOMLEFT">
                     </Anchor>
                 </Anchors>
             </Button>
-            <Button name="Token10" inherits="TokenButton_Template" virtual="true">
+            <Button name="Token10" inherits="TokenButton_Template">
                 <Anchors>
                     <Anchor point="TOPLEFT" relativeTo="Token9" relativePoint="BOTTOMLEFT">
                     </Anchor>
                 </Anchors>
             </Button>
-            <Button name="Token11" inherits="TokenButton_Template" virtual="true">
+            <Button name="Token11" inherits="TokenButton_Template">
                 <Anchors>
                     <Anchor point="TOPLEFT" relativeTo="Token10" relativePoint="BOTTOMLEFT">
                     </Anchor>
                 </Anchors>
             </Button>
-            <Button name="Token12" inherits="TokenButton_Template" virtual="true">
+            <Button name="Token12" inherits="TokenButton_Template">
                 <Anchors>
                     <Anchor point="TOPLEFT" relativeTo="Token11" relativePoint="BOTTOMLEFT">
                     </Anchor>
                 </Anchors>
             </Button>
-            <Button name="Token13" inherits="TokenButton_Template" virtual="true">
+            <Button name="Token13" inherits="TokenButton_Template">
                 <Anchors>
                     <Anchor point="TOPLEFT" relativeTo="Token12" relativePoint="BOTTOMLEFT">
                     </Anchor>
                 </Anchors>
             </Button>
-            <Button name="Token14" inherits="TokenButton_Template" virtual="true">
+            <Button name="Token14" inherits="TokenButton_Template">
                 <Anchors>
                     <Anchor point="TOPLEFT" relativeTo="Token13" relativePoint="BOTTOMLEFT">
                     </Anchor>
                 </Anchors>
             </Button>
-            <Button name="Token15" inherits="TokenButton_Template" virtual="true">
+            <Button name="Token15" inherits="TokenButton_Template">
                 <Anchors>
                     <Anchor point="TOPLEFT" relativeTo="Token14" relativePoint="BOTTOMLEFT">
                     </Anchor>
                 </Anchors>
             </Button>
-            <Button name="Token16" inherits="TokenButton_Template" virtual="true">
+            <Button name="Token16" inherits="TokenButton_Template">
                 <Anchors>
                     <Anchor point="TOPLEFT" relativeTo="Token15" relativePoint="BOTTOMLEFT">
                     </Anchor>
                 </Anchors>
             </Button>
-            <Button name="Token17" inherits="TokenButton_Template" virtual="true">
+            <Button name="Token17" inherits="TokenButton_Template">
                 <Anchors>
                     <Anchor point="TOPLEFT" relativeTo="Token16" relativePoint="BOTTOMLEFT">
                     </Anchor>
                 </Anchors>
             </Button>
-            <Button name="Token18" inherits="TokenButton_Template" virtual="true">
+            <Button name="Token18" inherits="TokenButton_Template">
                 <Anchors>
                     <Anchor point="TOPLEFT" relativeTo="Token17" relativePoint="BOTTOMLEFT">
                     </Anchor>
                 </Anchors>
             </Button>
-            <Button name="Token19" inherits="TokenButton_Template" virtual="true">
+            <Button name="Token19" inherits="TokenButton_Template">
                 <Anchors>
                     <Anchor point="TOPLEFT" relativeTo="Token18" relativePoint="BOTTOMLEFT">
                     </Anchor>
                 </Anchors>
             </Button>
-            <Button name="Token20" inherits="TokenButton_Template" virtual="true">
+            <Button name="Token20" inherits="TokenButton_Template">
                 <Anchors>
                     <Anchor point="TOPLEFT" relativeTo="Token19" relativePoint="BOTTOMLEFT">
                     </Anchor>
@@ -1477,115 +1480,115 @@
                     </Anchor>
                 </Anchors>
             </Button>
-            <Button name="DELETION2" inherits="DELETIONButton_Template" virtual="true">
+            <Button name="DELETION2" inherits="DELETIONButton_Template">
                 <Anchors>
                     <Anchor point="TOPLEFT" relativeTo="DELETION1" relativePoint="BOTTOMLEFT">
                     </Anchor>
                 </Anchors>
             </Button>
-            <Button name="DELETION3" inherits="DELETIONButton_Template" virtual="true">
+            <Button name="DELETION3" inherits="DELETIONButton_Template">
                 <Anchors>
                     <Anchor point="TOPLEFT" relativeTo="DELETION2" relativePoint="BOTTOMLEFT">
                     </Anchor>
                 </Anchors>
             </Button>
-            <Button name="DELETION4" inherits="DELETIONButton_Template" virtual="true">
+            <Button name="DELETION4" inherits="DELETIONButton_Template">
                 <Anchors>
                     <Anchor point="TOPLEFT" relativeTo="DELETION3" relativePoint="BOTTOMLEFT">
                     </Anchor>
                 </Anchors>
             </Button>
-            <Button name="DELETION5" inherits="DELETIONButton_Template" virtual="true">
+            <Button name="DELETION5" inherits="DELETIONButton_Template">
                 <Anchors>
                     <Anchor point="TOPLEFT" relativeTo="DELETION4" relativePoint="BOTTOMLEFT">
                     </Anchor>
                 </Anchors>
             </Button>
-            <Button name="DELETION6" inherits="DELETIONButton_Template" virtual="true">
+            <Button name="DELETION6" inherits="DELETIONButton_Template">
                 <Anchors>
                     <Anchor point="TOPLEFT" relativeTo="DELETION5" relativePoint="BOTTOMLEFT">
                     </Anchor>
                 </Anchors>
             </Button>
-            <Button name="DELETION7" inherits="DELETIONButton_Template" virtual="true">
+            <Button name="DELETION7" inherits="DELETIONButton_Template">
                 <Anchors>
                     <Anchor point="TOPLEFT" relativeTo="DELETION6" relativePoint="BOTTOMLEFT">
                     </Anchor>
                 </Anchors>
             </Button>
-            <Button name="DELETION8" inherits="DELETIONButton_Template" virtual="true">
+            <Button name="DELETION8" inherits="DELETIONButton_Template">
                 <Anchors>
                     <Anchor point="TOPLEFT" relativeTo="DELETION7" relativePoint="BOTTOMLEFT">
                     </Anchor>
                 </Anchors>
             </Button>
-            <Button name="DELETION9" inherits="DELETIONButton_Template" virtual="true">
+            <Button name="DELETION9" inherits="DELETIONButton_Template">
                 <Anchors>
                     <Anchor point="TOPLEFT" relativeTo="DELETION8" relativePoint="BOTTOMLEFT">
                     </Anchor>
                 </Anchors>
             </Button>
-            <Button name="DELETION10" inherits="DELETIONButton_Template" virtual="true">
+            <Button name="DELETION10" inherits="DELETIONButton_Template">
                 <Anchors>
                     <Anchor point="TOPLEFT" relativeTo="DELETION9" relativePoint="BOTTOMLEFT">
                     </Anchor>
                 </Anchors>
             </Button>
-            <Button name="DELETION11" inherits="DELETIONButton_Template" virtual="true">
+            <Button name="DELETION11" inherits="DELETIONButton_Template">
                 <Anchors>
                     <Anchor point="TOPLEFT" relativeTo="DELETION10" relativePoint="BOTTOMLEFT">
                     </Anchor>
                 </Anchors>
             </Button>
-            <Button name="DELETION12" inherits="DELETIONButton_Template" virtual="true">
+            <Button name="DELETION12" inherits="DELETIONButton_Template">
                 <Anchors>
                     <Anchor point="TOPLEFT" relativeTo="DELETION11" relativePoint="BOTTOMLEFT">
                     </Anchor>
                 </Anchors>
             </Button>
-            <Button name="DELETION13" inherits="DELETIONButton_Template" virtual="true">
+            <Button name="DELETION13" inherits="DELETIONButton_Template">
                 <Anchors>
                     <Anchor point="TOPLEFT" relativeTo="DELETION12" relativePoint="BOTTOMLEFT">
                     </Anchor>
                 </Anchors>
             </Button>
-            <Button name="DELETION14" inherits="DELETIONButton_Template" virtual="true">
+            <Button name="DELETION14" inherits="DELETIONButton_Template">
                 <Anchors>
                     <Anchor point="TOPLEFT" relativeTo="DELETION13" relativePoint="BOTTOMLEFT">
                     </Anchor>
                 </Anchors>
             </Button>
-            <Button name="DELETION15" inherits="DELETIONButton_Template" virtual="true">
+            <Button name="DELETION15" inherits="DELETIONButton_Template">
                 <Anchors>
                     <Anchor point="TOPLEFT" relativeTo="DELETION14" relativePoint="BOTTOMLEFT">
                     </Anchor>
                 </Anchors>
             </Button>
-            <Button name="DELETION16" inherits="DELETIONButton_Template" virtual="true">
+            <Button name="DELETION16" inherits="DELETIONButton_Template">
                 <Anchors>
                     <Anchor point="TOPLEFT" relativeTo="DELETION15" relativePoint="BOTTOMLEFT">
                     </Anchor>
                 </Anchors>
             </Button>
-            <Button name="DELETION17" inherits="DELETIONButton_Template" virtual="true">
+            <Button name="DELETION17" inherits="DELETIONButton_Template">
                 <Anchors>
                     <Anchor point="TOPLEFT" relativeTo="DELETION16" relativePoint="BOTTOMLEFT">
                     </Anchor>
                 </Anchors>
             </Button>
-            <Button name="DELETION18" inherits="DELETIONButton_Template" virtual="true">
+            <Button name="DELETION18" inherits="DELETIONButton_Template">
                 <Anchors>
                     <Anchor point="TOPLEFT" relativeTo="DELETION17" relativePoint="BOTTOMLEFT">
                     </Anchor>
                 </Anchors>
             </Button>
-            <Button name="DELETION19" inherits="DELETIONButton_Template" virtual="true">
+            <Button name="DELETION19" inherits="DELETIONButton_Template">
                 <Anchors>
                     <Anchor point="TOPLEFT" relativeTo="DELETION18" relativePoint="BOTTOMLEFT">
                     </Anchor>
                 </Anchors>
             </Button>
-            <Button name="DELETION20" inherits="DELETIONButton_Template" virtual="true">
+            <Button name="DELETION20" inherits="DELETIONButton_Template">
                 <Anchors>
                     <Anchor point="TOPLEFT" relativeTo="DELETION19" relativePoint="BOTTOMLEFT">
                     </Anchor>

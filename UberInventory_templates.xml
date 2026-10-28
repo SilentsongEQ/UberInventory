@@ -22,7 +22,7 @@
 
 		<!-- 20191224 Replaced button inheriting ItemButton_Template with widget of type ItemButton -->
         <Frames>
-            <ItemButton name="$parentItemButton" virtual="true">
+            <ItemButton name="$parentItemButton">
                 <Attributes>
                     <Attribute name="inventoryitem" value=""/>
                     <Attribute name="location" value=""/>
@@ -223,7 +223,8 @@
 
 
 <!-- Template for checkboxes -->
-    <CheckButton name="Checkbox_Template" inherits="InterfaceOptionsCheckButtonTemplate" virtual="true">
+    <CheckButton name="Checkbox_Template" inherits="UICheckButtonTemplate" virtual="true">
+        <Size x="26" y="26"/>
         <HitRectInsets>
             <AbsInset left="0" right="-100" top="0" bottom="0"/>
         </HitRectInsets>

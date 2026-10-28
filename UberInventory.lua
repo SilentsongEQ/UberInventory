@@ -85,7 +85,7 @@
 		GameTooltip:AddLine( " " );
 		--GameTooltip:AddLine( C_GOLD.."Character Summary", 1, 1, 1 );
 		--UberInventory_PlayerGoldReport( function(line) GameTooltip:AddLine( line, 1, 1, 1 ) end );
-        --GameTooltip:Show()
+        GameTooltip:Show();
 	end
 
 	function UberInventory_OnAddonCompartmentLeave(addonName, menuButtonFrame)
@@ -494,6 +494,20 @@
     end;
 
 -- Upgrade data structures
+    local globalOptionKeys = {
+        ignore_realm = true, sell_greys = true, autorepair_self = true,
+        show_item_id = true, patch_message_version = true,
+    };
+
+    -- Fill only missing settings: an explicit false is a saved preference.
+    function UberInventory_InitializeOptions( characterOptions, globalOptions )
+        for key, value in pairs( UBI_Defaults ) do
+            local target = globalOptionKeys[key] and globalOptions or characterOptions;
+            if ( target[key] == nil ) then target[key] = value; end;
+            if ( globalOptionKeys[key] ) then characterOptions[key] = nil; end;
+        end;
+    end;
+
     function UberInventory_Upgrade()
         -- From global to local
         local UBI_Options = UBI_Options;
@@ -538,6 +552,8 @@
 		for realm, record in pairs( UBI_Data ) do
 			for player, value in pairs( UBI_Data[realm] ) do
 				if ( player ~= "Guildbank" ) then
+					value["Options"] = value["Options"] or {};
+					UberInventory_InitializeOptions( value["Options"], UBI_Global_Options["Options"] );
 					-- update player realm and version info by character
 					local playerRealm = player.."-"..realm;
 					UBI_Data[realm][player]["Options"]["player_realm"] = playerRealm;
@@ -1992,7 +2008,7 @@
         -- Intialize
         local slotCount, freeCount = 0, 0;
 
-        if ( UBI_BANK_OPEN ) then
+        if ( UBI_BANK_OPEN and C_Bank.CanViewBank( Enum.BankType.Character ) ) then
             -- Reset bank counts
             UberInventory_ResetCount( "bank" );
 
@@ -2022,9 +2038,10 @@
             UBI_Options["bank_max"] = slotCount;
             UBI_Options["bank_free"] = freeCount;
 			
-			-- Update account bank now that the bank window is open
-			UberInventory_Save_AccountBank();
         end;
+
+        -- An account-only banker must still refresh the account bank.
+        UberInventory_Save_AccountBank();
     end;
 	
 	
@@ -2037,17 +2054,18 @@
 		local UBI_Accountbank = UBI_Accountbank;
 		--UberInventory_Message( "DEBUG UberInventory_Save_AccountBank: Start of function" );
 		
-		if ( UBI_BANK_OPEN ) then
+		if ( UBI_BANK_OPEN and C_Bank.CanViewBank( Enum.BankType.Account ) ) then
 		    -- Clear the existing data
             wipe( UBI_Accountbank["Items"] );
 
 			-- Traverse account bank tabs
 			for AccountTabID = Enum.BagIndex.AccountBankTab_1, Enum.BagIndex.AccountBankTab_5 do
-				if ( C_Container.GetContainerNumSlots( AccountTabID ) ) then
-					slotCount = slotCount + C_Container.GetContainerNumSlots( AccountTabID );
+				local tabSlotCount = C_Container.GetContainerNumSlots( AccountTabID ) or 0;
+				if ( tabSlotCount > 0 ) then
+					slotCount = slotCount + tabSlotCount;
 					freeCount = freeCount + C_Container.GetContainerNumFreeSlots( AccountTabID );
 					--UberInventory_Message( "DEBUG UberInventory_Save_AccountBank: Tab = "..AccountTabID.."  Slotcount = "..slotCount.."  Freecount = "..freeCount, true );
-					for slotID = 1, slotCount do
+					for slotID = 1, tabSlotCount do
 						itemCount = 0;
 						local itemLink = C_Container.GetContainerItemLink( AccountTabID, slotID );
 
@@ -2101,7 +2119,7 @@
 		
 		-- Store account bank cash
 		local amount = C_Bank.FetchDepositedMoney(Enum.BankType.Account)
-		UBI_Accountbank["Cash"] = amount;
+		if ( amount ~= nil ) then UBI_Accountbank["Cash"] = amount; end;
 		--UberInventory_Message ( "DEBUG Cash: "..amount );
 		
 		-- Update inventory frame if visible
@@ -2189,8 +2207,10 @@
 
         -- Traverse equip slots
         for key, value in pairs( UBI_EQUIP_SLOTS ) do
-            slotID = ( GetInventorySlotInfo( value --[[@as InventorySlotName]] ) );
-            UberInventory_Item( nil, slotID, "equip" );
+            slotID = C_PaperDollInfo.GetInventorySlotInfo( value );
+            if ( slotID ) then
+                UberInventory_Item( nil, slotID, "equip" );
+            end;
         end;
     end;
 
@@ -2641,12 +2661,7 @@
 			                                };
 		end;
 
-		-- Added 11.0.7.2
-		if ( UBI_Global_Options["Options"]["show_item_id"] == nil ) then
-			UberInventory_Message(C_CYAN.."Upgrading Database:|n"..
-								  C_YELLOW.."> Adding *Show Item ID* to UBI options.", true);
-		    UBI_Global_Options["Options"]["show_item_id"] = UBI_Defaults["show_item_id"];
-		end;
+        UberInventory_InitializeOptions( UBI_Data[UBI_REALM][UBI_PLAYER]["Options"], UBI_Global_Options["Options"] );
 
         if ( UBI_Data[UBI_REALM][UBI_PLAYER]["Items"] == nil ) then
             UBI_Data[UBI_REALM][UBI_PLAYER]["Items"] = {};
@@ -3311,6 +3326,7 @@ end;
 		_G[ "SettingShowItemID" ]:SetChecked( UBI_Global_Options["Options"]["show_item_id"] );
 
         UberInventory_Redraw_TooltipOptions();
+        UberInventoryOptionsFrame.optionsLoaded = true;
     end;
 
 -- Redraw state for tooltip options
@@ -3336,6 +3352,9 @@ end;
         UBI_Options["show_recipe_reward"] = _G[ "SettingQuestReward" ]:GetChecked();
         UBI_Options["show_recipe_drop"] = _G[ "SettingRecipeDrop" ]:GetChecked();
         UBI_Options["show_highlight"] = _G[ "SettingHighlight" ]:GetChecked();
+        if ( not UBI_Options["show_highlight"] ) then
+            UberInventory_Highlighter( nil, "off" );
+        end;
         UBI_Options["show_item_count"] = _G[ "SettingShowItemcount" ]:GetChecked();
         UBI_Options["take_money"] = _G[ "SettingInboxMoney" ]:GetChecked();
         UBI_Options["alpha"] = _G[ "SettingAlpha" ]:GetValue();
@@ -3374,9 +3393,20 @@ end;
         -- Initiliaze
         local UBI_Options = UBI_Options;
 
-        -- Restore defaults
+        local oldIgnoreRealm = UBI_Global_Options["Options"]["ignore_realm"];
+
+        -- Restore each setting in the scope used by its readers.
         for key, value in pairs( UBI_Defaults ) do
-            UBI_Options[key] = value;
+            if ( key ~= "patch_message_version" ) then
+                local target = globalOptionKeys[key] and UBI_Global_Options["Options"] or UBI_Options;
+                target[key] = value;
+            end;
+            if ( globalOptionKeys[key] ) then UBI_Options[key] = nil; end;
+        end;
+
+        UberInventory_Highlighter( nil, "off" );
+        if ( oldIgnoreRealm ~= UBI_Global_Options["Options"]["ignore_realm"] ) then
+            UberInventory_ReloadUI();
         end;
 
         -- Hide or show balance frame based on the current settings (look for a more elegant solution)
@@ -3395,19 +3425,21 @@ end;
         frame.name = UBI_NAME;
 
         -- Set okay function
-        frame.okay = function( self )
-            UberInventory_SaveOptions( self );
-            UberInventory_UpdateUI();
+        frame.OnCommit = function( self )
+            if ( self.optionsLoaded ) then
+                UberInventory_SaveOptions( self );
+                UberInventory_UpdateUI();
+            end;
         end;
 
         -- Set cancel function
-        frame.cancel = function( self )
+        frame.OnRefresh = function( self )
             UberInventory_SetOptions();
             UberInventory_UpdateUI();
         end;
 
         -- set defaults function
-        frame.default = function()
+        frame.OnDefault = function()
             UberInventory_SetDefaults();
             UberInventory_UpdateUI();
         end;
@@ -3970,7 +4002,7 @@ end;
 -- Set/Remove hightlight for container/item
     function UberInventory_Highlighter( item, state )
         -- Set hightlight from container/item
-        function HighlightOn( frame )
+        local function HighlightOn( frame )
             if ( not frame ) then return; end;
             SetItemButtonTextureVertexColor( frame, .6, .6, .6, 1 );
             local tex = frame:GetNormalTexture();
@@ -3980,19 +4012,13 @@ end;
         end;
 
         -- Remove hightlight from container/item
-        function HighlightOff( frame )
+        local function HighlightOff( frame )
             if ( not frame ) then return; end;
             SetItemButtonTextureVertexColor( frame, 1, 1, 1 );
             local tex = frame:GetNormalTexture();
             if ( tex ) then tex:SetVertexColor( 1, 1, 1 ); end;
             frame:UnlockHighlight();
         end;
-
-        -- Exit if highlighting has been turned off
-        if ( not UBI_Options["show_highlight"] ) then
-            return;
-        end;
-
 
         -- Set or remove highlights
         if ( state == "off" ) then
@@ -4002,45 +4028,46 @@ end;
             end;
             wipe( UBI_Highlights );
         else
+            if ( not UBI_Options["show_highlight"] ) then return; end;
             -- Initialize
             local bagid, slotid, itemid, itemlink, index, container, _;
 
-            -- Travese all containers and slots (bag, bank) to locate items
-            --for bagid = -2, 11, 1 do
-			for bagid = BANK_CONTAINER, NUM_TOTAL_EQUIPPED_BAG_SLOTS + NUM_BANKBAGSLOTS, 1 do
-                index = IsBagOpen( bagid );
-                for slotid = 1, C_Container.GetContainerNumSlots( bagid ) do
-                    itemlink = C_Container.GetContainerItemLink( bagid, slotid );
-                    if ( itemlink ) then
-                        _, _, itemid = strsplit( ":", itemlink );		-- 20250504 new 2nd attribute
-                        if ( tonumber(itemid) == item ) then
-                            -- Highlight bag container button (only if visible in the bag bar / character panel)
-                            if ( bagid ~= BANK_CONTAINER and UI_CONTAINER_OBJECTS[bagid] and UI_CONTAINER_OBJECTS[bagid]:IsShown() ) then
-                                HighlightOn( UI_CONTAINER_OBJECTS[bagid] );
-                            end;
+            -- Match live button bag/slot identities; pooled button names and visual
+            -- order no longer identify inventory slots in the retail UI.
+            local highlighted = {};
+            local function HighlightItem( button, bagID, slotID )
+                local info = C_Container.GetContainerItemInfo( bagID, slotID );
+                if ( info and info.itemID == item ) then
+                    HighlightOn( button );
+                    local bagButton = UI_CONTAINER_OBJECTS[bagID];
+                    if ( bagButton and bagButton:IsShown() and not highlighted[bagButton] ) then
+                        HighlightOn( bagButton );
+                        highlighted[bagButton] = true;
+                    end;
+                end;
+            end;
 
-                            -- Highlight the item slot in the open bag or bank
-                            if ( bagid == BANK_CONTAINER ) then
-                                -- Bank: highlight only when the bank frame is open
-                                if ( UI_CONTAINER_OBJECTS[BANK_CONTAINER] and UI_CONTAINER_OBJECTS[BANK_CONTAINER]:IsShown() ) then
-                                    HighlightOn( _G[ "BankFrameItem"..slotid ] );
-                                end;
-                            elseif ( index ) then
-                                -- Individual bag frames (combined bags OFF)
-                                HighlightOn( _G[ "ContainerFrame"..index.."Item"..slotid ] );
-                            else
-                                -- Combined bags mode (TWW default) — iterate buttons to find the matching bag/slot
-                                local combinedFrame = _G["ContainerFrameCombinedBags"];
-                                if ( combinedFrame and combinedFrame:IsShown() and combinedFrame.Items ) then
-                                    for _, btn in ipairs( combinedFrame.Items ) do
-                                        if ( btn and btn.bagID == bagid and btn:GetID() == slotid ) then
-                                            HighlightOn( btn );
-                                            break;
-                                        end;
-                                    end;
-                                end;
-                            end;
+            local function HighlightContainer( frame )
+                if ( frame and frame:IsShown() and frame.EnumerateValidItems ) then
+                    for _, button in frame:EnumerateValidItems() do
+                        if ( button and button:IsShown() ) then
+                            HighlightItem( button, button:GetBagID(), button:GetID() );
                         end;
+                    end;
+                end;
+            end;
+
+            HighlightContainer( _G["ContainerFrameCombinedBags"] );
+            for frameIndex = 1, NUM_CONTAINER_FRAMES do
+                HighlightContainer( _G["ContainerFrame"..frameIndex] );
+            end;
+
+            -- Character and account banks share a pool on the current BankPanel.
+            local bankPanel = _G["BankFrame"] and _G["BankFrame"].BankPanel;
+            if ( bankPanel and bankPanel:IsShown() and bankPanel.EnumerateValidItems ) then
+                for button in bankPanel:EnumerateValidItems() do
+                    if ( button:IsShown() ) then
+                        HighlightItem( button, button:GetBankTabID(), button:GetContainerSlotID() );
                     end;
                 end;
             end;
@@ -4269,8 +4296,8 @@ end;
 -- Handle slash commands
     function UberInventory_SlashHandler( msg, editbox )
         -- arguments should be handled case-insensitve
-        local orgData = msg;
-        msg = strlower( msg );
+        local orgData = strtrim( msg or "" );
+        msg = strlower( orgData );
 
         -- Handle each individual argument
         if ( msg == "" ) then
