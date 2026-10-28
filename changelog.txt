@@ -22,6 +22,16 @@
 ║                                                              ║
 ╚══════════════════════════════════════════════════════════════╝
 
+Version 12.1.0.1
+- Updated interface version for WoW 12.1.0.
+- Migrated equipped-slot lookup to C_PaperDollInfo.GetInventorySlotInfo.
+- Backfill missing saved settings without overwriting existing preferences.
+- Reset global options in their correct scope and apply options when the panel closes.
+- Updated bag, character-bank and account-bank highlights to use live item buttons.
+- Clear existing highlights when highlighting is disabled.
+- Bound account-bank scanning to each tab's own slot count and preserve inaccessible bank data.
+- Restore addon-compartment tooltip display and accept whitespace around slash commands.
+
 Version 12.0.7.1
 - Updated for latest patch.
 
