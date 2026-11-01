@@ -12,7 +12,7 @@ missing saved settings, explicit false preferences, reset scope, equipment scan,
 account-bank tab bounds and inaccessible data, bag and bank highlighting, current
 Settings callbacks, and case/whitespace handling of `/ubi playergold`.
 
-These tests do not run the WoW client. Before releasing 12.1.0.1, check in game:
+These tests do not run the WoW client. Before releasing 12.1.5.1, check in game:
 
 1. Back up SavedVariables and enable Lua errors. Load both an existing character
    and a new character; confirm saved preferences and inventory remain intact.

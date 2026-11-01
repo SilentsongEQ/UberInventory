@@ -1,6 +1,6 @@
-## Interface: 120100
+## Interface: 120105
 ## Title: UberInventory |cfffe7b2cReborn|r
-## Version: 12.1.0.1
+## Version: 12.1.5.1
 ## X-ShowUpgradeMessage: false
 ## X-Patcher: 2
 ## Author: SilentsongEQ
