@@ -4,6 +4,15 @@
     ================================================================= --]]
 
 -- Strings used within UberInventory
+    -- Status badges: other locales may override these; English is the fallback.
+    UBI_BADGE_LEVEL = "iLvl";
+    UBI_BADGE_BOE = "BoE";
+    UBI_BADGE_SET = "Set";
+    UBI_BADGE_TITLE = "Item Level Status";
+    UBI_BADGE_BOE_HELP = "Confirmed unbound bind-on-equip copies: %d";
+    UBI_BADGE_SET_HELP = "Equipment-set membership is by item ID, not a particular copy.";
+    UBI_BADGE_INCOMPLETE = "Some copy details are unknown. Visit the storage or log into its character to refresh.";
+
     -- Help information
     UBI_HELP = { "UberInventory commands:",
                  "    /ubi : open/close UberInventory dialog",

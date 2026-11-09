@@ -54,6 +54,15 @@
                             </Size>
                         </FontString>
 
+                        <FontString name="$parentItemBadges" inherits="GameFontHighlightSmall" justifyH="LEFT" wordwrap="false" hidden="true">
+                            <Anchors>
+                                <Anchor point="LEFT" relativeTo="$parentItemCount" relativePoint="RIGHT">
+                                    <Offset><AbsDimension x="8" y="0"/></Offset>
+                                </Anchor>
+                            </Anchors>
+                            <Size><AbsDimension x="160" y="12"/></Size>
+                        </FontString>
+
                         <FontString name="$parentItemBuy" inherits="GameFontHighlight" justifyH="LEFT" text="UBI_ITEM_BUY">
                             <Anchors>
                                 <Anchor point="TOPLEFT" relativeTo="$parentItemCount" relativePoint="BOTTOMLEFT">

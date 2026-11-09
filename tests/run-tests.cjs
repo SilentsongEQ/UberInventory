@@ -57,7 +57,8 @@ function run(source, label) {
     parser.parse(source, { luaVersion: '5.2' });
     const state = lauxlib.luaL_newstate();
     lualib.luaL_openlibs(state);
-    const status = lauxlib.luaL_dostring(state, to_luastring(itemConstantSource + '\n' + source));
+    const status = lauxlib.luaL_dostring(state, to_luastring(itemConstantSource + '\n'
+        + read('UberInventory_badges.lua') + '\n' + source));
     if (status !== lua.LUA_OK) {
         const error = to_jsstring(lua.lua_tostring(state, -1));
         lua.lua_close(state);
@@ -82,6 +83,14 @@ const functions = parser.parse(source, { luaVersion: '5.2', ranges: true }).body
 assert.equal(functions.length, names.length, 'Every requested production function must load');
 run(functions.map(node => source.slice(...node.range)).join('\n') + '\n'
     + read('tests/inventory_regressions_test.lua'), 'Inventory regressions');
+
+const badgeNames = [...names, 'UberInventory_ResetCount', 'UberInventory_Save_AccountBank',
+    'UberInventory_Save_Guildbank', 'UberInventory_Transfer'];
+const badgeFunctions = parser.parse(source, { luaVersion: '5.2', ranges: true }).body
+    .filter(node => node.type === 'FunctionDeclaration' && badgeNames.includes(node.identifier?.name));
+assert.equal(badgeFunctions.length, badgeNames.length);
+run(badgeFunctions.map(node => source.slice(...node.range)).join('\n') + '\n'
+    + read('tests/inventory_badges_test.lua'), 'Copy-aware inventory badges');
 
 const tree = parser.parse(source, { luaVersion: '5.2', ranges: true });
 const currencyTable = tree.body.find(node => node.type === 'LocalStatement'

@@ -55,6 +55,7 @@
                            -- Deferred item metadata (counts remain available while loading)
                            "GET_ITEM_INFO_RECEIVED",
                            "ITEM_DATA_LOAD_RESULT",
+                           "EQUIPMENT_SETS_CHANGED",
 
                            -- Bank events
                            "BANKFRAME_OPENED",

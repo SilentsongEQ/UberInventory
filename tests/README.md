@@ -21,3 +21,10 @@ changes, ordinary/pet tooltips, modified clicks, and item tint after scrolling
 between unusable items and pets. Also check literal searches (`[`, `%`, `.`),
 same-name alts across realms, and sent/returned mail counts. Cache preservation
 and delayed loading are covered deterministically by the regression suite.
+
+Copy-aware status badge checks cover actual variant levels, bound/unbound BoE
+copies, character and storage filters, shared-bank scans, equipment-set changes,
+legacy saves, metadata retries, inferred mail, and recycled-row cleanup. In WoW,
+check the count line at multiple UI scales with long counts and all three badges;
+verify truncation, full tooltip details, and rapid scrolling. Visit each storage
+and log into alts to populate their new badge snapshots.

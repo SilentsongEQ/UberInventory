@@ -1288,6 +1288,7 @@
         wipe( UBI_Track );
         wipe( UBI_Items_Work );
         UBI_Inventory_count = 0;
+        UberInventory_Badges_Begin();
 
         -- Copy items to separate array for sorting and displaying
         local include_item;
@@ -1353,6 +1354,7 @@
 
 						-- Track correct item totals
 						UBI_Track[record.itemid] = UBI_Track[record.itemid] + record.total;
+                        UberInventory_Badges_Merge( record, UBI_Items_Work, cmdline );
 					end;
 				end;
 				
@@ -1480,9 +1482,10 @@
         local UBI_Items = UBI_Items;
 
         -- Clear counts
-        location = location.."_count";
+        local countKey = location.."_count";
         for key, record in pairs( UBI_Items ) do
-            record[location] = 0;
+            UberInventory_Badges_Reset( record, location );
+            record[countKey] = 0;
         end;
     end;
 
@@ -2024,6 +2027,7 @@
                                   ["extra"] = extra
                                   };
             UberInventory_PreserveItemMetadata( UBI_Items[itemId], previous );
+            UberInventory_Badges_Observe( UBI_Items[itemId], previous, location, itemLink, itemCount, bagID, slotID );
         end;
     end;
 
@@ -2126,7 +2130,8 @@
 						if ( itemLink ) then
                             -- Fetch item information
                             local itemName, _, itemQuality, itemLevel, itemMinLevel, itemType, itemSubType, itemStackCount, itemEquipLoc, itemTexture = C_Item.GetItemInfo( itemLink );
-                            local _, _, itemId, enchantId, jewelId1, jewelId2, jewelId3, jewelId4, suffixId, uniqueId = strsplit( ":", itemLink );			-- 20250504 new 2nd attribute
+                            local itemId = UberInventory_GetLinkID( itemLink );
+                            local badgePrevious = UBI_Accountbank["Items"][itemId];
 							local containerinfo = C_Container.GetContainerItemInfo( AccountTabID, slotID );
 							local count = containerinfo.stackCount;
 							
@@ -2161,6 +2166,7 @@
                                                                  ["subtype"] = itemSubType,
                                                                  ["extra"] = extra,
                                                                  ["total"] = itemCount + count };
+                            UberInventory_Badges_Observe( UBI_Accountbank["Items"][itemId], badgePrevious, "account", itemLink, count, AccountTabID, slotID );
 						end;
 					end;
 				end;
@@ -2321,7 +2327,8 @@
                         if ( itemLink ) then
                             -- Fetch item information
                             itemName, _, itemQuality, itemLevel, itemMinLevel, itemType, itemSubType, itemStackCount, itemEquipLoc, itemTexture = C_Item.GetItemInfo( itemLink );
-                            _, _, itemId, enchantId, jewelId1, jewelId2, jewelId3, jewelId4, suffixId, uniqueId = strsplit( ":", itemLink );		-- 20250504 new 2nd attribute
+                            itemId = UberInventory_GetLinkID( itemLink );
+                            local badgePrevious = UBI_Guildbank[UBI_GUILD]["Items"][itemId];
 
                             -- Get existing item count
                             if ( UBI_Guildbank[UBI_GUILD]["Items"][itemId] ) then
@@ -2352,6 +2359,7 @@
                                                                           ["subtype"] = itemSubType,
                                                                           ["extra"] = extra,
                                                                           ["total"] = itemCount + count };
+                            UberInventory_Badges_Observe( UBI_Guildbank[UBI_GUILD]["Items"][itemId], badgePrevious, "guild", itemLink, count );
                         end;
                     end;
                 end;
@@ -2939,6 +2947,7 @@
                                                                                     ["total"] = value,
                                                                                     };
                     end;
+                    UberInventory_Badges_InvalidateMail( UBI_Data[UBI_REALM][UBI_Mail_Transfer.to]["Items"][key], tempItem );
                     itemCount = itemCount + 1;
                 end;
 
@@ -2978,6 +2987,13 @@ end;
 
         if ( event == "GET_ITEM_INFO_RECEIVED" or event == "ITEM_DATA_LOAD_RESULT" ) then
             UberInventory_ItemInfoReceived( arg1, arg2 );
+            UberInventory_Badges_ItemInfoReceived( arg1, arg2 );
+            return;
+        end;
+
+        if ( event == "EQUIPMENT_SETS_CHANGED" ) then
+            UberInventory_Badges_SaveSets();
+            if ( UberInventoryFrame:IsVisible() ) then UberInventory_DisplayItems(); end;
             return;
         end;
 
@@ -3039,6 +3055,7 @@ end;
         -- Update info inventory change (enters the world, enters/leaves an instance, or respawns at a graveyard, reloadui)
         if ( event == "PLAYER_ENTERING_WORLD" ) then
             UBI_ACTIVE = true;
+            UberInventory_Badges_SaveSets();
 
             -- Register AddOn Message prefix
 			C_ChatInfo.RegisterAddonMessagePrefix( "UBI" );
@@ -3567,6 +3584,7 @@ end;
         local buttonObj = _G[ button ];
 
         UberInventory_InventoryItem_OnLeave( buttonObj );
+        UberInventory_Badges_Render( buttonObj, nil );
 
         -- Record is nil, item does not exist and button should be hidden
         if ( not record ) then
@@ -3618,6 +3636,7 @@ end;
             _G[ button.."ItemCount" ]:SetFormattedText( UBI_ITEM_COUNT_SINGLE, totalCount );
         --end;
         SetItemButtonCount( buttonObj, totalCount );
+        UberInventory_Badges_Render( buttonObj, record );
 
         -- Store item id in a custom attribute instead of SetID().
         -- Using SetID() on an ItemButton causes the WoW widget to interpret the value

@@ -1,6 +1,13 @@
 Version 12.1.5.2
 Release changes - 2026-11-08
 
+Item status badges
+- Added copy-aware gear item levels, confirmed unbound BoE markers, and character equipment-set membership beside inventory counts.
+- Summarize actual item-level ranges across the selected storage and characters; keep shared-bank results independent of character equipment sets.
+- Save optional per-location observations and equipment-set snapshots for offline viewing, with tooltip explanations for incomplete data.
+- Refresh delayed item metadata, replace observations on rescan, invalidate inferred mail details, and clear badges when inventory rows are recycled.
+- Added regression coverage for copy differences, storage filters, shared-bank scans, equipment-set changes, metadata retries, saved snapshots, and badge layout bounds.
+
 Inventory scrolling
 - Replaced the main inventory's 16 fixed slots with a clipped, two-column viewport and a bounded pool of reusable item frames.
 - Added pixel-aligned scrolling with 120 ms ease-out wheel motion and immediate scrollbar dragging.

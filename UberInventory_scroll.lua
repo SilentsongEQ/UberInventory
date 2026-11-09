@@ -32,6 +32,7 @@ function UberInventory_InventoryItem_OnEnter(button)
             extra[1] or 0, extra[2] or 0, extra[3] or 0, record.name);
     else
         GameTooltip:SetHyperlink(UberInventory_GetLink(record.itemid, record));
+        UberInventory_Badges_Tooltip(GameTooltip, record);
         GameTooltip:Show();
     end;
     UberInventory_Highlighter(record.itemid, "on");

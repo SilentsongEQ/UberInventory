@@ -41,6 +41,7 @@ UberInventory_cn.lua
 UberInventory_tw.lua
 
 UberInventory_items.lua
+UberInventory_badges.lua
 UberInventory.lua
 UberInventory_scroll.lua
 
