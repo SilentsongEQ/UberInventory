@@ -835,135 +835,21 @@
                 </Scripts>
             </Frame>
 
-<!-- First column -->
-             <Button name="$parentItem1" inherits="ItemButton_Template">
+<!-- Pixel-scrolling inventory viewport. Rows are pooled in Lua. -->
+            <ScrollFrame name="$parentScroll" enableMouse="true">
+                <Size x="575" y="346"/>
                 <Anchors>
-                    <Anchor point="TOPLEFT">
-                        <Offset><AbsDimension x="25" y="-100"/></Offset>
-                    </Anchor>
+                    <Anchor point="TOPLEFT" x="25" y="-100"/>
                 </Anchors>
-            </Button>
-
-            <Button name="$parentItem3" inherits="ItemButton_Template">
-                <Anchors>
-                    <Anchor point="TOPLEFT" relativeTo="$parentItem1" relativePoint="BOTTOMLEFT">
-                        <Offset><AbsDimension x="0" y="-8"/></Offset>
-                    </Anchor>
-                </Anchors>
-            </Button>
-
-            <Button name="$parentItem5" inherits="ItemButton_Template">
-                <Anchors>
-                    <Anchor point="TOPLEFT" relativeTo="$parentItem3" relativePoint="BOTTOMLEFT">
-                        <Offset><AbsDimension x="0" y="-8"/></Offset>
-                    </Anchor>
-                </Anchors>
-            </Button>
-
-            <Button name="$parentItem7" inherits="ItemButton_Template">
-                <Anchors>
-                    <Anchor point="TOPLEFT" relativeTo="$parentItem5" relativePoint="BOTTOMLEFT">
-                        <Offset><AbsDimension x="0" y="-8"/></Offset>
-                    </Anchor>
-                </Anchors>
-            </Button>
-
-            <Button name="$parentItem9" inherits="ItemButton_Template">
-                <Anchors>
-                    <Anchor point="TOPLEFT" relativeTo="$parentItem7" relativePoint="BOTTOMLEFT">
-                        <Offset><AbsDimension x="0" y="-8"/></Offset>
-                    </Anchor>
-                </Anchors>
-            </Button>
-
-            <Button name="$parentItem11" inherits="ItemButton_Template">
-                <Anchors>
-                    <Anchor point="TOPLEFT" relativeTo="$parentItem9" relativePoint="BOTTOMLEFT">
-                        <Offset><AbsDimension x="0" y="-8"/></Offset>
-                    </Anchor>
-                </Anchors>
-            </Button>
-
-            <Button name="$parentItem13" inherits="ItemButton_Template">
-                <Anchors>
-                    <Anchor point="TOPLEFT" relativeTo="$parentItem11" relativePoint="BOTTOMLEFT">
-                        <Offset><AbsDimension x="0" y="-8"/></Offset>
-                    </Anchor>
-                </Anchors>
-            </Button>
-
-            <Button name="$parentItem15" inherits="ItemButton_Template">
-                <Anchors>
-                    <Anchor point="TOPLEFT" relativeTo="$parentItem13" relativePoint="BOTTOMLEFT">
-                        <Offset><AbsDimension x="0" y="-8"/></Offset>
-                    </Anchor>
-                </Anchors>
-            </Button>
-
-<!-- Second column -->
-            <Button name="$parentItem2" inherits="ItemButton_Template">
-                <Anchors>
-                    <Anchor point="TOPLEFT" relativeTo="$parentItem1" relativePoint="TOPRIGHT">
-                        <Offset><AbsDimension x="15" y="0"/></Offset>
-                    </Anchor>
-                </Anchors>
-            </Button>
-
-            <Button name="$parentItem4" inherits="ItemButton_Template">
-                <Anchors>
-                    <Anchor point="TOPLEFT" relativeTo="$parentItem2" relativePoint="BOTTOMLEFT">
-                        <Offset><AbsDimension x="0" y="-8"/></Offset>
-                    </Anchor>
-                </Anchors>
-            </Button>
-
-            <Button name="$parentItem6" inherits="ItemButton_Template">
-                <Anchors>
-                    <Anchor point="TOPLEFT" relativeTo="$parentItem4" relativePoint="BOTTOMLEFT">
-                        <Offset><AbsDimension x="0" y="-8"/></Offset>
-                    </Anchor>
-                </Anchors>
-            </Button>
-
-            <Button name="$parentItem8" inherits="ItemButton_Template">
-                <Anchors>
-                    <Anchor point="TOPLEFT" relativeTo="$parentItem6" relativePoint="BOTTOMLEFT">
-                        <Offset><AbsDimension x="0" y="-8"/></Offset>
-                    </Anchor>
-                </Anchors>
-            </Button>
-
-            <Button name="$parentItem10" inherits="ItemButton_Template">
-                <Anchors>
-                    <Anchor point="TOPLEFT" relativeTo="$parentItem8" relativePoint="BOTTOMLEFT">
-                        <Offset><AbsDimension x="0" y="-8"/></Offset>
-                    </Anchor>
-                </Anchors>
-            </Button>
-
-            <Button name="$parentItem12" inherits="ItemButton_Template">
-                <Anchors>
-                    <Anchor point="TOPLEFT" relativeTo="$parentItem10" relativePoint="BOTTOMLEFT">
-                        <Offset><AbsDimension x="0" y="-8"/></Offset>
-                    </Anchor>
-                </Anchors>
-            </Button>
-
-            <Button name="$parentItem14" inherits="ItemButton_Template">
-                <Anchors>
-                    <Anchor point="TOPLEFT" relativeTo="$parentItem12" relativePoint="BOTTOMLEFT">
-                        <Offset><AbsDimension x="0" y="-8"/></Offset>
-                    </Anchor>
-                </Anchors>
-            </Button>
-
-            <Button name="$parentItem16" inherits="ItemButton_Template">
-                <Anchors>
-                    <Anchor point="TOPLEFT" relativeTo="$parentItem14" relativePoint="BOTTOMLEFT">
-                        <Offset><AbsDimension x="0" y="-8"/></Offset>
-                    </Anchor>
-                </Anchors>
-            </Button>
+                <ScrollChild>
+                    <Frame name="$parentContent">
+                        <Size x="575" y="346"/>
+                        <Anchors>
+                            <Anchor point="TOPLEFT"/>
+                        </Anchors>
+                    </Frame>
+                </ScrollChild>
+            </ScrollFrame>
 
             <Button name="$parentCloseButton" inherits="UIPanelButtonTemplate" text="x">
                 <Size>
@@ -1092,22 +978,16 @@
                 </Scripts>
             </Button>
 
-<!-- Scroll buttons -->
-            <ScrollFrame name="$parentScroll" inherits="FauxScrollFrameTemplate" enableMouse="true">
-                <Size>
-                    <AbsDimension x="16" y="346"/>
-                </Size>
+<!-- Independent pixel scrollbar; never invokes FauxScrollFrame callbacks. -->
+            <Slider name="$parentScrollScrollBar" orientation="VERTICAL" minValue="0" maxValue="0" valueStep="1">
+                <Size x="16" y="314"/>
                 <Anchors>
-                    <Anchor point="TOPLEFT" relativeTo="$parentItem2" relativePoint="TOPRIGHT">
-                        <Offset><AbsDimension x="-17" y="4"/></Offset>
-                    </Anchor>
+                    <Anchor point="TOPLEFT" relativeTo="$parentScroll" relativePoint="TOPRIGHT" x="5" y="-16"/>
                 </Anchors>
-                <Scripts>
-                    <OnVerticalScroll>
-                        FauxScrollFrame_OnVerticalScroll( self, offset, 36, UberInventory_DisplayItems );
-                    </OnVerticalScroll>
-                </Scripts>
-            </ScrollFrame>
+                <ThumbTexture file="Interface\Buttons\UI-ScrollBar-Knob">
+                    <Size x="16" y="24"/>
+                </ThumbTexture>
+            </Slider>
 
 <!-- Only show usable items -->
             <CheckButton name="$parentUsableItems" inherits="UICheckButtonTemplate" >
@@ -1145,6 +1025,7 @@
         <Scripts>
             <OnLoad>
                 tinsert( UISpecialFrames, self:GetName() );
+                UberInventory_InventoryScroll_Init();
                 self:SetBackdrop({
                     bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
                     edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",

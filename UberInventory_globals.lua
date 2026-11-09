@@ -3,6 +3,11 @@
         All globals used within UberInventory.
     ================================================================= --]]
 
+-- Item identities shared by inventory parsing, tooltips, and recycled rows.
+    UBI_ITEM_ID_PET_CAGE = 82800;
+    UBI_ITEM_ID_WOW_TOKEN = 122284;
+    UBI_ITEM_ID_WOW_TOKEN_SHOP = 122270;
+
 -- Base colors
     C_GOLD   = "|cFFFFD700";
     C_SILVER = "|cFFC7C7CF";
@@ -46,6 +51,10 @@
 
                            -- Character event (equipped items)
                            "UNIT_INVENTORY_CHANGED",
+
+                           -- Deferred item metadata (counts remain available while loading)
+                           "GET_ITEM_INFO_RECEIVED",
+                           "ITEM_DATA_LOAD_RESULT",
 
                            -- Bank events
                            "BANKFRAME_OPENED",
@@ -230,7 +239,6 @@
                              UBI_IMG_PATH..string.lower( UBI_FACTION ) };
 
 -- Frame/tooltip related options
-    UBI_NUM_ITEMBUTTONS = 16;
     UBI_NUM_TOKENBUTTONS = 20;
 	UBI_NUM_DELETIONBUTTONS = 20;
     UBI_MAX_RECIPE_INFO = 10;

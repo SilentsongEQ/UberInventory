@@ -93,36 +93,15 @@
                 </Anchors>
                 <Scripts>
                     <OnEnter>
-                        UBI_TooltipItem = self:GetAttribute( "inventoryitem" );
-                        UBI_TooltipLocation = self:GetAttribute( "location" );
-                        GameTooltip:SetOwner( self, "ANCHOR_RIGHT");
-                        if ( UBI_TooltipItem.type == UBI_BATTLEPET_CLASS and UBI_TooltipItem.itemid ~= 82800 ) then
-                            if ( UBI_TooltipItem.extra ) then
-                                BattlePetToolTip_Show(UBI_TooltipItem.itemid, UBI_TooltipItem.level, UBI_TooltipItem.quality, UBI_TooltipItem.extra[1] or 0, UBI_TooltipItem.extra[2] or 0, UBI_TooltipItem.extra[3] or 0, UBI_TooltipItem.name);
-                            else
-                                BattlePetToolTip_Show(UBI_TooltipItem.itemid, UBI_TooltipItem.level, UBI_TooltipItem.quality, 0, 0, 0, UBI_TooltipItem.name);
-                            end;
-                        else
-                            GameTooltip:SetHyperlink( UberInventory_GetLink( UBI_TooltipItem.itemid ) );
-                        end;
-                        GameTooltip:Show();
-                        UberInventory_Highlighter( UBI_TooltipItem.itemid, "on" );
+                        UberInventory_InventoryItem_OnEnter( self );
                     </OnEnter>
                     <OnLeave>
-                        UberInventory_Highlighter( UBI_TooltipItem.itemid, "off" );
-                        UBI_TooltipItem = nil;
-                        UBI_TooltipLocation = nil;
-                        GameTooltip:Hide();
-                        BattlePetTooltip:Hide();
-                        -- Remove any hover-induced highlight unless a search is active
-                        if ( not UBI_FILTER_TEXT or UBI_FILTER_TEXT == "" ) then
-                            self:UnlockHighlight();
-                        end;
+                        UberInventory_InventoryItem_OnLeave( self );
                     </OnLeave>
                     <OnClick>
-                        local _, itemLink = GameTooltip:GetItem();
-                        if ( HandleModifiedItemClick( itemLink ) ) then
-                            return;
+                        local record = self:GetAttribute( "inventoryitem" );
+                        if ( record and UberInventoryFrameScroll:IsMouseOver() ) then
+                            HandleModifiedItemClick( UberInventory_GetLink( record.itemid, record ) );
                         end;
                     </OnClick>
                     <OnUpdate>

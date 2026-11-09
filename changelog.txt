@@ -22,6 +22,22 @@
 ║                                                              ║
 ╚══════════════════════════════════════════════════════════════╝
 
+Version 12.1.5.2
+- Centralized special item IDs in named globals and replaced the English WoW Token tooltip-name check with item-ID checks for both variants.
+- Expanded Midnight and The War Within token tracking with zone, collection, profession, Delve, and seasonal currencies.
+- Corrected mislabeled currency IDs, hide empty profession/legacy rows, skip unavailable currencies safely, and keep token scrolling within the displayed list.
+- Replaced fixed inventory slots with a clipped, two-column list using reusable rows.
+- Added smooth wheel scrolling, immediate scrollbar dragging, and pixel-aligned positioning across UI scales.
+- Corrected row spacing calculations and clamped scrolling when inventory results change.
+- Avoid repeated sorting and filtering during scroll animation; preserve tooltips, modified clicks and hover cleanup when recycling rows.
+- Fixed blank inventory rendering by explicitly anchoring and layering scroll content above its background and refreshing native scroll bounds.
+- Corrected the battle-pet placeholder item-ID check.
+- Preserve saved bank and mailbox counts while item metadata is uncached; retry metadata loading and refresh the list when data arrives.
+- Fixed sent and returned mail tracking to extract item IDs independently of hyperlink color prefixes.
+- Include same-name characters on other realms in account-wide character lists.
+- Treat inventory and slash-command search text as literal text, including brackets and percent signs.
+- Reset recycled item icon colors so battle pets cannot inherit unusable or uncached-item tint.
+
 Version 12.1.5.1
 - Updated interface metadata for WoW 12.1.5.
 - Fixed missing-frame warnings and broken anchors by removing unintended virtual flags from live buttons, token rows, deletion rows and nested inventory item buttons.

@@ -1,6 +1,6 @@
 ## Interface: 120105
 ## Title: UberInventory |cfffe7b2cReborn|r
-## Version: 12.1.5.1
+## Version: 12.1.5.2
 ## X-ShowUpgradeMessage: false
 ## X-Patcher: 2
 ## Author: SilentsongEQ
@@ -40,7 +40,9 @@ UberInventory_kr.lua
 UberInventory_cn.lua
 UberInventory_tw.lua
 
+UberInventory_items.lua
 UberInventory.lua
+UberInventory_scroll.lua
 
 UberInventory_templates.xml
 UberInventory.xml

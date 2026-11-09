@@ -268,35 +268,84 @@
 
 -- Information on tokens
     local UBI_Currencies = {
-        -- Midnight
+        -- Midnight (currency-tab entries; bag-item tokens stay in inventory)
+        -- IDs checked against current currency data and Titan Currencies Multi.
         { id=-13, name = EXPANSION_NAME11, force = false },
-        { id=3378, force = true }, -- Dawnflight Manaflux
+        -- General and Delves (Undercoin and keys reuse their IDs across expansions)
+        { id=3316, force = true }, -- Voidlight Marl
+        { id=2803, force = true }, -- Undercoin
+        { id=3028, force = true }, -- Restored Coffer Key
+        { id=3310, force = true }, -- Coffer Key Shards
+        { id=3356, force = true }, -- Untainted Mana-Crystals
+        { id=3418, force = true }, -- Nebulous Voidcore
+        -- Zone activities, collections, and housing
+        { id=3405, force = true }, -- Field Accolade
+        { id=3373, force = true }, -- Angler Pearls
+        { id=3376, force = true }, -- Shard of Dundun
+        { id=3377, force = true }, -- Unalloyed Abundance
+        { id=3379, force = true }, -- Brimming Arcana
+        { id=3385, force = true }, -- Luminous Dust
+        { id=3392, force = true }, -- Remnant of Anguish
+        { id=3393, force = true }, -- Illusionary Coin
+        { id=3400, force = true }, -- Uncontaminated Void Sample
+        { id=3448, force = true }, -- Corrosive Coin
+        { id=3546, force = true }, -- Coiled Filament
+        { id=3363, force = true }, -- Community Coupons
+        -- Season 2
+        { id=3442, force = true }, -- Adventurer Mistcrest
+        { id=3443, force = true }, -- Veteran Mistcrest
+        { id=3444, force = true }, -- Champion Mistcrest
+        { id=3445, force = true }, -- Hero Mistcrest
+        { id=3446, force = true }, -- Myth Mistcrest
+        { id=3465, force = true }, -- Venomblight Manaflux
+        -- Season 1: show retained balances without forcing empty legacy rows
+        { id=3383, force = false }, -- Adventurer Dawncrest
+        { id=3341, force = false }, -- Veteran Dawncrest
+        { id=3343, force = false }, -- Champion Dawncrest
+        { id=3345, force = false }, -- Hero Dawncrest
+        { id=3347, force = false }, -- Myth Dawncrest
+        { id=3378, force = false }, -- Dawnlight Manaflux
+        -- Profession currencies: show only when the selected character holds some
+        { id=3256, force = false }, -- Artisan Alchemist's Moxie
+        { id=3257, force = false }, -- Artisan Blacksmith's Moxie
+        { id=3258, force = false }, -- Artisan Enchanter's Moxie
+        { id=3259, force = false }, -- Artisan Engineer's Moxie
+        { id=3260, force = false }, -- Artisan Herbalist's Moxie
+        { id=3261, force = false }, -- Artisan Scribe's Moxie
+        { id=3262, force = false }, -- Artisan Jewelcrafter's Moxie
+        { id=3263, force = false }, -- Artisan Leatherworker's Moxie
+        { id=3264, force = false }, -- Artisan Miner's Moxie
+        { id=3265, force = false }, -- Artisan Skinner's Moxie
+        { id=3266, force = false }, -- Artisan Tailor's Moxie
 
         -- The War Within
         { id=-12, name = EXPANSION_NAME10, force = false },
-        -- Core Currencies (Static)
-        { id=3008, force = true }, -- Valorstones
         { id=2815, force = true }, -- Resonance Crystals
         { id=3056, force = true }, -- Kej
-        -- Season 1 (Nerub-ar Palace & Harbinger)
-        { id=2803, force = true }, -- Undercoin (S1)
-        { id=3028, force = true }, -- Restored Coffer Key (S1)
-        { id=2914, force = true }, -- Weathered Harbinger Crest
-        { id=2915, force = true }, -- Carved Harbinger Crest
-        { id=2916, force = true }, -- Runed Harbinger Crest
-        { id=2917, force = true }, -- Gilded Harbinger Crest
-        -- Season 2 (Undermine & Siren Isle)
-        { id=3107, force = true }, -- Undercoin (S2)
-        { id=3108, force = true }, -- Restored Coffer Key (S2)
-        { id=3109, force = true }, -- Weathered Undermine Crest
-        { id=3110, force = true }, -- Carved Undermine Crest
-        { id=3111, force = true }, -- Runed Undermine Crest
-        { id=3112, force = true }, -- Gilded Undermine Crest
-        { id=3044, force = true }, -- Flame-Blessed Iron (Siren Isle)
-        { id=3089, force = true }, -- Empty Kaja'Cola Can
-        { id=3090, force = true }, -- Vintage Kaja'Cola Can
-        -- Anniversary & Special Events
-        { id=3100, force = true }, -- Bronze Celebration Token (20th Anniversary)
+        { id=3055, force = true }, -- Mereldar Derby Mark
+        { id=3090, force = true }, -- Flame-Blessed Iron (Siren Isle)
+        { id=3149, force = true }, -- Displaced Corrupted Mementos
+        { id=3218, force = true }, -- Empty Kaja'Cola Can
+        { id=3220, force = true }, -- Vintage Kaja'Cola Can
+        { id=3226, force = true }, -- Market Research
+        { id=3278, force = true }, -- Ethereal Strands
+        { id=3303, force = true }, -- Untethered Coin
+        -- Retained progression and event balances
+        { id=3008, force = false }, -- Valorstones
+        { id=2914, force = false }, -- Weathered Harbinger Crest
+        { id=2915, force = false }, -- Carved Harbinger Crest
+        { id=2916, force = false }, -- Runed Harbinger Crest
+        { id=2917, force = false }, -- Gilded Harbinger Crest
+        { id=3107, force = false }, -- Weathered Undermine Crest
+        { id=3108, force = false }, -- Carved Undermine Crest
+        { id=3109, force = false }, -- Runed Undermine Crest
+        { id=3110, force = false }, -- Gilded Undermine Crest
+        { id=3284, force = false }, -- Weathered Ethereal Crest
+        { id=3286, force = false }, -- Carved Ethereal Crest
+        { id=3288, force = false }, -- Runed Ethereal Crest
+        { id=3290, force = false }, -- Gilded Ethereal Crest
+        { id=3089, force = false }, -- Residual Memories
+        { id=3100, force = false }, -- Bronze Celebration Token
 
         -- Dragonflight
         { id=-11, name = EXPANSION_NAME9, force = false },
@@ -619,16 +668,19 @@
 		local quantity;
 
         -- Save other currencies
-        for key, value in pairs( UBI_Currencies ) do
+        for key, value in ipairs( UBI_Currencies ) do
             if ( value.id > 0 ) then
 				--UberInventory_Message( "DEBUG GetCurrencyInfo: id = "..value.id, true );
                 local CurrencyInfo = C_CurrencyInfo.GetCurrencyInfo( value.id );			-- v9.0 moved to C_CurrencyInfo
-				value.name, value.icon = CurrencyInfo.name, CurrencyInfo.iconFileID;
-				quantity = CurrencyInfo.quantity or 0;
-				if ( value.name == "Renown" ) then
-					quantity = quantity + 1;
-				end;
-                UBI_Money["Currencies"][value.id] = quantity;
+                value.available = CurrencyInfo ~= nil and CurrencyInfo.name ~= nil and CurrencyInfo.name ~= "";
+                if ( value.available ) then
+                    value.name, value.icon = CurrencyInfo.name, CurrencyInfo.iconFileID;
+                    quantity = CurrencyInfo.quantity or 0;
+                    if ( value.name == "Renown" ) then
+                        quantity = quantity + 1;
+                    end;
+                    UBI_Money["Currencies"][value.id] = quantity;
+                end;
             end;
         end;
     end;
@@ -783,7 +835,7 @@
             for realm, record in pairs( UBI_Data ) do
                 for player, value in pairs( UBI_Data[realm] ) do
 					if ( player ~= "Guildbank" ) and
-					( player ~= UBI_PLAYER ) then
+					( player ~= UBI_PLAYER or realm ~= UBI_REALM ) then
 					-- ( ( UBI_Data[realm][player]["Options"]["faction"] or "<Unknown>" ) == UBI_FACTION ) then
 						-- Add alt to the list
 						playerRealm = UBI_Data[realm][player]["Options"]["player_realm"];
@@ -1041,8 +1093,7 @@
 
 -- Resets position in scrollframe to the top
     function UberInventory_ScrollToTop()
-       FauxScrollFrame_SetOffset( UberInventoryFrameScroll, 0 );
-       UberInventoryFrameScrollScrollBar:SetValue( 0 );
+       UberInventory_InventoryScroll_SetOffset( 0 );
     end;
 
 -- Update locations dropdown box
@@ -1161,7 +1212,7 @@
 
 -- Returns an itemLink
     function UberInventory_GetLink( itemid, record )
-        if ( record and ( record.type == UBI_BATTLEPET_CLASS and record.item ~= 82800 ) ) then
+        if ( record and ( record.type == UBI_BATTLEPET_CLASS and record.itemid ~= UBI_ITEM_ID_PET_CAGE ) ) then
             return UberInventory_GetBattlePetLink( record );
         end;
 
@@ -1294,7 +1345,7 @@
 				
                 -- Filter on name and store into structure suitable for sorting
 				if ( include_item and record.name ) then
-					if ( ( strfind( strlower( record.name ) , strlower( str ) ) or 0 ) > 0 ) and include_item then
+					if ( strfind( strlower( record.name ), strlower( str ), 1, true ) ) then
 						-- Insert item into sorting structure
 						if ( UBI_Track[record.itemid] == 0 ) then
 							tinsert( UBI_Sorted, record );
@@ -1754,12 +1805,12 @@
 --		print("Unit Info: ", data.lines[2].leftText)
 --		print("Unit Faction: ", data.lines[3].leftText)
 
-		-- Only show UBI tooltip data when it is safe to do so
-		if ( data.lines[1].leftText ~= "WoW Token" )
-		then
-			UberInventory_AddItemInfo( tooltip );
-			tooltip.UBI_InfoAdded = true;
-		end;
+        -- Token names are localized; identify both variants by item ID.
+        if ( not data or data.id == UBI_ITEM_ID_WOW_TOKEN or data.id == UBI_ITEM_ID_WOW_TOKEN_SHOP ) then
+            return;
+        end;
+        UberInventory_AddItemInfo( tooltip );
+        tooltip.UBI_InfoAdded = true;
 
 	end;
 
@@ -1908,7 +1959,9 @@
 
             -- Fetch item information (itemLink skipped from GetItemInfo, does not always work at this stage (Quest related items))
             local itemName, _, itemQuality, itemLevel, itemMinLevel, itemType, itemSubType, itemStackCount, itemEquipLoc, itemTexture = C_Item.GetItemInfo( itemLink );
-            local _, _, itemId, enchantId, jewelId1, jewelId2, jewelId3, jewelId4, suffixId, uniqueId = strsplit( ":", itemLink );		-- 20250504 new 2nd attribute
+            local itemId = UberInventory_GetLinkID( itemLink );
+            if ( not itemId ) then return; end;
+            local previous = UBI_Items[itemId];
 
             if ( location == "mailbox" ) then
                 _, _, _, itemCount = GetInboxItem( bagID, slotID );
@@ -1940,7 +1993,7 @@
             local totalCount = bagCount + bankCount + mailCount + equipCount;
 
             -- Handle Battle Pets
-            if ( strfind( itemLink, "battlepet:" ) and itemId ~= 82800 ) then
+            if ( strfind( itemLink, "battlepet:" ) and tonumber( itemId ) ~= UBI_ITEM_ID_PET_CAGE ) then
                 local _, _, speciesID, level, breedQuality, maxHealth, power, speed, battlePetID = strsplit( ":", itemLink );           -- v11.2 itemLink added 1 more info element at the start
                 -- UberInventory_Message("DEBUG: speciesID: "..speciesID.."   level: "..level.."   battlePetID: "..battlePetID.."   hello: "..hello, true);
                 -- itemLink = "|cnIQ2: |Hbattlepet: 3116: 1: 2: 145: 11: 11: 0000000000000000: 101284 |h[Invasive Buzzer]|h|r"
@@ -1970,6 +2023,7 @@
                                   ["qid"] = questID,
                                   ["extra"] = extra
                                   };
+            UberInventory_PreserveItemMetadata( UBI_Items[itemId], previous );
         end;
     end;
 
@@ -2543,14 +2597,13 @@
 
         -- Remove items for which bag_count, bank_count, mailbox_count and equip_count equals 0
         for key, record in pairs( UBI_Items ) do
-            if ( record.name ) then
-                if ( record.bag_count + record.bank_count + record.mailbox_count + record.equip_count == 0 ) then
-                    -- Remove the item
-                    UBI_Items[key] = nil;
-                end;
-            else
-                -- Remove the item if name is not found
+            local total = ( record.bag_count or 0 ) + ( record.bank_count or 0 )
+                + ( record.mailbox_count or 0 ) + ( record.equip_count or 0 );
+            if ( total == 0 ) then
                 UBI_Items[key] = nil;
+            elseif ( not record.name ) then
+                -- Missing client metadata does not mean the stored items are gone.
+                UberInventory_PreserveItemMetadata( record );
             end;
         end;
     end;
@@ -2806,8 +2859,10 @@
         for attachID = 1, ATTACHMENTS_MAX_RECEIVE do
             local itemName, _, _, itemCount = GetInboxItem( mailID, attachID );
             if ( itemName ) then
-                local _, itemId = strsplit( ":", GetInboxItemLink( mailID, attachID ) );
-                UBI_Mail_Transfer.items[itemId] = ( UBI_Mail_Transfer.items[itemId] or 0 ) + ( itemCount or 0 );
+                local itemId = UberInventory_GetLinkID( GetInboxItemLink( mailID, attachID ) );
+                if ( itemId ) then
+                    UBI_Mail_Transfer.items[itemId] = ( UBI_Mail_Transfer.items[itemId] or 0 ) + ( itemCount or 0 );
+                end;
             end;
         end;
 
@@ -2826,8 +2881,10 @@
         for i = 1, ATTACHMENTS_MAX_SEND do
             local itemName, _, itemTexture, itemCount = GetSendMailItem( i );			-- 9.0.2.2 - itemID return added between name and texture (itemCount fix)
             if ( itemName ) then
-                local _, itemId = strsplit( ":", GetSendMailItemLink( i ) );
-                UBI_Mail_Transfer.items[itemId] = ( UBI_Mail_Transfer.items[itemId] or 0 ) + itemCount;
+                local itemId = UberInventory_GetLinkID( GetSendMailItemLink( i ) );
+                if ( itemId ) then
+                    UBI_Mail_Transfer.items[itemId] = ( UBI_Mail_Transfer.items[itemId] or 0 ) + ( itemCount or 0 );
+                end;
             end;
         end;
 
@@ -2918,6 +2975,11 @@ end;
     function UberInventory_OnEvent( self, event, ... )
         -- Get additional arguments
         local arg1, arg2, arg3, arg4 = ...;
+
+        if ( event == "GET_ITEM_INFO_RECEIVED" or event == "ITEM_DATA_LOAD_RESULT" ) then
+            UberInventory_ItemInfoReceived( arg1, arg2 );
+            return;
+        end;
 
         -- Load data from previous session
         if ( event == "ADDON_LOADED" and arg1 == "UberInventory" ) then
@@ -3500,13 +3562,16 @@ end;
     end;
 
 -- Update inventory button
-    function UberInventory_UpdateButton( slot, record )
-        local objSlot = _G[ "UberInventoryFrameItem"..slot ];
+    function UberInventory_UpdateButton( objSlot, record )
         local button = objSlot:GetName().."ItemButton";
         local buttonObj = _G[ button ];
 
+        UberInventory_InventoryItem_OnLeave( buttonObj );
+
         -- Record is nil, item does not exist and button should be hidden
         if ( not record ) then
+            buttonObj:SetAttribute( "inventoryitem", nil );
+            buttonObj:SetAttribute( "itemid", nil );
             objSlot:Hide();
             return;
         else
@@ -3533,7 +3598,7 @@ end;
         end;
 
         -- Set item image
-        if ( record["type"] == UBI_BATTLEPET_CLASS and itemid ~= 82800 ) then
+        if ( record["type"] == UBI_BATTLEPET_CLASS and itemid ~= UBI_ITEM_ID_PET_CAGE ) then
             local _, icon = C_PetJournal.GetPetInfoBySpeciesID( itemid );
             SetItemButtonTexture( buttonObj, icon );
         else
@@ -3574,6 +3639,8 @@ end;
 		UberInventory_UpdateCashField( _G[ button.."ItemSell" ], sellPrice or 0, UBI_ITEM_SELL );
 
         -- Mark usability onto the itembutton
+        -- Every pooled binding starts clear; pets do not run the usability scan.
+        SetItemButtonTextureVertexColor( buttonObj, 1, 1, 1 );
         if ( record["type"] ~= UBI_BATTLEPET_CLASS ) then
             UberInventory_MarkButton( buttonObj, itemid );
         end;
@@ -3605,16 +3672,16 @@ end;
 
 -- Mousewheel support for scrolling through items
     function UberInventory_OnMouseWheel( frame, delta, type )
+        if ( type == "ITEMS" ) then
+            UberInventory_InventoryScroll_Wheel( delta );
+            return;
+        end;
         local offset = FauxScrollFrame_GetOffset( frame ) or 0;
         local newOffset = math.max( offset - delta, 0 );
 
         -- Update scroll positions and force redisplay of content
-        if ( type == "ITEMS" ) then
-            local maxOffset = ceil( ( #UBI_Sorted - UBI_NUM_ITEMBUTTONS ) / 2 );
-            frame:SetVerticalScroll( math.min( maxOffset, newOffset ) * 36 );
-            UberInventory_DisplayItems();
-        elseif ( type == "TOKENS" ) then
-            local maxOffset = #UBI_Currencies+1 - UBI_NUM_TOKENBUTTONS;
+        if ( type == "TOKENS" ) then
+            local maxOffset = math.max( 0, ( frame.itemCount or 0 ) - UBI_NUM_TOKENBUTTONS );
             frame:SetVerticalScroll( math.min( maxOffset, newOffset ) * 17 );
             UberInventory_DisplayTokens();
 		elseif ( type == "DELETION" ) then
@@ -3624,7 +3691,7 @@ end;
         end;
     end;
 
--- Display items (by page, UBI_NUM_ITEMBUTTONS items)
+-- Refresh inventory data and the pixel-scrolling viewport
     function UberInventory_DisplayItems()
         -- From global to local
         local UBI_Characters = UBI_Characters;
@@ -3639,26 +3706,8 @@ end;
         -- Sort and filter items
         UberInventory_SortFilter( UBI_FILTER_TEXT or "", false );
 
-        -- Get current offset
-        local offset = FauxScrollFrame_GetOffset( UberInventoryFrameScroll ) or 0;
-
-        -- Update scrollbars (reset scroll position when needed)
-        if ( offset > ceil( (#UBI_Sorted-UBI_NUM_ITEMBUTTONS) / 2 ) ) then
-            UberInventory_ScrollToTop();
-            offset = 0;
-        else
-            FauxScrollFrame_Update( UberInventoryFrameScroll, ceil( #UBI_Sorted / 2 ), 8, 36 );
-        end;
-
-        -- Execute code to actually add the items to the inventory frame
-        local index;
-        for slot = 1, UBI_NUM_ITEMBUTTONS do
-            -- Calculate the actual index within sorted array
-            index = ( offset * 2 ) + slot;
-
-            -- Display item
-            UberInventory_UpdateButton( slot, UBI_Sorted[ index ] );
-        end;
+        -- Refresh bindings once; movement only renders the existing sorted results.
+        UberInventory_InventoryScroll_Refresh();
 
         -- Update inventory count
          UberInventoryFrameInventoryCount:SetFormattedText( UBI_INVENTORY_COUNT, #UBI_Sorted, UBI_Inventory_count );
@@ -3758,19 +3807,23 @@ end;
         end;
 
         -- Build new list containing headings, non-zero tokens and forced tokens
-        for key, value in pairs( UBI_Currencies ) do
-            if ( value.id < 0 or value.force ) then
+        for key, value in ipairs( UBI_Currencies ) do
+            if ( value.id < 0 or ( value.available ~= false and value.name and
+                 ( value.force or ( tokenData[value.id] or 0 ) > 0 ) ) ) then
                 tinsert( tokenList, value );
-            else
-                if ( ( tokenData[value.id] or 0 ) > 0 ) then
-                    tinsert( tokenList, value );
-                end;
             end;
         end;
         local length = #tokenList;
+        UberInventoryTokensScroll.itemCount = length;
 
         -- Update scrollbars
-        FauxScrollFrame_Update( UberInventoryTokensScroll, length+1, UBI_NUM_TOKENBUTTONS, 17 );
+        local maxOffset = math.max( 0, length - UBI_NUM_TOKENBUTTONS );
+        if ( offset > maxOffset ) then
+            offset = maxOffset;
+            FauxScrollFrame_SetOffset( UberInventoryTokensScroll, offset );
+            UberInventoryTokensScrollScrollBar:SetValue( offset * 17 );
+        end;
+        FauxScrollFrame_Update( UberInventoryTokensScroll, length, UBI_NUM_TOKENBUTTONS, 17 );
 
         -- Set title and show frame
         UberInventoryTokensHeading:SetText( UBI_TOKEN:format( toon ) );
@@ -4118,7 +4171,7 @@ end;
         -- Search and display items found
         local itemCounts = { 0, 0, 0, 0, 0 };
         for key, value in pairs( UBI_Items ) do
-            if ( ( strfind( strlower( value.name ) , strlower( str ) ) or 0 ) > 0 ) then
+            if ( value.name and strfind( strlower( value.name ), strlower( str ), 1, true ) ) then
 				found_something = true;
                 -- Get item count
                 itemCounts = { value.total,
@@ -4128,7 +4181,7 @@ end;
                                value.equip_count or 0, };
 
                 -- Set item image
-                if ( value.type == UBI_BATTLEPET_CLASS and value.itemid ~= 82800 ) then
+                if ( value.type == UBI_BATTLEPET_CLASS and value.itemid ~= UBI_ITEM_ID_PET_CAGE ) then
                     _, icon = C_PetJournal.GetPetInfoBySpeciesID( value.itemid );
                 else
                     icon = C_Item.GetItemIconByID( value.itemid );
@@ -4138,7 +4191,7 @@ end;
 				accountbank_total = 0;
 				for key, record in pairs( UBI_Accountbank["Items"] ) do
 					--UberInventory_Message ( "##"..strlower(record.name).."##    ##"..strlower(value.name).."##" );
-					if ( strlower( record.name ) == strlower( value.name ) ) then
+					if ( record.name and strlower( record.name ) == strlower( value.name ) ) then
 						if ( record.total > 0 ) then
 							accountbank_total = record.total;
 						end;
@@ -4168,13 +4221,13 @@ end;
 		-- Nothing found by joining player and account banks, so now just search account bank
 		if ( found_something == false ) then
 			for key, record in pairs( UBI_Accountbank["Items"] ) do
-				if ( ( strfind( strlower( record.name ) , strlower( str ) ) or 0 ) > 0 ) then
+				if ( record.name and strfind( strlower( record.name ), strlower( str ), 1, true ) ) then
 					if ( record.total > 0 ) then
 						found_something = true;
 						accountbank_total = record.total;
 						
 						-- Set item image
-						if ( record.type == UBI_BATTLEPET_CLASS and record.itemid ~= 82800 ) then
+						if ( record.type == UBI_BATTLEPET_CLASS and record.itemid ~= UBI_ITEM_ID_PET_CAGE ) then
 							_, icon = C_PetJournal.GetPetInfoBySpeciesID( record.itemid );
 						else
 							icon = C_Item.GetItemIconByID( record.itemid );

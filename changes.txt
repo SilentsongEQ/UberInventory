@@ -1,0 +1,37 @@
+Version 12.1.5.2
+Release changes - 2026-11-08
+
+Inventory scrolling
+- Replaced the main inventory's 16 fixed slots with a clipped, two-column viewport and a bounded pool of reusable item frames.
+- Added pixel-aligned scrolling with 120 ms ease-out wheel motion and immediate scrollbar dragging.
+- Corrected scrolling geometry to match the 36-unit item height and 8-unit row gap.
+- Separated scroll rendering from sorting, filtering, inventory counts, and money updates.
+- Clamp the offset after result changes; cancel animation on reset, hide, and scrollbar interaction.
+- Preserve item tooltips, battle-pet tooltips, modified clicks, and bag highlights while rows are recycled.
+- Added explicit scroll-child anchoring, frame ordering above the black background, and native scroll-bound updates to fix blank inventory rendering.
+- Corrected the battle-pet placeholder check to use record.itemid.
+- Currency and character-deletion lists retain their existing scrolling behavior.
+
+Code-review fixes
+- Preserve existing character-item metadata and all location counts when GetItemInfo is unavailable. New uncached items receive safe display placeholders. Cleanup removes zero-count records rather than deleting records solely because their names are unavailable.
+- Request missing item metadata once per outstanding item ID; process cache/load-result events in place, coalesce UI refreshes until after the scan, and allow failed requests to retry on a later scan. Late results cannot recreate deleted items or increment item counts. Pet species IDs are excluded from item-data requests.
+- Parse sent and returned mail attachment IDs from the hyperlink payload independently of color prefixes. Repeated attachments aggregate under the correct item ID; unavailable or malformed links are skipped safely.
+- Compare both character name and realm when excluding the active character from account-wide alt lists. Preserve the current-realm-only option.
+- Use case-insensitive literal matching in inventory, slash-command, and account-bank-only searches. Brackets, percent signs, periods, and other Lua-pattern characters no longer cause errors or unintended wildcard matches. Nameless records are skipped safely in slash searches.
+- Reset icon vertex color on every pooled binding so battle pets cannot inherit red/blue tint from unusable or uncached items.
+
+Token currencies
+- Expanded Midnight tracking with Voidlight Marl, shared Delve currencies and keys, Field Accolades, Angler Pearls, Shards of Dundun, Unalloyed Abundance, Brimming Arcana, Luminous Dust, Remnants of Anguish, Illusionary Coins, Uncontaminated Void Samples, Corrosive Coins, Coiled Filament, and Community Coupons.
+- Added Midnight Season 2 Mistcrests and Venomblight Manaflux, retained Season 1 Dawncrest and Dawnlight Manaflux balances, and added all eleven profession-specific Artisan's Moxie currencies.
+- Added missing War Within currencies: Mereldar Derby Marks, Displaced Corrupted Mementos, Market Research, Ethereal Strands, Untethered Coins, and Ethereal crests.
+- Corrected Flame-Blessed Iron, Empty/Vintage Kaja'Cola Can, and Undermine crest IDs. Removed mislabeled Engineering Concentration and duplicate crest entries; Undercoin and Restored Coffer Keys appear once under Midnight because their IDs are reused across expansions.
+- Show profession and legacy progression currencies only when the selected character holds a balance. Currency names and icons continue to use the client's localized metadata. Bag-item tokens remain in the inventory list.
+- Skip unavailable currency metadata without erasing saved balances, preserve expansion order, and clamp the token scrollbar to the actual displayed rows.
+
+Item identifiers
+- Centralized special item IDs in UBI_ITEM_ID_PET_CAGE, UBI_ITEM_ID_WOW_TOKEN, and UBI_ITEM_ID_WOW_TOKEN_SHOP. Inventory parsing, item links, searches, and tooltips now use the named globals.
+- Identify both WoW Token variants by item ID rather than their English tooltip name, so the exclusion works across locales.
+
+Release metadata
+- Updated UberInventory.toc from 12.1.5.1 to 12.1.5.2; interface compatibility remains 120105.
+- Grouped all smooth-scrolling changes, rendering fixes, review fixes, and currency updates from this session under 12.1.5.2 in changes.txt and changelog.txt. Earlier 12.1.5.1 release notes remain in their own section.
