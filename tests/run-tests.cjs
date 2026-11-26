@@ -25,12 +25,15 @@ const manifest = read('UberInventory.toc');
 for (const line of manifest.split(/\r?\n/).filter(line => line.trim() && !line.startsWith('#'))) {
     assert(fs.existsSync(line.trim().replace(/\\/g, path.sep)), `Missing TOC file: ${line}`);
 }
-assert.match(manifest, /^## Version: 12\.1\.5\.2\r?$/m);
-assert.match(read('changes.txt'), /^Version 12\.1\.5\.2\r?$/m);
+assert.match(manifest, /^## Version: 12\.1\.5\.3\r?$/m);
+assert.match(read('changelog.txt'), /^Version 12\.1\.5\.3\r?$/m);
 assert(manifest.indexOf('UberInventory_items.lua') < manifest.indexOf('\nUberInventory.lua'));
 assert.match(read('UberInventory_globals.lua'), /"GET_ITEM_INFO_RECEIVED"/);
 assert.match(read('UberInventory_globals.lua'), /"ITEM_DATA_LOAD_RESULT"/);
 console.log('PASS: Lua syntax, embedded handlers, manifest references, release metadata');
+
+const checkboxOnShow = read('UberInventory_templates.xml')
+    .match(/<CheckButton name="Checkbox_Template"[\s\S]*?<OnShow>([\s\S]*?)<\/OnShow>/)[1];
 
 const globalsSource = read('UberInventory_globals.lua');
 const itemConstants = parser.parse(globalsSource, { luaVersion: '5.2', ranges: true }).body
@@ -66,6 +69,27 @@ function run(source, label) {
     }
     lua.lua_close(state);
 }
+run(`local onShow = function(self)\n${checkboxOnShow}\nend;\n` + `
+local width = 240;
+local label = { GetRight=function() return nil; end };
+function label:SetText(text) self.text=text; end;
+function label:GetStringWidth() return width; end;
+_G.TestCheckboxText=label;
+UBI_CheckButtons={{text="A long localized setting label"}};
+local checkbox={ GetName=function()return "TestCheckbox";end,
+    GetID=function()return 1;end, GetRight=function()return nil;end };
+function checkbox:SetHitRectInsets(left,right,top,bottom)
+    assert(left==0 and top==0 and bottom==0);
+    assert(-right>=width, "The entire label must be clickable before coordinates resolve");
+    self.right=right;
+end;
+onShow(checkbox);
+assert(label.text==UBI_CheckButtons[1].text);
+local first=checkbox.right;
+width=400; onShow(checkbox);
+assert(checkbox.right<first, "Reopening must measure the current label width");
+print('PASS: checkbox first-show nil coordinates and localized label hit area');
+`, 'Settings checkbox layout');
 run(read('tests/inventory_scroll_test.lua'), 'Scrolling controller');
 
 // Load the actual production function bodies, avoiding unrelated WoW startup
@@ -93,6 +117,10 @@ run(badgeFunctions.map(node => source.slice(...node.range)).join('\n') + '\n'
     + read('tests/inventory_badges_test.lua'), 'Copy-aware inventory badges');
 
 const tree = parser.parse(source, { luaVersion: '5.2', ranges: true });
+const reviewNames = ['UberInventory_AddItemInfo', 'UberInventory_Search', 'UberInventory_Save_AccountBank'];
+run(tree.body.filter(node => node.type === 'FunctionDeclaration' && reviewNames.includes(node.identifier?.name))
+    .map(node => source.slice(...node.range)).join('\n') + '\n'
+    + read('tests/review_regressions_test.lua'), 'Tooltip counts, combined searches, shared-bank metadata');
 const currencyTable = tree.body.find(node => node.type === 'LocalStatement'
     && node.variables.some(variable => variable.name === 'UBI_Currencies'));
 assert(currencyTable, 'Currency catalog must load from production');
@@ -108,3 +136,9 @@ LFG_TYPE_DUNGEON,LFG_TYPE_RAID,MISCELLANEOUS,PLAYER_V_PLAYER='Dungeon','Raid','M
 run(currencyGlobals + source.slice(...currencyTable.range) + '\n'
     + currencyFunctions.map(node => source.slice(...node.range)).join('\n') + '\n'
     + read('tests/currencies_test.lua'), 'Currency catalog and token rendering');
+
+require('./recipes_generator_test.cjs');
+run(read('UberInventory_recipes.lua') + '\n' + read('UberInventory_recipe_tooltips.lua')
+    + '\n' + source.slice(...tree.body.find(node => node.type === 'FunctionDeclaration'
+        && node.identifier?.name === 'UberInventory_AddItemInfo').range)
+    + '\n' + read('tests/recipe_tooltips_test.lua'), 'Recipe sources and tooltips');

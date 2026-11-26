@@ -28,3 +28,7 @@ legacy saves, metadata retries, inferred mail, and recycled-row cleanup. In WoW,
 check the count line at multiple UI scales with long counts and all three badges;
 verify truncation, full tooltip details, and rapid scrolling. Visit each storage
 and log into alts to populate their new badge snapshots.
+
+Recipe-source generator and tooltip tests run with the same command. See
+`tools/recipes/README.md` for rebuilding the pinned Retail database, its coverage
+audit, and in-game recipe tooltip checks.

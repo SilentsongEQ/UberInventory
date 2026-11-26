@@ -138,7 +138,15 @@
         "IsBagOpen",
         "NUM_BANKBAGSLOTS",
         "NUM_SLOTS_PER_GUILDBANK_GROUP",
-        "ContainerFrameCombinedBags"
+        "ContainerFrameCombinedBags",
+        "NUM_CONTAINER_FRAMES",
+        "FACTION_ALLIANCE",
+        "UNKNOWN",
+        "QUESTS_LABEL",
+        "ITEMS",
+        "FACTION_HORDE",
+        "RETRIEVING_DATA",
+        "UNKNOWNOBJECT"
     ],
     "Lua.diagnostics.disable": [
         "assign-type-mismatch"

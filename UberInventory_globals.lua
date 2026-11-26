@@ -100,14 +100,6 @@
 						   "PLAYER_INTERACTION_MANAGER_FRAME_HIDE",
                          };
 
--- Drop rates
-    UBI_Droprates = { "1%-2%" ,    -- Extremely low
-                      "3%-14%" ,   -- Very low
-                      "15%-24%" ,  -- Low
-                      "25%-50%" ,  -- Medium
-                      "51%-99%" ,  -- High
-                      "100%" };    -- Guaranteed
-
 -- Global variables
     UBI = _G["UBI"]; -- AddOn object itself
     UBI_NAME = C_AddOns.GetAddOnMetadata( "UberInventory", "Title" );

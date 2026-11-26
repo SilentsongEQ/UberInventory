@@ -1,6 +1,6 @@
 ## Interface: 120105
 ## Title: UberInventory |cfffe7b2cReborn|r
-## Version: 12.1.5.2
+## Version: 12.1.5.3
 ## X-ShowUpgradeMessage: false
 ## X-Patcher: 2
 ## Author: SilentsongEQ
@@ -28,7 +28,6 @@ libs\LibBattlePetTooltipLine\LibBattlePetTooltipLine.xml
 TaskHandlerLib.lua
 
 UberInventory_globals.lua
-UberInventory_prices.lua
 UberInventory_recipes.lua
 
 UberInventory_en.lua
@@ -40,6 +39,7 @@ UberInventory_kr.lua
 UberInventory_cn.lua
 UberInventory_tw.lua
 
+UberInventory_recipe_tooltips.lua
 UberInventory_items.lua
 UberInventory_badges.lua
 UberInventory.lua

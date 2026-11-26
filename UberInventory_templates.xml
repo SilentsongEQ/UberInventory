@@ -63,18 +63,10 @@
                             <Size><AbsDimension x="160" y="12"/></Size>
                         </FontString>
 
-                        <FontString name="$parentItemBuy" inherits="GameFontHighlight" justifyH="LEFT" text="UBI_ITEM_BUY">
+                        <FontString name="$parentItemSell" inherits="GameFontHighlight" justifyH="LEFT" text="UBI_ITEM_SELL">
                             <Anchors>
                                 <Anchor point="TOPLEFT" relativeTo="$parentItemCount" relativePoint="BOTTOMLEFT">
                                     <Offset><AbsDimension x="0" y="0"/></Offset>
-                                </Anchor>
-                            </Anchors>
-                        </FontString>
-
-                        <FontString name="$parentItemSell" inherits="GameFontHighlight" justifyH="LEFT" text="UBI_ITEM_SELL">
-                            <Anchors>
-                                <Anchor point="TOPLEFT" relativeTo="$parentItemBuy" relativePoint="TOPRIGHT">
-                                    <Offset><AbsDimension x="4" y="0"/></Offset>
                                 </Anchor>
                             </Anchors>
                         </FontString>
@@ -213,12 +205,12 @@
 <!-- Template for checkboxes -->
     <CheckButton name="Checkbox_Template" inherits="UICheckButtonTemplate" virtual="true">
         <Size x="26" y="26"/>
-        <HitRectInsets>
-            <AbsInset left="0" right="-100" top="0" bottom="0"/>
-        </HitRectInsets>
         <Scripts>
             <OnShow>
-                _G[ self:GetName() .. "Text" ]:SetText( UBI_CheckButtons[ self:GetID() ]["text"] );
+                local label = _G[ self:GetName() .. "Text" ];
+                label:SetText( UBI_CheckButtons[ self:GetID() ]["text"] );
+                -- Screen coordinates can be nil during the first OnShow.
+                self:SetHitRectInsets( 0, -( label:GetStringWidth() + 4 ), 0, 0 );
             </OnShow>
             <OnEnter>
                 GameTooltip:SetOwner( self, "ANCHOR_RIGHT" );

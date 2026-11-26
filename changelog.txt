@@ -22,21 +22,26 @@
 ║                                                              ║
 ╚══════════════════════════════════════════════════════════════╝
 
+Version 12.1.5.3
+- Fixed item tooltip totals counting the selected alt twice, while preserving counts for same-name characters on other realms.
+- Fixed slash searches omitting account-bank-only matches when character items also match, and combine counts by item ID.
+- Preserve saved account-bank item details while uncached data loads, and refresh those details when loading completes.
+- Removed the unused debug script.
+- Fixed settings errors when checkbox screen coordinates are unavailable during initial display.
+- Improved settings scrolling and section headings, and enabled Shift-dragging the optional balance display.
+- Rebuilt recipe sources.
+- Added modern vendors, quest rewards, drops, treasures, containers, and source restrictions; removed obsolete drop-rate estimates.
+- Removed the outdated vendor purchase-price database and Buy values from inventory rows.
+- Recipe tooltips now show vendor names and locations without outdated purchase prices; live vendor sell values remain available.
+
 Version 12.1.5.2
-- Centralized special item IDs in named globals and replaced the English WoW Token tooltip-name check with item-ID checks for both variants.
-- Expanded Midnight and The War Within token tracking with zone, collection, profession, Delve, and seasonal currencies.
-- Corrected mislabeled currency IDs, hide empty profession/legacy rows, skip unavailable currencies safely, and keep token scrolling within the displayed list.
-- Replaced fixed inventory slots with a clipped, two-column list using reusable rows.
-- Added smooth wheel scrolling, immediate scrollbar dragging, and pixel-aligned positioning across UI scales.
-- Corrected row spacing calculations and clamped scrolling when inventory results change.
-- Avoid repeated sorting and filtering during scroll animation; preserve tooltips, modified clicks and hover cleanup when recycling rows.
-- Fixed blank inventory rendering by explicitly anchoring and layering scroll content above its background and refreshing native scroll bounds.
-- Corrected the battle-pet placeholder item-ID check.
-- Preserve saved bank and mailbox counts while item metadata is uncached; retry metadata loading and refresh the list when data arrives.
-- Fixed sent and returned mail tracking to extract item IDs independently of hyperlink color prefixes.
-- Include same-name characters on other realms in account-wide character lists.
-- Treat inventory and slash-command search text as literal text, including brackets and percent signs.
-- Reset recycled item icon colors so battle pets cannot inherit unusable or uncached-item tint.
+- Added item status badges beside inventory counts for gear item levels, unbound bind-on-equip items, and equipment-set membership.
+- Show item-level ranges when copies differ, with tooltip details for the selected character and storage. Visit storage and log into alts to populate their badge information.
+- Added smoother inventory scrolling and improved list display across UI scales.
+- Expanded Midnight and The War Within currency tracking, including seasonal, profession, and Delve currencies, and cleaned up empty currency rows.
+- Improved saved inventory accuracy while item details load, and corrected sent and returned mail tracking.
+- Fixed cross-realm character listings and searches containing special characters.
+- Fixed battle-pet icon colors and improved WoW Token handling across languages.
 
 Version 12.1.5.1
 - Updated interface metadata for WoW 12.1.5.

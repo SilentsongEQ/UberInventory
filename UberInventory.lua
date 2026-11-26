@@ -469,7 +469,7 @@
         { text = UBI_OPTION_MONEY, tooltip = UBI_OPTION_MONEY_TIP },
         { text = UBI_OPTION_BALANCE, tooltip = UBI_OPTION_BALANCE_TIP },
 		{ text = UBI_OPTION_PLACEHOLDER, tooltip = UBI_OPTION_PLACEHOLDER_TIP },
-        { text = UBI_OPTION_RECIPEPRICES, tooltip = UBI_OPTION_RECIPEPRICES_TIP },
+        { text = UBI_OPTION_RECIPEVENDORS, tooltip = UBI_OPTION_RECIPEVENDORS_TIP },
         { text = UBI_OPTION_QUESTREWARD, tooltip = UBI_OPTION_QUESTREWARD_TIP },
         { text = UBI_OPTION_RECIPEDROP, tooltip = UBI_OPTION_RECIPEDROP_TIP },
         { text = UBI_OPTION_TAKEMONEY, tooltip = UBI_OPTION_TAKEMONEY_TIP },
@@ -481,8 +481,8 @@
         { text = UBI_OPTION_SHOWTOOLTIP, tooltip = UBI_OPTION_SHOWTOOLTIP_TIP },
         { text = UBI_OPTION_ITEMCOUNT, tooltip = UBI_OPTION_ITEMCOUNT_TIP },
         { text = UBI_OPTION_GBTRACK, tooltip = UBI_OPTION_GBTRACK_TIP },
-        { text = UBI_OPTION_PRICES_VENDOR, tooltip = UBI_OPTION_PRICES_VENDOR_TIP },
-        { text = UBI_OPTION_PRICES_AH, tooltip = UBI_OPTION_PRICES_AH_TIP },
+        {}, -- Reserved former vendor-price option ID.
+        {}, -- Reserved former auction-price option ID.
         { text = UBI_OPTION_REALMIGNORE, tooltip = UBI_OPTION_REALMIGNORE_TIP },
 		{ text = UBI_OPTION_SELLGREYS, tooltip = UBI_OPTION_SELLGREYS_TIP },
 		{ text = UBI_OPTION_AUTOREPAIRSELF, tooltip = UBI_OPTION_AUTOREPAIRSELF_TIP },
@@ -685,19 +685,6 @@
         end;
     end;
 
--- Specialized SetTooltipMoney function (till internal Blizzard code for SetTooltipMoney is fixed)
-    function UberInventory_SetTooltipMoney( tooltip, money, type, prefix, suffix )
-        -- Initialize
-        local moneystring = C_CurrencyInfo.GetCoinTextureString( money );
-
-        -- Build the string
-        if ( prefix ) then moneystring = prefix..moneystring; end;
-        if ( suffix ) then moneystring = moneystring..suffix; end;
-
-        -- Add info to the tooltip
-        tooltip:AddLine( moneystring.."  ", 1.0, 1.0, 1.0 );
-    end;
-
 -- Update slot count information
     function UberInventory_Update_SlotCount()
         UberInventoryFrameBagSlots:SetFormattedText( UBI_SLOT_BAGS, UBI_Options["bag_free"] , UBI_Options["bag_max"] );
@@ -705,26 +692,12 @@
 		UberInventoryFrameAccountBankSlots:SetFormattedText( UBI_SLOT_ACCOUNTBANK, UBI_Accountbank["FreeSlotCount"], UBI_Accountbank["SlotCount"] );
     end;
 
--- Fetch item prices (buy, sell)
-    function UberInventory_GetItemPrices( itemid )
-        -- Initialize
-        local buyoutPrice, buyPrice, sellPrice;
-		
+-- Fetch the live vendor sell value; uncached item data may return nil.
+    function UberInventory_GetItemSellPrice( itemid )
         if ( itemid ) then
-          -- Get Auction House buyout price (if available)
-          if ( type( GetAuctionBuyout ) == "function" ) then
-              -- AuctionLite, Auctionator, AuctionaMaster
-              buyoutPrice = GetAuctionBuyout( itemid  ) or 0;
-          -- elseif ( AucAdvanced ) then
-          --     -- Auctioneer
-          --     buyoutPrice = select( 6, AucAdvanced.Modules.Util.SimpleAuction.Private.GetItems( itemid ) ) or 0;
-          end;
-          ---@type integer
-		  buyPrice = UBI_Prices_Buy[itemid];
-          sellPrice = select( 11, C_Item.GetItemInfo( itemid ) );
-		end;
-        
-		return buyPrice, sellPrice, buyoutPrice;
+            local sellPrice = select( 11, C_Item.GetItemInfo( itemid ) );
+            return sellPrice;
+        end;
     end;
 
 -- Get Date and time (platform independed)
@@ -1489,21 +1462,10 @@
         end;
     end;
 
--- Add sell prices to items in your bag (only used if not already at a merchant)
+-- Add recipe sources and inventory counts to item tooltips
     function UberInventory_AddItemInfo( tooltip )
         -- Skip when user does not want information added to tooltip
         if ( not UBI_Options["show_tooltip"] ) then return; end;
-
-        -- Set smaller font for vendor, quest and drop information
-        local function SetSmallerFont()
-            local numlines = tooltip:NumLines();
-            local txtLeft = _G[ tooltip:GetName().."TextLeft"..numlines ];
-            local txtRight = _G[ tooltip:GetName().."TextRight"..numlines ];
-            txtLeft:SetFontObject( GameTooltipTextSmall );
-            txtLeft:SetTextColor( 0.0, 1.0, 0.0 );
-            txtRight:SetFontObject( GameTooltipTextSmall );
-            txtRight:SetTextColor( 0.0, 0.7, 1.0 );
-        end;
 
 		-- Function for adding counts per location (only non-zero locations are added to the tooltip)
         local function AddLocationInfo( tooltip, bag, bank, mailbox, equipped, itemid )
@@ -1520,7 +1482,6 @@
         end;
 
         -- Initialize
-        local itemCount = 1;
         local guildCount = 0;
         local spacerAdded = false;
 		local classColor;
@@ -1536,110 +1497,15 @@
 			local _, _, itemId = strsplit( ":", itemLink );									-- 20250504 Itemlink changes (validated)
             local _, _, _, _, _, itemType, itemSubType = C_Item.GetItemInfo( itemLink );	-- 20250504 validated
 
-            -- Get count (only if count label exists and is visible, otherwise use the value 1)
-            if ( tooltip:GetName() == "ItemRefTooltip" ) then
-                itemCount = 1;
---[[             else
-                -- Special fix needed for Auctioneer Advanced, since this AddOn removes itembutton as soon as
-                -- the mouse is over it to display a bigger button on a different location.
-                -- (2009/07/28) Additional fix implemented (ticket #4)
-                -- (2009/08/01) Additional fix implemented (related to Skillet)
-                if ( GetMouseFocus() and GetMouseFocus():GetName() ) then
-                  local objCount = _G[ GetMouseFocus():GetName().."Count" ];
-                  if ( objCount and objCount:IsVisible() and objCount.GetText ) then
-                      itemCount = tonumber( objCount:GetText() or "" ) or 1;
-                  end;
-                else
-                    itemCount = 1;
-                end;
---]]
-            end;
-
-            -- Get stored sell price
             local itemId_num = tonumber( itemId );
-            local buyPrice, sellPrice, buyoutPrice = UberInventory_GetItemPrices( itemId_num );
-            local name, area, mob, rate, count;
-            local UBI_Zones = UBI_Zones;
             local totalCount = 0;
 
             -- Only perform the following part when it not has already been done (gets called twice for recipe related items)
             if ( not tooltip.UBI_InfoAdded or false ) then
 
-                -- Add additional pricing information when not at a vendor
+                -- The legacy saved recipe option keys retain existing preferences.
                 if ( not MerchantFrame:IsVisible() or tooltip == ItemRefTooltip ) then
---[[                    
-					-- Add pricing information for selling to vendors
-                    if ( UBI_Options["show_sell_prices"] ) then
-                        tooltip:AddLine( "|nUBI Pricing Info" );
-                        if ( ( sellPrice or 0 ) == 0 ) then  -- Item unsellable
-                            tooltip:AddLine( ITEM_UNSELLABLE, 1.0, 1.0, 1.0 );
-                        elseif ( itemCount > 0 ) then -- Calculate sell price and add it
-                            -- Add money to the tooltip
-                            --tooltip:AddLine( "|n" );
-                            UberInventory_SetTooltipMoney( tooltip, sellPrice * itemCount, "STATIC", UBI_ITEM_SELL, "" );
-                        end;
-                    end;
---]]
-                    -- Add pricing information for buying recipes from vendors (mainly for auction house use)
-                    local recipeData = UBI_RecipeVendors[itemId_num];
-                    if ( UBI_Options["show_recipe_prices"] and recipeData ) then
-                        -- Add section title (incl cash) to the tooltip
-                        tooltip:AddLine( "|nUBI Recipe Vendor Info" );
-                        if ( buyPrice ) then
-                            tooltip:AddLine( UBI_ITEM_RECIPE_SOLD_BY:format( C_CurrencyInfo.GetCoinTextureString( buyPrice ) ), 1.0, 1.0, 1.0 );
-                        else
-                            tooltip:AddLine( UBI_ITEM_RECIPE_SOLD_BY:format( "??" ), 1.0, 1.0, 1.0 );
-                        end;
-
-                        -- Add vendors to the tooltip
-                        count = 0;
-                        for idx, vendor in pairs( recipeData ) do
-                            if ( count >= UBI_MAX_RECIPE_INFO ) then break; end;
-                            name, area = strsplit( "|", UBI_Creatures[vendor] );
-                            tooltip:AddDoubleLine( "  "..name, UBI_Zones[tonumber( area )] );
-                            SetSmallerFont();
-                            count = count + 1;
-                        end;
-                    end;
-
-                    -- Add quest reward information for recipes
-                    local recipeQuest = UBI_RecipeQuestRewards[itemId_num];
-                    if ( UBI_Options["show_recipe_reward"] and recipeQuest ) then
-                        -- Add section title to the tooltip
-                        tooltip:AddLine( "|nUBI Recipe Quest Info" );
-                        tooltip:AddLine( UBI_ITEM_RECIPE_REWARD_FROM, 1.0, 1.0, 1.0 );
-
-                        -- Add quests to the tooltip
-                        count = 0;
-                        for idx, quest in pairs( recipeQuest ) do
-                            if ( count >= UBI_MAX_RECIPE_INFO ) then break; end;
-                            name, area = strsplit( "|", UBI_Quests[quest] )
-                            tooltip:AddDoubleLine( "  "..name, UBI_Zones[tonumber( area )] );
-                            SetSmallerFont();
-                            count = count + 1;
-                        end;
-                    end;
-
-                    -- Add drop information for recipes
-                    local recipeDrop = UBI_RecipeDrops[itemId_num];
-                    if ( UBI_Options["show_recipe_drop"] and recipeDrop ) then
-                        -- Add section title to the tooltip
-                        tooltip:AddLine( "|nUBI Recipe Drop Info" );
-                        --tooltip:AddLine( UBI_ITEM_RECIPE_DROP_BY, 1.0, 1.0, 1.0 );
-
-                        -- Add quests to the tooltip
-                        count = 0;
-                        for idx, drop in pairs( recipeDrop ) do
-                            if ( count >= UBI_MAX_RECIPE_INFO ) then break; end;
-                            mob, rate = strsplit( ":", drop );
-                            mob = tonumber( mob );
-                            rate = tonumber( rate );
-                            name, area = strsplit( "|", UBI_Creatures[mob] );
-                            tooltip:AddDoubleLine( "  "..name.." ("..UBI_Droprates[rate]..")", UBI_Zones[tonumber( area )] );
-                            SetSmallerFont();
-                            count = count + 1;
-                        end;
-                    end;
+                    UberInventory_AddRecipeSources( tooltip, itemId_num );
                 end;
 
                 -- Only display item counts when show_item_count is turned on
@@ -1725,7 +1591,8 @@
 						end;
 			
                         if ( UBI_Data[realm][player]["Items"][itemId] ) then
-                            if ( player ~= strtrim( UBI_LocationList[UBI_TooltipLocation or 1].name ) ) then
+                            local selectedAlt = UBI_TooltipLocation and UBI_LocationList[UBI_TooltipLocation].type == "character";
+                            if ( not selectedAlt or UBI_TooltipItem ~= UBI_Data[realm][player]["Items"][itemId] ) then
                                 -- Insert spacer if not already added
                                 if ( not spacerAdded ) then
                                     tooltip:AddLine( "|n" );
@@ -2114,6 +1981,8 @@
 		
 		if ( UBI_BANK_OPEN and C_Bank.CanViewBank( Enum.BankType.Account ) ) then
 		    -- Clear the existing data
+            local previousItems = {};
+            for id, record in pairs( UBI_Accountbank["Items"] ) do previousItems[id] = record; end;
             wipe( UBI_Accountbank["Items"] );
 
 			-- Traverse account bank tabs
@@ -2166,6 +2035,7 @@
                                                                  ["subtype"] = itemSubType,
                                                                  ["extra"] = extra,
                                                                  ["total"] = itemCount + count };
+                            UberInventory_PreserveItemMetadata( UBI_Accountbank["Items"][itemId], badgePrevious or previousItems[itemId] );
                             UberInventory_Badges_Observe( UBI_Accountbank["Items"][itemId], badgePrevious, "account", itemLink, count, AccountTabID, slotID );
 						end;
 					end;
@@ -3388,7 +3258,7 @@ end;
         _G[ "SettingMoney" ]:SetChecked( UBI_Options["show_money"] );
         _G[ "SettingBalance" ]:SetChecked( UBI_Options["show_balance"] );
         _G[ "SettingShowTooltip" ]:SetChecked( UBI_Options["show_tooltip"] );
-        _G[ "SettingRecipePrice" ]:SetChecked( UBI_Options["show_recipe_prices"] );
+        _G[ "SettingRecipeVendors" ]:SetChecked( UBI_Options["show_recipe_prices"] );
         _G[ "SettingQuestReward" ]:SetChecked( UBI_Options["show_recipe_reward"] );
         _G[ "SettingRecipeDrop" ]:SetChecked( UBI_Options["show_recipe_drop"] );
         _G[ "SettingHighlight" ]:SetChecked( UBI_Options["show_highlight"] );
@@ -3411,7 +3281,7 @@ end;
 -- Redraw state for tooltip options
     function UberInventory_Redraw_TooltipOptions()
         local state = _G[ "SettingShowTooltip" ]:GetChecked();
-        UberInventory_SetState( _G[ "SettingRecipePrice" ], state );
+        UberInventory_SetState( _G[ "SettingRecipeVendors" ], state );
         UberInventory_SetState( _G[ "SettingQuestReward" ], state );
         UberInventory_SetState( _G[ "SettingRecipeDrop" ], state );
 		UberInventory_SetState( _G[ "SettingShowItemID" ], state );
@@ -3427,7 +3297,7 @@ end;
         UBI_Options["show_money"] = _G[ "SettingMoney" ]:GetChecked();
         UBI_Options["show_balance"] = _G[ "SettingBalance" ]:GetChecked();
         UBI_Options["show_tooltip"] = _G[ "SettingShowTooltip" ]:GetChecked();
-        UBI_Options["show_recipe_prices"] = _G[ "SettingRecipePrice" ]:GetChecked();
+        UBI_Options["show_recipe_prices"] = _G[ "SettingRecipeVendors" ]:GetChecked();
         UBI_Options["show_recipe_reward"] = _G[ "SettingQuestReward" ]:GetChecked();
         UBI_Options["show_recipe_drop"] = _G[ "SettingRecipeDrop" ]:GetChecked();
         UBI_Options["show_highlight"] = _G[ "SettingHighlight" ]:GetChecked();
@@ -3599,8 +3469,8 @@ end;
         -- Get itemID
         local itemid = record["itemid"];
 
-        -- Get item prices
-        local buyPrice, sellPrice, buyoutPrice = UberInventory_GetItemPrices( itemid );
+        -- Get the live vendor sell value.
+        local sellPrice = UberInventory_GetItemSellPrice( itemid );
 
         -- Get item counts
         local bagCount = record["bag_count"] or 0;
@@ -3648,13 +3518,12 @@ end;
         buttonObj:SetAttribute( "usable", nil );
         buttonObj:SetAttribute( "elapsed", 0 );
 
-        -- Update buy, buyout and sell prices
+        -- Update the vendor sell value.
 
 		-- Show sell price
 		_G[ button.."ItemSell" ]:Show();
 
 		-- Update price fields
-		UberInventory_UpdateCashField( _G[ button.."ItemBuy" ], buyPrice or 0, UBI_ITEM_BUY );
 		UberInventory_UpdateCashField( _G[ button.."ItemSell" ], sellPrice or 0, UBI_ITEM_SELL );
 
         -- Mark usability onto the itembutton
@@ -4183,6 +4052,7 @@ end;
         local icon;
 		local accountbank_total = 0;
 		local found_something = false;
+        local displayed = {};
 
         -- Display search criteria
         UberInventory_Message( UBI_ITEM_SEARCH:format( str ), true );
@@ -4191,6 +4061,7 @@ end;
         local itemCounts = { 0, 0, 0, 0, 0 };
         for key, value in pairs( UBI_Items ) do
             if ( value.name and strfind( strlower( value.name ), strlower( str ), 1, true ) ) then
+				displayed[key] = true;
 				found_something = true;
                 -- Get item count
                 itemCounts = { value.total,
@@ -4208,14 +4079,8 @@ end;
 
 				-- Build search result for account bank
 				accountbank_total = 0;
-				for key, record in pairs( UBI_Accountbank["Items"] ) do
-					--UberInventory_Message ( "##"..strlower(record.name).."##    ##"..strlower(value.name).."##" );
-					if ( record.name and strlower( record.name ) == strlower( value.name ) ) then
-						if ( record.total > 0 ) then
-							accountbank_total = record.total;
-						end;
-					end;
-				end;
+                local bankRecord = UBI_Accountbank["Items"][key];
+                accountbank_total = bankRecord and bankRecord.total or 0;
 				
                 -- Build search result for local player
                 itemText = "|T"..icon..":0|t "..UberInventory_GetLink( value.itemid, value );
@@ -4237,10 +4102,10 @@ end;
             end;
         end;
 		
-		-- Nothing found by joining player and account banks, so now just search account bank
-		if ( found_something == false ) then
+		-- Include matching bank-only items even when character items also matched.
+		do
 			for key, record in pairs( UBI_Accountbank["Items"] ) do
-				if ( record.name and strfind( strlower( record.name ), strlower( str ), 1, true ) ) then
+				if ( not displayed[key] and record.name and strfind( strlower( record.name ), strlower( str ), 1, true ) ) then
 					if ( record.total > 0 ) then
 						found_something = true;
 						accountbank_total = record.total;

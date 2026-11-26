@@ -154,11 +154,11 @@ end;
 local entry, button = widget("TestEntry"), widget("TestEntryItemButton");
 button.IconBorder = false;
 _G.TestEntryItemButton = button;
-for _, suffix in ipairs({"ItemName","ItemCount","ItemSell","ItemBuy"}) do
+for _, suffix in ipairs({"ItemName","ItemCount","ItemSell"}) do
     _G["TestEntryItemButton"..suffix] = widget();
 end;
 UberInventory_InventoryItem_OnLeave, UberInventory_UpdateCashField = noop, noop;
-UberInventory_GetItemPrices = function() return 0,0,0; end;
+UberInventory_GetItemSellPrice = function() return 0; end;
 UberInventory_UsableItem = function() return false; end;
 SetItemButtonTexture, SetItemButtonCount = noop, noop;
 function SetItemButtonTextureVertexColor(obj,r,g,b) obj.tint={r,g,b}; end;

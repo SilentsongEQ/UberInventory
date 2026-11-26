@@ -65,10 +65,6 @@ if (GetLocale()=="zhTW") then
     -- Item information strings
     UBI_FREE = "%d（共%d）";
     UBI_ITEM_SELL = "賣價：";
-    UBI_ITEM_BUY = "買價：";
-    UBI_ITEM_RECIPE_SOLD_BY = "賣價: %s 商人:"; -- New in 1.3
-    UBI_ITEM_RECIPE_REWARD_FROM = "任務獎勵"; -- New in 1.3
-    UBI_ITEM_RECIPE_DROP_BY = "掉落自"; -- New in 1.3
     UBI_ITEM_COUNT = "合計%d (%d / %d / %d / %d / %d / %d)";
     UBI_ITEM_COUNT_SINGLE = "合計%d";
     UBI_ITEM_SEARCH = "搜尋名稱為「%s」的物品";
@@ -104,10 +100,8 @@ if (GetLocale()=="zhTW") then
     UBI_OPTION_BALANCE_TIP = "勾選此項後，在遊戲畫面的左上角將顯示角色的現金。";
     UBI_SHOWTOOLTIP = "顯示提示訊息"; -- New in 3.6
     UBI_SHOWTOOLTIP_TIP = "如果選中的訊息將被添加到項目的工具提示|n|n"; -- New in 3.6
-    UBI_OPTION_SELLPRICES = "顯示賣價";
-    UBI_OPTION_SELLPRICES_TIP = "勾選此項後，可直接顯示已蒐集到資料的物品賣價。";
-    UBI_OPTION_RECIPEPRICES = "顯示配方售價"; -- New in 1.3
-    UBI_OPTION_RECIPEPRICES_TIP = "勾選此項後，若有商人販賣此配方將可顯示配方售價。"; -- New in 1.3
+    UBI_OPTION_RECIPEVENDORS = "顯示配方商人"; -- New in 1.3
+    UBI_OPTION_RECIPEVENDORS_TIP = "在配方提示中顯示已知商人及其位置。"; -- New in 1.3
     UBI_OPTION_QUESTREWARD = "顯示配方是否來自任務"; -- New in 1.3
     UBI_OPTION_QUESTREWARD_TIP = "勾選此項後，將可顯示該配方是否為任務獎勵。"; -- New in 1.3
     UBI_OPTION_RECIPEDROP = "顯示會掉落配方的 NPC"; -- New in 1.3

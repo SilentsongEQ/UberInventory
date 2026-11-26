@@ -98,14 +98,14 @@ local function widget(name)
 end;
 local entry=widget("Row");
 local button=widget("RowItemButton"); _G.RowItemButton=button;
-for _, suffix in ipairs({"ItemName","ItemCount","ItemBuy","ItemSell","ItemBadges"}) do
+for _, suffix in ipairs({"ItemName","ItemCount","ItemSell","ItemBadges"}) do
     _G[button.name..suffix]=widget(button.name..suffix);
 end;
 local label=_G.RowItemButtonItemBadges;
 local count=_G.RowItemButtonItemCount;
 UberInventory_InventoryItem_OnLeave, UberInventory_UpdateCashField = noop, noop;
 UberInventory_MarkButton = noop;
-UberInventory_GetItemPrices=function() return 0,0,0; end;
+UberInventory_GetItemSellPrice=function() return 0; end;
 SetItemButtonTexture,SetItemButtonCount,SetItemButtonTextureVertexColor=noop,noop,noop;
 UBI_ITEM_COUNT_SINGLE="Total: %d";
 ITEM_QUALITY_COLORS={[2]={r=1,g=1,b=1}};
@@ -215,8 +215,9 @@ text=view(10); assert(not text:find("Healing",1,true) and text:find("unknown",1,
 text=view(12); assert(text:find("iLvl 150–170",1,true));
 
 loaded=false;
+local savedBankName=UBI_Accountbank.Items["100"].name;
 UberInventory_Save_AccountBank();
-assert(UBI_Accountbank.Items["100"].name==UBI_ITEM_UNCACHED);
+assert(UBI_Accountbank.Items["100"].name==savedBankName, "Cold shared-bank scans preserve the saved name");
 assert(UBI_Accountbank.Items["100"].count==2);
 loaded=true;
 UberInventory_OnEvent(nil,"ITEM_DATA_LOAD_RESULT",100,true); flush();

@@ -2,10 +2,6 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.blizzard.com/wow/ui/..\FrameXML\UI.xsd">
 
-<!--
-    <Script file="UberInventory_debug.lua"/>
--->
-
 <!-- Main AddOn frame -->
     <Frame parent="UIParent" name="UBI">
         <Scripts>
@@ -30,7 +26,7 @@
 <!-- Frame used to be able to present the current balance at all times -->
     <Frame name="UberInventoryBalanceFrame" hidden="true" frameStrata="DIALOG" parent="UIParent" enableMouse="false" movable="false">
         <Frames>
-            <Frame name="$parentMoneyFrame" inherits="UberInventory_MoneyFrame_Template" hidden="false" enableMouse="false" movable="true">
+            <Frame name="$parentMoneyFrame" inherits="UberInventory_MoneyFrame_Template" hidden="false" enableMouse="true" movable="true">
                 <Anchors>
                     <Anchor point="TOPLEFT" relativeTo="UIParent" relativePoint="TOPLEFT">
                         <Offset><AbsDimension x="2" y="-1"/></Offset>
@@ -92,7 +88,8 @@
 
                     <Frame name="SettingsScrollFrame">
                         <Size>
-                            <AbsDimension x="300" y="50"/>
+                            <!-- Fixed sections extend 672 units down, plus 16 units of padding. -->
+                            <AbsDimension x="300" y="688"/>
                         </Size>
                         <Anchors>
                             <Anchor point="TOPLEFT"/>
@@ -106,7 +103,9 @@
                                 </Size>
                                 <Layers>
                                     <Layer level="BACKGROUND">
-                                        <FontString name="SectionGeneralText" inherits="GameFontNormal" justifyH="LEFT" text="UBI_SECTION_GENERAL" />
+                                        <FontString name="SectionGeneralText" inherits="GameFontNormal" justifyH="LEFT" text="UBI_SECTION_GENERAL">
+                                            <Anchors><Anchor point="LEFT"/></Anchors>
+                                        </FontString>
                                     </Layer>
                                 </Layers>
                                 <Anchors>
@@ -230,7 +229,9 @@
                                 </Size>
                                 <Layers>
                                     <Layer level="BACKGROUND">
-                                        <FontString name="SectionWarningText" inherits="GameFontNormal" justifyH="LEFT" text="UBI_SECTION_WARNINGS" />
+                                        <FontString name="SectionWarningText" inherits="GameFontNormal" justifyH="LEFT" text="UBI_SECTION_WARNINGS">
+                                            <Anchors><Anchor point="LEFT"/></Anchors>
+                                        </FontString>
                                     </Layer>
                                 </Layers>
                                 <Anchors>
@@ -268,7 +269,9 @@
                                 </Size>
                                 <Layers>
                                     <Layer level="BACKGROUND">
-                                        <FontString name="$parentSectionGuildbankText" inherits="GameFontNormal" justifyH="LEFT" text="UBI_SECTION_GUILDBANK" />
+                                        <FontString name="$parentSectionGuildbankText" inherits="GameFontNormal" justifyH="LEFT" text="UBI_SECTION_GUILDBANK">
+                                            <Anchors><Anchor point="LEFT"/></Anchors>
+                                        </FontString>
                                     </Layer>
                                 </Layers>
                                 <Anchors>
@@ -324,7 +327,9 @@
                                 </Size>
                                 <Layers>
                                     <Layer level="BACKGROUND">
-                                        <FontString name="SectionTooltipText" inherits="GameFontNormal" justifyH="LEFT" text="UBI_SECTION_TOOLTIP" />
+                                        <FontString name="SectionTooltipText" inherits="GameFontNormal" justifyH="LEFT" text="UBI_SECTION_TOOLTIP">
+                                            <Anchors><Anchor point="LEFT"/></Anchors>
+                                        </FontString>
                                     </Layer>
                                 </Layers>
                                 <Anchors>
@@ -369,8 +374,8 @@
                                 </Anchors>
                             </CheckButton>
 
-    <!-- Checkbox show recipe prices on tooltips -->
-                            <CheckButton name="SettingRecipePrice" inherits="Checkbox_Template" id="4">
+    <!-- Checkbox show recipe vendors on tooltips -->
+                            <CheckButton name="SettingRecipeVendors" inherits="Checkbox_Template" id="4">
                                 <Anchors>
                                     <Anchor point="TOPLEFT" relativeTo="SettingShowItemcount" relativePoint="BOTTOMLEFT">
                                         <Offset><AbsDimension x="0" y="0"/></Offset>
@@ -381,7 +386,7 @@
     <!-- Checkbox recipe quest rewards on tooltips -->
                             <CheckButton name="SettingQuestReward" inherits="Checkbox_Template" id="5">
                                 <Anchors>
-                                    <Anchor point="TOPLEFT" relativeTo="SettingRecipePrice" relativePoint="BOTTOMLEFT">
+                                    <Anchor point="TOPLEFT" relativeTo="SettingRecipeVendors" relativePoint="BOTTOMLEFT">
                                         <Offset><AbsDimension x="0" y="0"/></Offset>
                                     </Anchor>
                                 </Anchors>

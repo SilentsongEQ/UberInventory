@@ -1,4 +1,4 @@
--- Shared hyperlink parsing and deferred character-item metadata loading.
+-- Shared hyperlink parsing and deferred character/account-bank item metadata loading.
 -- Counts are recorded immediately, even while the client's item cache is cold.
 local pendingItems = {};
 local refreshQueued = false;
@@ -32,16 +32,23 @@ function UberInventory_ItemInfoReceived(itemID, success)
     -- Clear before GetItemInfo: the client can dispatch cache events synchronously.
     -- A failed request can be retried by the next scan without losing counts.
     pendingItems[itemID] = nil;
-    if ( not success or not UBI_Items ) then return; end;
-    local record = UBI_Items[tostring(itemID)];
-    if ( not record or record.type == UBI_BATTLEPET_CLASS ) then return; end;
+    if ( not success ) then return; end;
     local name, _, quality, level, _, itemType, subtype = C_Item.GetItemInfo(itemID);
     if ( not name ) then return; end;
-    record.name = name;
-    record.quality = quality;
-    record.level = level;
-    record.type = itemType;
-    record.subtype = subtype;
+    local changed = false;
+    local function UpdateMetadata(items)
+        local record = items and items[tostring(itemID)];
+        if ( not record or record.type == UBI_BATTLEPET_CLASS ) then return; end;
+        record.name = name;
+        record.quality = quality;
+        record.level = level;
+        record.type = itemType;
+        record.subtype = subtype;
+        changed = true;
+    end;
+    UpdateMetadata(UBI_Items);
+    UpdateMetadata(UBI_Accountbank and UBI_Accountbank.Items);
+    if ( not changed ) then return; end;
     UBI_SCAN_DATE = time();
     if ( not refreshQueued ) then
         refreshQueued = true;

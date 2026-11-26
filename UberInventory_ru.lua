@@ -64,10 +64,6 @@ if (GetLocale()=="ruRU") then
     -- Item information strings
     UBI_FREE = "%d из %d";
     UBI_ITEM_SELL = "Продажа: ";
-    UBI_ITEM_BUY = "Покупка: ";
-    UBI_ITEM_RECIPE_SOLD_BY = "Продаётся за %s"; -- New in 1.3
-    UBI_ITEM_RECIPE_REWARD_FROM = "Награда от поисков"; -- New in 1.3
-    UBI_ITEM_RECIPE_DROP_BY = "Падает"; -- New in 1.3
     UBI_ITEM_COUNT = "Кол-во: %d (%d / %d / %d / %d / %d / %d)";
     UBI_ITEM_COUNT_SINGLE = "Кол-во: %d";
     UBI_ITEM_SEARCH = "Invertory search for '%s'";
@@ -101,10 +97,8 @@ if (GetLocale()=="ruRU") then
     UBI_OPTION_MONEY_TIP = "Если включено, в окно чата будут выводиться сообщения о Вашем текущем балансе.";
     UBI_OPTION_BALANCE = "Показывать текущий баланс";
     UBI_OPTION_BALANCE_TIP = "Если включено, Вы всегда будете видеть свой текущий баланс в верхнем левом углу интерфейса.";
-    UBI_OPTION_SELLPRICES = "Показывать цену продажи";
-    UBI_OPTION_SELLPRICES_TIP = "Если включено, Вы будете видеть цены продажи (если Вы были у торговца), даже когда Вы не у торговца.";
-    UBI_OPTION_RECIPEPRICES = "Показывать цену рецепта"; -- New in 1.3
-    UBI_OPTION_RECIPEPRICES_TIP = "Если включено, Вы будете видеть цены за рецепты у торговцев."; -- New in 1.3
+    UBI_OPTION_RECIPEVENDORS = "Показывать продавцов рецептов"; -- New in 1.3
+    UBI_OPTION_RECIPEVENDORS_TIP = "Показывать известных продавцов рецептов и их местоположение в подсказках."; -- New in 1.3
     UBI_OPTION_QUESTREWARD = "Информация о Поиске рецепта"; -- New in 1.3
     UBI_OPTION_QUESTREWARD_TIP = "Если включено, Вы будете видеть доступен ли рецепт от поисков."; -- New in 1.3
     UBI_OPTION_RECIPEDROP = "Показывать рецепты дропа"; -- New in 1.3
